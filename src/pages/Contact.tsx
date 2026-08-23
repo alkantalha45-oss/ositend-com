@@ -26,11 +26,11 @@ const faqs = [
   },
   {
     q: "Sözleşme veya taahhüt var mı?",
-    a: "Yok. Aylık ödeme yaparsınız, istediğiniz ay bırakırsınız. İlk 14 gün ücretsizdir ve kredi kartı istemiyoruz.",
+    a: "Yok. Tek seferlik kurulum ücreti dışında ödeme almıyoruz — abonelik veya aylık bakım bedeli yok. İlk 14 gün ücretsizdir ve kredi kartı istemiyoruz.",
   },
   {
     q: "Kaç müşteriden başlayabilirim?",
-    a: "Tek müşteriyle bile başlayabilirsiniz. Fiyat müşteri başınadır, ekip kullanıcı sayısı sınırsızdır.",
+    a: "Tek müşteriyle bile başlayabilirsiniz. Kurulum ücreti müşteri sayısından bağımsızdır, ekip kullanıcı sayısı da sınırsızdır.",
   },
   {
     q: "Verilerime ne oluyor?",
