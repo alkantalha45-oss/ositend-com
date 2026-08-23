@@ -1,0 +1,323 @@
+@import "tailwindcss";
+
+/*
+ * Ositend pazarlama sitesi — panelin dili, premium katmanla.
+ * Zemin beyaz, ana renk markanın gerçek mavisi #0072ee (oklch 0.573 0.206 257.3).
+ * Derinlik: ince nokta/ızgara dokular, yumuşak renk bulutları, cam yüzeyler.
+ * Apple'ın "liquid glass" diline yakın bir yön: sabit bir CloudField katmanı
+ * tüm sayfanın arkasında yavaşça süzülür (bkz. CloudField.tsx), sticky header
+ * ve öne çıkan CTA kartları bu bulutların üstünde gerçekten saydam durur.
+ * İçerik kartları (.card) yine düz kalır — cam yalnızca "chrome" katmanında.
+ */
+
+@theme {
+  --font-display: "Geologica", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: oklch(0.19 0.008 275);
+  --color-muted-ink: oklch(0.47 0.018 274);
+  --color-line: oklch(0.9 0.008 268);
+  --color-line-soft: oklch(0.945 0.006 268);
+  --color-surface: oklch(0.975 0.005 268);
+
+  /* Marka mavisi — canlı */
+  --color-brand: oklch(0.573 0.206 257.3);
+  --color-brand-deep: oklch(0.455 0.176 258);
+  --color-brand-glow: oklch(0.68 0.19 252);
+  --color-brand-tint: oklch(0.955 0.028 257);
+
+  /* Renk bulutları için yardımcı tonlar — yalnızca arka planlarda */
+  --color-violet: oklch(0.6 0.21 293);
+  --color-cyan: oklch(0.78 0.13 205);
+
+  --color-success: oklch(0.63 0.15 158);
+  --color-warning: oklch(0.78 0.16 72);
+  --color-danger: oklch(0.585 0.22 27);
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #fff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-brand);
+    color: #fff;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+  }
+}
+
+/* ---------- Yüzeyler ---------- */
+
+@utility card {
+  background-color: #fff;
+  border: 1px solid var(--color-line-soft);
+  border-radius: 1.25rem;
+}
+
+/*
+ * Cam yüzey — yüksek saydamlık, güçlü blur/saturate ve üst-sol köşede ince
+ * bir ışık halkası (::before ile maskelenmiş gradyan kenarlık). Arkasında
+ * CloudField'ın renkli bulutları ya da bir aurora olmadan cam etkisi
+ * görünmez — bu yüzden bu utility'yi hep renkli/dokulu bir zeminin
+ * (ya da global CloudField'ın) üstünde kullan.
+ */
+@utility glass {
+  position: relative;
+  background-color: color-mix(in oklch, white 46%, transparent);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid color-mix(in oklch, white 55%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, white 85%, transparent),
+    0 8px 32px -12px oklch(0.4 0.1 258 / 0.22);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklch, white 95%, transparent) 0%,
+      transparent 35%,
+      transparent 65%,
+      color-mix(in oklch, white 45%, transparent) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* En saydam varyant — sayfada bir ya da iki odak noktasında kullan (ör. görüşme kartı). */
+@utility glass-strong {
+  position: relative;
+  background-color: color-mix(in oklch, white 32%, transparent);
+  backdrop-filter: blur(36px) saturate(220%);
+  -webkit-backdrop-filter: blur(36px) saturate(220%);
+  border: 1px solid color-mix(in oklch, white 52%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, white 80%, transparent),
+    0 30px 70px -30px oklch(0.4 0.14 258 / 0.4);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1.5px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklch, white 95%, transparent) 0%,
+      transparent 30%,
+      transparent 70%,
+      color-mix(in oklch, white 40%, transparent) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+@utility glass-chip {
+  position: relative;
+  background-color: color-mix(in oklch, white 54%, transparent);
+  backdrop-filter: blur(18px) saturate(190%);
+  -webkit-backdrop-filter: blur(18px) saturate(190%);
+  border: 1px solid color-mix(in oklch, white 65%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, white 90%, transparent),
+    0 10px 26px -10px oklch(0.4 0.1 258 / 0.28);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      color-mix(in oklch, white 95%, transparent) 0%,
+      transparent 40%,
+      transparent 60%,
+      color-mix(in oklch, white 50%, transparent) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* Ürün görselinin oturduğu çerçeve. */
+@utility shot-frame {
+  background: linear-gradient(
+    150deg,
+    color-mix(in oklch, var(--color-brand) 12%, white),
+    color-mix(in oklch, var(--color-violet) 8%, white)
+  );
+  border: 1px solid color-mix(in oklch, var(--color-brand) 16%, white);
+  border-radius: 1.5rem;
+  box-shadow: 0 40px 90px -50px oklch(0.4 0.14 258 / 0.55);
+}
+
+/* ---------- Dokular ---------- */
+
+/* İnce nokta ızgarası — kahraman ve kapanış bölümlerinin zemini. */
+@utility dots {
+  background-image: radial-gradient(
+    circle at center,
+    color-mix(in oklch, var(--color-brand) 26%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+/* Hairline çizgi ızgarası. */
+@utility gridlines {
+  background-image:
+    linear-gradient(to right, color-mix(in oklch, var(--color-brand) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklch, var(--color-brand) 10%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Yumuşak renk bulutu — canlılığın geldiği yer, opaklık düşük tutulur. */
+@utility aurora {
+  background:
+    radial-gradient(38% 55% at 18% 12%, color-mix(in oklch, var(--color-brand) 55%, transparent), transparent 70%),
+    radial-gradient(34% 48% at 82% 8%, color-mix(in oklch, var(--color-violet) 45%, transparent), transparent 68%),
+    radial-gradient(42% 50% at 62% 92%, color-mix(in oklch, var(--color-cyan) 40%, transparent), transparent 70%);
+  filter: blur(28px);
+}
+
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.4375rem 0.9375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-brand-deep);
+  background-color: color-mix(in oklch, white 70%, transparent);
+  backdrop-filter: blur(14px) saturate(170%);
+  -webkit-backdrop-filter: blur(14px) saturate(170%);
+  border: 1px solid color-mix(in oklch, var(--color-brand) 18%, white);
+  box-shadow: 0 6px 20px -10px oklch(0.4 0.12 258 / 0.35);
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Hareket ---------- */
+
+@keyframes ositend-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@utility marquee-track {
+  animation: ositend-marquee 42s linear infinite;
+}
+
+/* Serbest süzülme — entegrasyon rozetleri için, çok yavaş ve küçük genlikli. */
+@keyframes ositend-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+@utility drift {
+  animation: ositend-drift 7s var(--ease-brand) infinite;
+}
+
+/*
+ * Organik yüzme — hem yatay hem dikey kayma, hafif dönüşle. Etrafta
+ * gerçekten "yüzüyormuş" hissi veren rozetler ve bulutlar için.
+ */
+@keyframes ositend-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(12px, -22px, 0) rotate(2.5deg);
+  }
+  50% {
+    transform: translate3d(-8px, -34px, 0) rotate(-1.5deg);
+  }
+  75% {
+    transform: translate3d(-16px, -14px, 0) rotate(1.5deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+@utility float {
+  animation: ositend-float 9s ease-in-out infinite;
+}
+
+/* Arka plandaki renk bulutlarının çok yavaş, organik süzülüşü. */
+@keyframes ositend-cloud-drift {
+  0%,
+  100% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, 4%, 0) scale(1.12);
+  }
+}
+@utility cloud-drift {
+  animation: ositend-cloud-drift 30s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .drift,
+  .float,
+  .cloud-drift {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

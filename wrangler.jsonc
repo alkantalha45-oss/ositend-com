@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Cloudflare panelinde önceden oluşturulan proje adı. Dizin adı
+  // "ositend-site" olduğu için wrangler varsayılan olarak onu seçiyordu;
+  // mevcut boş "ositend" projesini güncelleyebilmek için açıkça yazıldı.
+  // Yayın adresi: https://ositend.pages.dev
+  "name": "ositend",
+  "compatibility_date": "2026-08-20",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "not_found_handling": "single-page-application"
+  },
+  // workers.dev adresi AÇIK kalmalı: `routes` tanımlandığı anda Cloudflare
+  // bunu varsayılan olarak kapatıyor ve özel alan adı henüz bağlanmamışsa
+  // site tamamen erişilemez hale geliyor. Yedek adres olarak duruyor.
+  "workers_dev": true,
+  // Özel alan adı. Cloudflare DNS kaydını ve TLS sertifikasını kendisi
+  // yönetir — ama apex'te GoDaddy'den içe aktarılan park A kayıtları
+  // varken bağlanamaz, önce onların silinmesi gerekir.
+  "routes": [
+    { "pattern": "ositend.com", "custom_domain": true },
+    { "pattern": "www.ositend.com", "custom_domain": true }
+  ]
+}
