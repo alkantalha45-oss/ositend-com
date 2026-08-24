@@ -14,6 +14,36 @@
       href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
       rel="stylesheet"
     />
+
+    <!--
+      Google Analytics 4 — mülk 551168658 (ositend.com).
+      Panelin GA4 sürücüsü bu mülkten okuyor; etiket olmadan mülk boş kalıyordu.
+
+      REKLAM DEPOLAMA KAPALI: Bize yalnızca trafik/oturum verisi lazım; yeniden
+      pazarlama veya kişiselleştirilmiş reklam yapmıyoruz. İhtiyacımız olmayan
+      veriyi toplamamak hem KVKK/GDPR yükünü azaltıyor hem de zaten doğru olan.
+      analytics_storage açık — asıl ölçmek istediğimiz şey bu.
+
+      NOT: Sitede henüz çerez izni bandı YOK. AB ziyaretçileri için analytics
+      çerezi de izne tabi; bant eklenene kadar bu bir açık.
+    -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "granted",
+      });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DR52TZ1BXH"></script>
+    <script>
+      gtag("js", new Date());
+      gtag("config", "G-DR52TZ1BXH");
+    </script>
   </head>
   <body>
     <div id="root"></div>
