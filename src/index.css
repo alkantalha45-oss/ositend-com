@@ -11,30 +11,61 @@
  */
 
 @theme {
-  --font-display: "Geologica", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  /*
+   * TİPOGRAFİ
+   * Schibsted Grotesk: başlıklar. Büyük puntoda karakteri açılan, özgüvenli
+   * bir grotesk. Instrument Sans: gövde. 17px'te net, dar apertürlü, uzun
+   * paragrafta yormuyor.
+   */
+  --font-display: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-ink: oklch(0.19 0.008 275);
-  --color-muted-ink: oklch(0.47 0.018 274);
-  --color-line: oklch(0.9 0.008 268);
-  --color-line-soft: oklch(0.945 0.006 268);
-  --color-surface: oklch(0.975 0.005 268);
+  /*
+   * MÜREKKEP — belirgin şekilde koyulaştırıldı.
+   * Önceki oklch(0.19 0.008 275) yumuşak bir koyu griydi; beyaz zeminde
+   * "yazılım arayüzü" gibi duruyordu. Apple'ın pazarlama sayfalarında
+   * metin neredeyse saf siyah ve asıl "premium" hissi oradan geliyor:
+   * hiyerarşi renkle değil, KONTRASTLA kuruluyor.
+   */
+  --color-ink: oklch(0.145 0.006 265);
+  --color-muted-ink: oklch(0.505 0.014 265);
 
-  /* Marka mavisi — canlı */
-  --color-brand: oklch(0.573 0.206 257.3);
-  --color-brand-deep: oklch(0.455 0.176 258);
+  --color-line: oklch(0.905 0.004 265);
+  --color-line-soft: oklch(0.955 0.003 265);
+  --color-surface: oklch(0.978 0.003 265);
+
+  /*
+   * KOYU BÖLÜM.
+   * Sayfa boyunca beyaz → koyu → beyaz geçişi, elimizdeki en güçlü
+   * "premium" hamlesi ve rakipte hiç yok. Saf siyah değil: hafif mavi
+   * kırılan bir kömür, ürün ekran görüntüleriyle çakışmıyor.
+   */
+  --color-night: oklch(0.155 0.008 266);
+  --color-night-soft: oklch(0.215 0.009 266);
+  --color-night-ink: oklch(0.97 0.002 265);
+  --color-night-muted: oklch(0.72 0.01 265);
+
+  /* Marka mavisi — biraz derinleştirildi, beyaz üstünde metin olarak da geçerli. */
+  --color-brand: oklch(0.55 0.212 258);
+  --color-brand-deep: oklch(0.44 0.18 258);
   --color-brand-glow: oklch(0.68 0.19 252);
-  --color-brand-tint: oklch(0.955 0.028 257);
+  --color-brand-tint: oklch(0.962 0.024 257);
 
-  /* Renk bulutları için yardımcı tonlar — yalnızca arka planlarda */
+  /*
+   * Yardımcı tonlar YALNIZCA arka plan bulutlarında. Oranları düşürüldü:
+   * mavi-mor-camgöbeği üçlüsü her bölümde birden görününce marka rengi
+   * diye bir şey kalmıyordu.
+   */
   --color-violet: oklch(0.6 0.21 293);
   --color-cyan: oklch(0.78 0.13 205);
 
-  --color-success: oklch(0.63 0.15 158);
-  --color-warning: oklch(0.78 0.16 72);
-  --color-danger: oklch(0.585 0.22 27);
+  --color-success: oklch(0.6 0.15 158);
+  --color-warning: oklch(0.75 0.16 72);
+  --color-danger: oklch(0.57 0.22 27);
 
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Apple'ın panel geçişlerindeki gibi: hızlı çıkış, uzun yumuşak iniş. */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -50,6 +81,11 @@
     background-color: #fff;
     color: var(--color-ink);
     font-family: var(--font-sans);
+    /* 17px — Apple'ın gövde ölçüsü. 16 küçük, 18 (rakibin ölçüsü) uzun
+       satırlarda gevşek duruyor. */
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    letter-spacing: -0.006em;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
@@ -60,14 +96,59 @@
     color: #fff;
   }
 
+  /*
+   * OPTİK HARF ARALIĞI.
+   *
+   * Bir yazı tipi tek bir aralık için çizilir; punto büyüdükçe harfler
+   * arası boşluk optik olarak AÇILMIŞ görünür. Bu yüzden aralık, puntoyla
+   * ters orantılı sıkılaşmalı — 72px bir başlıkta -0.045em, 20px bir alt
+   * başlıkta -0.015em. Tek bir global letter-spacing değeri kullanmak,
+   * büyük başlıkları dağınık ya da küçük başlıkları sıkışık bırakıyor.
+   *
+   * Apple'ın tipografisini "temiz" yapan şeylerin başında bu geliyor ve
+   * kopyalanması en ucuz olanı da bu.
+   */
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     font-family: var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.025em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  h1 {
+    letter-spacing: -0.042em;
+    line-height: 1.02;
+  }
+
+  h2 {
+    letter-spacing: -0.035em;
     line-height: 1.06;
   }
+
+  h3 {
+    letter-spacing: -0.022em;
+    line-height: 1.18;
+  }
+
+  h4 {
+    letter-spacing: -0.016em;
+    line-height: 1.25;
+  }
+
+  /* Uzun paragraflarda satır sonu dengelenmesi — tek kelimelik dul satır olmasın. */
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* Kahraman altı açıklama metni — gövdeden bir tık büyük, aralığı hafif sıkı. */
+@utility lede {
+  font-size: clamp(1.0625rem, 1.6vw, 1.1875rem);
+  line-height: 1.55;
+  letter-spacing: -0.011em;
+  color: var(--color-muted-ink);
 }
 
 /* ---------- Yüzeyler ---------- */
@@ -183,15 +264,25 @@
 }
 
 /* Ürün görselinin oturduğu çerçeve. */
+/*
+ * Ürün görselinin oturduğu çerçeve.
+ *
+ * Gölge nötrleştirildi: önceki mavi gölge, ekran görüntüsünün altında
+ * renkli bir hâle bırakıyordu ve ürünün kendi renkleriyle yarışıyordu.
+ * Apple ürün görsellerini hep nötr, geniş yayılımlı ve alçak opaklıkta
+ * bir gölgeyle oturtur — görsel havada durur ama gölge fark edilmez.
+ */
 @utility shot-frame {
   background: linear-gradient(
     150deg,
-    color-mix(in oklch, var(--color-brand) 12%, white),
-    color-mix(in oklch, var(--color-violet) 8%, white)
+    color-mix(in oklch, var(--color-brand) 9%, white),
+    color-mix(in oklch, var(--color-brand) 3%, white)
   );
-  border: 1px solid color-mix(in oklch, var(--color-brand) 16%, white);
+  border: 1px solid color-mix(in oklch, var(--color-brand) 13%, white);
   border-radius: 1.5rem;
-  box-shadow: 0 40px 90px -50px oklch(0.4 0.14 258 / 0.55);
+  box-shadow:
+    0 2px 6px -2px oklch(0.2 0.01 265 / 0.08),
+    0 48px 100px -56px oklch(0.2 0.01 265 / 0.45);
 }
 
 /* ---------- Dokular ---------- */
@@ -215,12 +306,18 @@
 }
 
 /* Yumuşak renk bulutu — canlılığın geldiği yer, opaklık düşük tutulur. */
+/*
+ * Yumuşak renk bulutu. Üç eşit ağırlıklı renkten mavi hâkim bir
+ * dağılıma çekildi: mor ve camgöbeği yalnızca kenarlarda, marka
+ * mavisinin yarısından düşük oranda. Amaç renk göstermek değil,
+ * beyaz zemine derinlik vermek.
+ */
 @utility aurora {
   background:
-    radial-gradient(38% 55% at 18% 12%, color-mix(in oklch, var(--color-brand) 55%, transparent), transparent 70%),
-    radial-gradient(34% 48% at 82% 8%, color-mix(in oklch, var(--color-violet) 45%, transparent), transparent 68%),
-    radial-gradient(42% 50% at 62% 92%, color-mix(in oklch, var(--color-cyan) 40%, transparent), transparent 70%);
-  filter: blur(28px);
+    radial-gradient(45% 60% at 16% 8%, color-mix(in oklch, var(--color-brand) 50%, transparent), transparent 70%),
+    radial-gradient(38% 52% at 84% 4%, color-mix(in oklch, var(--color-brand) 34%, transparent), transparent 70%),
+    radial-gradient(42% 50% at 62% 92%, color-mix(in oklch, var(--color-violet) 16%, transparent), transparent 72%);
+  filter: blur(32px);
 }
 
 @utility eyebrow {

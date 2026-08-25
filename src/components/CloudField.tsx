@@ -11,14 +11,25 @@ type Blob = {
   delay: string;
 };
 
+/*
+ * PALET BİLİNÇLİ OLARAK KISILDI.
+ *
+ * Önceki hali yedi buluttu: mavi, mor ve camgöbeği eşit ağırlıkta, %62
+ * renk karışımı ve 0.34 opaklıkla. Sonuç, her bölümün arkasında dönen
+ * pastel bir gökkuşağıydı — üretilmiş SaaS şablonlarının en tanıdık
+ * işareti ve marka renginin ne olduğunu belirsizleştiren şey.
+ *
+ * Yeni kural: MAVİ hâkim, mor yalnızca derinlik için ve sayfanın altında,
+ * camgöbeği yok. Opaklık yarısından fazla düşürüldü. Bulut artık
+ * ziyaretçinin BAKTIĞI bir şey değil, cam yüzeylerin arkasında geçtiğini
+ * hissettiren bir şey — zaten işi buydu.
+ */
 const blobs: Blob[] = [
-  { color: "var(--color-brand)", size: 620, top: "-8%", left: "2%", speed: -180, duration: "32s", delay: "0s" },
-  { color: "var(--color-violet)", size: 500, top: "12%", left: "82%", speed: 150, duration: "38s", delay: "-8s" },
-  { color: "var(--color-cyan)", size: 560, top: "40%", left: "-8%", speed: -130, duration: "34s", delay: "-16s" },
-  { color: "var(--color-brand)", size: 460, top: "62%", left: "72%", speed: 210, duration: "29s", delay: "-4s" },
-  { color: "var(--color-violet)", size: 520, top: "86%", left: "14%", speed: -170, duration: "36s", delay: "-12s" },
-  { color: "var(--color-cyan)", size: 440, top: "110%", left: "88%", speed: 140, duration: "31s", delay: "-20s" },
-  { color: "var(--color-brand)", size: 500, top: "134%", left: "36%", speed: -190, duration: "33s", delay: "-24s" },
+  { color: "var(--color-brand)", size: 720, top: "-14%", left: "-4%", speed: -180, duration: "34s", delay: "0s" },
+  { color: "var(--color-brand)", size: 560, top: "26%", left: "78%", speed: 150, duration: "38s", delay: "-12s" },
+  { color: "var(--color-brand)", size: 620, top: "68%", left: "-10%", speed: -140, duration: "32s", delay: "-20s" },
+  { color: "var(--color-violet)", size: 520, top: "104%", left: "70%", speed: 190, duration: "36s", delay: "-6s" },
+  { color: "var(--color-brand)", size: 580, top: "142%", left: "8%", speed: -170, duration: "33s", delay: "-26s" },
 ];
 
 function CloudBlob({
@@ -38,10 +49,10 @@ function CloudBlob({
       style={{ top: blob.top, left: blob.left, width: blob.size, height: blob.size, y }}
     >
       <div
-        className={`size-full rounded-full opacity-[0.34] ${reduce ? "" : "cloud-drift"}`}
+        className={`size-full rounded-full opacity-[0.15] ${reduce ? "" : "cloud-drift"}`}
         style={{
-          background: `radial-gradient(circle, color-mix(in oklch, ${blob.color} 62%, transparent), transparent 72%)`,
-          filter: "blur(64px)",
+          background: `radial-gradient(circle, color-mix(in oklch, ${blob.color} 55%, transparent), transparent 70%)`,
+          filter: "blur(80px)",
           animationDuration: blob.duration,
           animationDelay: blob.delay,
         }}

@@ -106,7 +106,7 @@ function Header() {
             )}
             <Link
               to="/iletisim"
-              className="group inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-ink"
+              className="group inline-flex items-center gap-1.5 rounded-full bg-brand px-4.5 py-2.5 text-sm font-medium text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_8px_20px_-10px_oklch(0.55_0.212_258/0.55)] transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-brand-deep active:translate-y-px"
             >
               Demo alın
               <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -145,7 +145,7 @@ function Header() {
           <div className="space-y-3 border-t border-line-soft px-5 py-5">
             <Link
               to="/iletisim"
-              className="flex items-center justify-center gap-2 rounded-lg bg-brand py-3.5 text-[0.9375rem] font-medium text-white"
+              className="flex items-center justify-center gap-2 rounded-full bg-brand py-3.5 text-[0.9375rem] font-medium text-white"
             >
               Demo alın
               <ArrowRight className="size-4" />
@@ -153,7 +153,7 @@ function Header() {
             {panelUrl && (
               <a
                 href={panelUrl}
-                className="flex items-center justify-center rounded-lg border border-line py-3.5 text-[0.9375rem] font-medium text-ink"
+                className="flex items-center justify-center rounded-full border border-line py-3.5 text-[0.9375rem] font-medium text-ink"
               >
                 Panele giriş
               </a>

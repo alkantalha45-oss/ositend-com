@@ -161,12 +161,28 @@ export function Button({
   className?: string;
   size?: "md" | "lg";
 }) {
+  /*
+   * HAP FORM (rounded-full).
+   *
+   * Kartlar 20px köşeli dikdörtgen; butonlar tam yuvarlak. Bu karşıtlık
+   * bilinçli — Apple'ın pazarlama sayfalarındaki en tanınabilir biçim
+   * kararı ve rakibin 12px köşeli düğmelerinden de net şekilde ayrışıyor.
+   *
+   * hover:bg-brand-ink yazıyordu ve BÖYLE BİR TOKEN YOKTU: Tailwind sınıfı
+   * hiç üretmiyor, yani sitedeki bütün birincil butonların hover durumu
+   * ölüydü (başlıktaki "Demo alın" ve fiyat kartının CTA'sı dahil).
+   * Doğru token brand-deep.
+   *
+   * transform geçişi ease-out-soft ile: basıldığında hızla oturuyor,
+   * bırakıldığında yavaşça geri geliyor.
+   */
   const base =
-    "group inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors duration-200";
+    "group inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[background-color,color,transform,box-shadow] duration-200 ease-[var(--ease-out-soft)] active:translate-y-px";
   const sizes = size === "lg" ? "px-6 py-3.5 text-[0.9375rem]" : "px-5 py-2.5 text-sm";
   const variants = {
-    primary: "bg-brand text-white hover:bg-brand-ink",
-    secondary: "border border-line bg-white text-ink hover:bg-surface",
+    primary:
+      "bg-brand text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_8px_20px_-10px_oklch(0.55_0.212_258/0.6)] hover:bg-brand-deep hover:-translate-y-0.5",
+    secondary: "border border-line bg-white text-ink hover:bg-surface hover:-translate-y-0.5",
     ghost: "text-muted-ink hover:text-ink",
   }[variant];
 
@@ -255,9 +271,9 @@ export function AtmosphereBand({
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="aurora absolute -top-40 -right-24 -left-24 h-[680px] opacity-[0.6]" />
+        <div className="aurora absolute -top-40 -right-24 -left-24 h-[680px] opacity-[0.32]" />
         {dots && (
-          <div className="dots absolute inset-x-0 top-0 h-[620px] opacity-[0.9] [mask-image:radial-gradient(65%_58%_at_50%_6%,black,transparent_78%)]" />
+          <div className="dots absolute inset-x-0 top-0 h-[620px] opacity-[0.55] [mask-image:radial-gradient(65%_58%_at_50%_6%,black,transparent_78%)]" />
         )}
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white" />
       </div>
@@ -284,12 +300,10 @@ export function PageHero({
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
         <Reveal delay={0.08}>
-          <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(2.25rem,5.4vw,3.5rem)]">{title}</h1>
+          <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(2.375rem,5.8vw,4.25rem)]">{title}</h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-ink sm:text-lg">
-            {lede}
-          </p>
+          <p className="lede mx-auto mt-6 max-w-2xl">{lede}</p>
         </Reveal>
         {children && <Reveal delay={0.24}>{children}</Reveal>}
       </Section>
@@ -297,44 +311,60 @@ export function PageHero({
   );
 }
 
-/** Closing CTA — deep blue band, reused on every page. */
+/**
+ * Kapanış bandı — her sayfanın sonunda.
+ *
+ * Önceki hali koyu mavi zemin üzerinde mavi + mor + camgöbeği üç ayrı
+ * radial gradyandı. Üç renk aynı karede yarışınca sonuç "renkli" değil
+ * "bulanık" oluyordu ve marka mavisi kendi bandında bile kaybolmuştu.
+ *
+ * Yeni hâli neredeyse siyah, tek bir mavi ışık kaynağıyla. Sayfanın
+ * geri kalanı beyaz olduğu için bu bant tek başına bir ritim kırılması
+ * yaratıyor — beyaz → koyu → beyaz. Apple'ın ürün sayfalarını "pahalı"
+ * gösteren şeylerin başında bu geliyor ve rakipte hiç yok.
+ */
 export function ClosingCta() {
   return (
     <Section className="pb-20 sm:pb-28">
       <Reveal>
-        <div className="relative overflow-hidden rounded-[1.75rem] bg-brand-deep px-6 py-16 text-center sm:px-12 sm:py-24">
+        <div className="relative overflow-hidden rounded-[2rem] bg-night px-6 py-20 text-center sm:px-12 sm:py-28">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "radial-gradient(45% 70% at 15% 0%, oklch(0.68 0.19 252 / 0.75), transparent 68%), radial-gradient(40% 65% at 88% 100%, oklch(0.6 0.21 293 / 0.6), transparent 66%), radial-gradient(35% 55% at 60% 8%, oklch(0.78 0.13 205 / 0.35), transparent 70%)",
+                "radial-gradient(60% 80% at 50% -10%, oklch(0.55 0.212 258 / 0.55), transparent 70%)",
             }}
           />
+          {/* Kömürün üstünde çok soluk bir nokta dokusu: yüzeyin düz
+              boyanmış değil, dokulu olduğunu hissettiriyor. */}
           <div
             aria-hidden
-            className="dots pointer-events-none absolute inset-0 opacity-[0.22] [mask-image:radial-gradient(75%_75%_at_50%_50%,black,transparent)]"
-            style={{ backgroundImage: "radial-gradient(circle at center, white 1px, transparent 1px)" }}
+            className="pointer-events-none absolute inset-0 opacity-[0.14] [mask-image:radial-gradient(70%_70%_at_50%_40%,black,transparent)]"
+            style={{
+              backgroundImage: "radial-gradient(circle at center, white 1px, transparent 1px)",
+              backgroundSize: "22px 22px",
+            }}
           />
           <div className="relative">
-            <h2 className="mx-auto max-w-2xl text-[clamp(1.75rem,4.2vw,2.75rem)] text-white">
+            <h2 className="mx-auto max-w-2xl text-[clamp(1.875rem,4.4vw,3rem)] text-night-ink">
               Bu ayın raporlarını elle mi hazırlayacaksınız?
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/75">
+            <p className="mx-auto mt-6 max-w-xl text-[1.0625rem] leading-relaxed tracking-[-0.011em] text-night-muted">
               30 dakikalık demoda kendi hesaplarınızı bağlayıp ilk markalı raporunuzu birlikte
-              üretelim. Kredi kartı istemiyoruz.
+              üretelim.
             </p>
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
               <Link
                 to="/iletisim"
-                className="group inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3.5 text-[0.9375rem] font-medium text-brand transition-colors hover:bg-brand-tint"
+                className="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-[0.9375rem] font-medium text-night transition-transform duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5"
               >
-                Ücretsiz demo alın
+                Pilot programa başvurun
                 <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </Link>
               <Link
                 to="/hizmetler"
-                className="group inline-flex items-center gap-2 rounded-lg border border-white/30 px-6 py-3.5 text-[0.9375rem] font-medium text-white transition-colors hover:bg-white/10"
+                className="group inline-flex items-center gap-2 rounded-xl border border-white/20 px-6 py-3.5 text-[0.9375rem] font-medium text-night-ink transition-colors hover:bg-white/10"
               >
                 Neler yapıyoruz
                 <ArrowUpRight className="size-4" />

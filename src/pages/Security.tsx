@@ -152,10 +152,10 @@ export function Security() {
       <Section className="py-20 sm:py-28">
         <Reveal className="text-center">
           <Eyebrow>Açık konuşalım</Eyebrow>
-          <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+          <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
             Henüz hazır olmayanlar.
           </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-ink">
+          <p className="lede mx-auto mt-6 max-w-2xl">
             Bu maddeleri satış görüşmesinde sormanızı beklemek yerine buraya yazıyoruz. Biri
             tamamlandığında yukarıdaki listeye taşınacak.
           </p>

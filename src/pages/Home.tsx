@@ -125,13 +125,22 @@ function Hero() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(2.25rem,5.2vw,3.75rem)]">
-            Rapor hazırlamayı bırakın, <span className="text-brand">büyümeye odaklanın.</span>
+          {/*
+            Satır kırılımı ELLE kontrol ediliyor. Otomatik dengelemede
+            "bırakın, büyümeye" aynı satıra düşüyor ve cümle virgülün
+            ortasında bölünmüş gibi okunuyor. İki bağımsız yargıyı kendi
+            satırına ayırmak, büyük puntoda anlamı da ritmi de düzeltiyor.
+            Dar ekranda kırılım kaldırılıyor; orada zaten doğal sarıyor.
+          */}
+          <h1 className="mx-auto mt-6 max-w-4xl text-[clamp(2.5rem,6.2vw,4.75rem)] text-balance">
+            Rapor hazırlamayı bırakın,
+            <br className="hidden sm:block" />{" "}
+            <span className="text-brand">büyümeye odaklanın.</span>
           </h1>
         </Reveal>
 
         <Reveal delay={0.16}>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-ink sm:text-lg">
+          <p className="lede mx-auto mt-7 max-w-2xl">
             Google Ads, Meta Ads ve GA4 hesaplarınızı bir kez bağlayın. Ositend her ay markalı PDF
             raporunu ve paylaşılabilir canlı linki sizin yerinize üretsin.
           </p>
@@ -225,13 +234,21 @@ function ScheduleMeeting() {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 -z-10"
+            /*
+              Üç ayrı renkten (mavi + mor + camgöbeği) tek bir maviye
+              indirildi. Önceki hâli kartın içinde soldan sağa maviden
+              yeşile, oradan pembeye geçiyordu; sayfadaki tek "renkli"
+              yüzey olduğu için de bütün bölümü şablon gibi gösteriyordu.
+              Şimdi tek ışık kaynağı var, mor yalnızca kenarda derinlik
+              için ve çok düşük oranda.
+            */
             style={{
               background:
-                "radial-gradient(55% 90% at 12% 8%, color-mix(in oklch, var(--color-brand) 42%, transparent), transparent 72%), radial-gradient(50% 80% at 90% 96%, color-mix(in oklch, var(--color-violet) 36%, transparent), transparent 70%), radial-gradient(40% 60% at 60% 0%, color-mix(in oklch, var(--color-cyan) 30%, transparent), transparent 70%)",
+                "radial-gradient(60% 95% at 10% 0%, color-mix(in oklch, var(--color-brand) 34%, transparent), transparent 70%), radial-gradient(45% 70% at 92% 100%, color-mix(in oklch, var(--color-violet) 14%, transparent), transparent 72%)",
             }}
           />
           <Eyebrow>Görüşme planlayın</Eyebrow>
-          <h2 className="mx-auto mt-6 max-w-xl text-[clamp(1.75rem,4vw,2.5rem)]">
+          <h2 className="mx-auto mt-6 max-w-xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
             30 dakika ayırın, ilk raporu birlikte üretelim.
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-[0.9375rem] leading-relaxed text-muted-ink">
@@ -306,10 +323,10 @@ function PilotTerms() {
     <Section className="pb-20 sm:pb-28">
       <Reveal className="text-center">
         <Eyebrow>Kurucu pilot programı</Eyebrow>
-        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
           Ürünü ilk beş ajansla birlikte kuruyoruz.
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-ink">
+        <p className="lede mx-auto mt-6 max-w-2xl">
           Sitede müşteri logosu ya da müşteri yorumu görmüyorsunuz, çünkü henüz yok. Ositend çalışan
           bir ürün ama vitrine koyacağımız referansları pilot ajanslarla birlikte yazacağız — bu
           yüzden erken girene kalıcı bir fiyat avantajı ve yol haritasında söz hakkı veriyoruz.
@@ -339,7 +356,7 @@ function Features() {
     <Section className="pb-20 sm:pb-28">
       <Reveal className="text-center">
         <Eyebrow>Ajans odaklı özellikler</Eyebrow>
-        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
           Raporlamanın her adımı, tek yerde.
         </h2>
       </Reveal>
@@ -389,7 +406,7 @@ function Steps() {
     <Section className="py-20 sm:py-28">
       <Reveal className="text-center">
         <Eyebrow>Kurulum</Eyebrow>
-        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
           Üç adım, tek seferlik.
         </h2>
       </Reveal>

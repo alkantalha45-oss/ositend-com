@@ -187,7 +187,7 @@ function PilotOffer({ cycle }: { cycle: BillingCycle }) {
 
           <Link
             to="/iletisim"
-            className="group mt-7 inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white transition-colors duration-200 hover:bg-brand-ink"
+            className="group mt-7 inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_10px_26px_-12px_oklch(0.55_0.212_258/0.65)] transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-brand-deep active:translate-y-px"
           >
             Pilot programa başvurun
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -300,10 +300,10 @@ export function Pricing() {
     <Section className="pb-20 sm:pb-28">
       <Reveal className="text-center">
         <Eyebrow>Fiyatlandırma</Eyebrow>
-        <h2 id={headingId} className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+        <h2 id={headingId} className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
           Kurulum bir kez, platform aylık.
         </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-ink">
+        <p className="lede mx-auto mt-6 max-w-2xl">
           Kurulumu biz yapıyoruz ve bir kez ödüyorsunuz. Aylık ücret, sistemin her ay çalışmaya
           devam etmesinin karşılığı: sunucular, reklam platformu API güncellemeleri, rapor üretimi
           ve destek. Fiyatlar KDV hariçtir.

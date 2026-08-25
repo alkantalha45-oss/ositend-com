@@ -109,7 +109,7 @@ export function About() {
         <Section className="py-20 sm:py-28">
           <Reveal className="text-center">
             <Eyebrow>İlkeler</Eyebrow>
-            <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+            <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
               Nasıl çalıştığımıza dair dört karar.
             </h2>
           </Reveal>

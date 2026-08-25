@@ -198,7 +198,7 @@ export function Contact() {
                   </p>
                   <button
                     onClick={() => setStatus({ kind: "idle" })}
-                    className="mt-7 rounded-lg border border-line px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-surface"
+                    className="mt-7 rounded-full border border-line px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-surface"
                   >
                     Yeni bir talep gönder
                   </button>
@@ -221,7 +221,7 @@ export function Contact() {
                       </p>
                       <a
                         href={mailtoFallback(status.payload)}
-                        className="mt-3 inline-flex items-center gap-2 rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-white"
+                        className="mt-3 inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2.5 text-sm font-medium text-white"
                       >
                         <Mail className="size-4" />
                         E-posta ile gönder
@@ -359,7 +359,7 @@ export function Contact() {
                   <button
                     type="submit"
                     disabled={status.kind === "sending"}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white transition-colors duration-200 hover:bg-brand-ink disabled:opacity-70"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:bg-brand-deep active:translate-y-px disabled:opacity-70"
                   >
                     {status.kind === "sending" && <Loader2 className="size-4 animate-spin" />}
                     {status.kind === "sending" ? "Gönderiliyor" : "Demo talebi gönder"}
@@ -395,7 +395,7 @@ export function Contact() {
                         <p className="text-sm font-medium text-ink">{c.label}</p>
                         <a
                           href={c.href}
-                          className="mt-1 block text-[0.9375rem] text-brand transition-colors hover:text-brand-ink"
+                          className="mt-1 block text-[0.9375rem] text-brand transition-colors hover:text-brand-deep"
                         >
                           {c.value}
                         </a>
@@ -414,7 +414,7 @@ export function Contact() {
         <Section className="py-20 sm:py-28">
           <Reveal className="text-center">
             <Eyebrow>Sık sorulanlar</Eyebrow>
-            <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+            <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
               Demo öncesi merak edilenler.
             </h2>
           </Reveal>
