@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { DataControllerBlock, H2, LI, LegalDoc, P, UL } from "../components/LegalDoc";
 import { cerezTercihleriniAc } from "../components/CookieConsent";
 import { useSeo } from "../lib/seo";
-import { contact } from "../lib/site";
+import { billing, contact } from "../lib/site";
 
 /*
  * Gizlilik Politikası.
@@ -104,6 +104,17 @@ export function Privacy() {
         <strong>Açıkça belirtelim:</strong> link şu anda süresizdir ve parola sormaz. Linke sahip
         olan herkes o raporu görebilir. Son kullanma tarihi, isteğe bağlı parola ve erişim kaydı yol
         haritamızda; hazır olana kadar linki yalnızca güvendiğiniz kişilerle paylaşın.
+      </P>
+
+      <H2>Ödeme bilgileri</H2>
+      <P>
+        Hizmeti şu anda serbest çalışan olarak sunuyoruz; sözleşme, fatura ve tahsilat{" "}
+        <a href={billing.url} target="_blank" rel="noreferrer" className="text-brand underline">
+          {billing.name}
+        </a>{" "}
+        platformu üzerinden yürütülüyor. <strong>Kart bilgileriniz bize hiçbir aşamada
+        ulaşmıyor</strong> — ödeme sayfası bizim sunucumuzda değil. Bize yalnızca hangi faturanın
+        ödendiği bilgisi geliyor.
       </P>
 
       <H2>Verinin nerede tutulduğu</H2>

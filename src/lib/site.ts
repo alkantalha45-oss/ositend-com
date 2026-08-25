@@ -8,26 +8,47 @@
  */
 
 /* ------------------------------------------------------------------ *
- * KÜNYE — YAYINA ALMADAN ÖNCE DOLDURULMASI ZORUNLU
+ * KÜNYE
  *
- * KVKK m.10 aydınlatma yükümlülüğü "veri sorumlusunun kimliği"ni açıkça
- * istiyor; e-posta adresi tek başına bunu karşılamıyor. Aşağıdaki üç alan
- * TODO olduğu sürece hukuki sayfalar eksik sayılır ve bu sayfalarda
- * ziyaretçiye görünür bir uyarı çıkar (bkz. src/pages/Legal.tsx).
+ * ŞU AN TÜZEL KİŞİLİK YOK. Hizmet, gerçek kişi olarak serbest çalışan
+ * sıfatıyla veriliyor; tahsilat ve faturalama Ruul (ruul.io) üzerinden
+ * yapılıyor. Bu, hukuki metinlerde uydurulacak bir şey değil — KVKK m.10
+ * "veri sorumlusunun kimliği"ni istiyor ve gerçek kişide bu kimlik, ticaret
+ * unvanı değil kişinin adı ile iletişim bilgisidir.
+ *
+ * Türkiye'de 2-3 müşteri sonrası İngiltere üzerinden şirket kurulması
+ * planlanıyor. O gün geldiğinde burası ticaret unvanı + sicil numarası ile
+ * güncellenecek; hukuki sayfaların tamamı bu dosyadan okuduğu için başka
+ * hiçbir yeri değiştirmeye gerek kalmayacak.
  * ------------------------------------------------------------------ */
 export const legalEntity = {
-  /** Ticaret sicilindeki tam unvan, ör. "Ositend Yazılım Anonim Şirketi". */
-  title: "TODO_TICARI_UNVAN",
-  /** Tebligata elverişli açık adres. */
-  address: "TODO_ACIK_ADRES",
-  /** MERSİS numarası veya şahıs şirketiyse vergi kimlik numarası. */
-  registryNo: "TODO_MERSIS_VEYA_VKN",
+  /** Veri sorumlusu — gerçek kişi. */
+  name: "Talha Alkan",
+  status: "Serbest çalışan (gerçek kişi), Türkiye",
+  /**
+   * Tebligata elverişli açık adres. BOŞ bırakılabilir: gerçek kişide
+   * kimliği ad + iletişim kanalı karşılıyor. Doldurulursa künye tablosunda
+   * kendiliğinden görünür.
+   */
+  address: "",
 } as const;
 
-/** Künye tamam mı — hukuki sayfalar bunu kontrol edip uyarı basıyor. */
-export const legalEntityReady = !Object.values(legalEntity).some((v) =>
-  v.startsWith("TODO_"),
-);
+/**
+ * Tahsilat ve faturalama aracısı.
+ *
+ * Ruul, serbest çalışan adına sözleşme ve fatura düzenleyip ödemeyi tahsil
+ * ediyor. Yani müşterinin fatura/ödeme bilgileri Ruul üzerinden geçiyor —
+ * bu bir veri aktarımı ve hukuki metinlerde açıkça yazılması gerekiyor.
+ *
+ * NOT: Ruul'un tabi olduğu tüzel kişilik ve ülke, kendi sözleşmelerinde
+ * yer alıyor; buraya doğrulamadan bir ülke adı yazmıyoruz.
+ */
+export const billing = {
+  name: "Ruul",
+  url: "https://ruul.io",
+  what: "Sözleşme, fatura ve ödeme tahsilatı",
+  where: "Yurt dışı",
+} as const;
 
 export const contact = {
   email: "info@ositend.com",
@@ -69,6 +90,11 @@ export const panelUrl: string = import.meta.env["VITE_PANEL_URL"] ?? "";
  * geliştirme demek. Tek seferlik ücret bu maliyeti karşılamıyordu.
  * ------------------------------------------------------------------ */
 
+/** Yıllık peşin ödeme indirimi (yüzde). */
+export const ANNUAL_DISCOUNT = 20;
+
+export type BillingCycle = "monthly" | "yearly";
+
 export const pilot = {
   setup: 9900,
   monthly: 4900,
@@ -96,7 +122,20 @@ export const plannedPlans = [
 /** Paket limitini aşan her müşteri için ek ücret aralığı. */
 export const extraClientPrice = { min: 750, max: 1000 } as const;
 
-/** Yıllık peşin ödeme indirimi (yüzde). */
-export const annualDiscount = { min: 15, max: 20 } as const;
+/**
+ * Yıllık peşin ödemede aylık karşılık.
+ *
+ * Ekranda gösterilen sayı DAİMA aylık karşılıktır; yıllık toplam ayrıca
+ * yazılır. İki paketi "biri aylık biri yıllık" fiyatla yan yana koymak,
+ * karşılaştırmayı imkânsız hale getiren klasik fiyat sayfası hatası.
+ */
+export function monthlyFor(monthly: number, cycle: BillingCycle): number {
+  return cycle === "yearly" ? Math.round((monthly * (100 - ANNUAL_DISCOUNT)) / 100) : monthly;
+}
+
+/** Yıllık peşin ödemede bir yılda ödenecek toplam. */
+export function yearlyTotal(monthly: number): number {
+  return monthlyFor(monthly, "yearly") * 12;
+}
 
 export const tl = (n: number) => `₺${n.toLocaleString("tr-TR")}`;

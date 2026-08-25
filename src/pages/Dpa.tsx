@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { DataControllerBlock, H2, LI, LegalDoc, P, TableWrap, UL } from "../components/LegalDoc";
 import { useSeo } from "../lib/seo";
-import { contact } from "../lib/site";
+import { billing, contact } from "../lib/site";
 
 /*
  * Veri İşleme Sözleşmesi (DPA).
@@ -16,6 +16,7 @@ import { contact } from "../lib/site";
  */
 
 const subprocessors = [
+  { who: billing.name, what: billing.what, where: billing.where },
   { who: "Cloudflare, Inc.", what: "Barındırma, CDN ve güvenlik katmanı", where: "ABD / küresel" },
   { who: "Vercel, Inc.", what: "Panel uygulamasının çalıştırılması", where: "AB / ABD" },
   { who: "Resend, Inc.", what: "İşlemsel e-posta gönderimi", where: "ABD" },

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { DataControllerBlock, H2, LI, LegalDoc, P, UL } from "../components/LegalDoc";
 import { useSeo } from "../lib/seo";
-import { annualDiscount, contact, extraClientPrice, pilot, tl } from "../lib/site";
+import { ANNUAL_DISCOUNT, billing, contact, extraClientPrice, pilot, tl, yearlyTotal } from "../lib/site";
 
 /*
  * Kullanım Koşulları.
@@ -30,7 +30,9 @@ export function Terms() {
       <H2>1. Taraflar</H2>
       <P>
         Bu koşullar, aşağıda künyesi verilen hizmet sağlayıcı ile Ositend hesabı açan veya hizmeti
-        kullanan gerçek/tüzel kişi (&quot;Ajans&quot;) arasında geçerlidir.
+        kullanan gerçek/tüzel kişi (&quot;Ajans&quot;) arasında geçerlidir. Hizmet şu anda bir
+        şirket tüzel kişiliği üzerinden değil, serbest çalışan sıfatıyla sunulmaktadır; sözleşme ve
+        faturalar {billing.name} platformu üzerinden düzenlenir.
       </P>
       <DataControllerBlock />
 
@@ -86,9 +88,15 @@ export function Terms() {
           boyunca artırılmaz.
         </LI>
         <LI>
-          Yıllık peşin ödemede %{annualDiscount.min}–{annualDiscount.max} indirim uygulanabilir.
+          <strong>Yıllık peşin ödemede %{ANNUAL_DISCOUNT} indirim</strong> uygulanır: pilot
+          aboneliğinde aylık karşılık {tl(pilot.monthly)} yerine{" "}
+          {tl(Math.round(yearlyTotal(pilot.monthly) / 12))}, yıllık toplam{" "}
+          {tl(yearlyTotal(pilot.monthly))} olur.
         </LI>
-        <LI>Tüm bedeller KDV hariçtir. Faturalar aylık düzenlenir.</LI>
+        <LI>
+          Tüm bedeller KDV hariçtir. Aylık seçimde faturalar aylık, yıllık seçimde tek seferde
+          düzenlenir ve tahsilat {billing.name} üzerinden yapılır.
+        </LI>
       </UL>
       <P>
         Ödemenin vadesinde yapılmaması hâlinde, yazılı bildirim ve makul bir ek süre sonrasında

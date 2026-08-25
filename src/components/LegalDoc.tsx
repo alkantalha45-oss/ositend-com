@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
-import { AlertTriangle } from "lucide-react";
 import { Section } from "./bits";
-import { legalEntity, legalEntityReady } from "../lib/site";
+import { billing, contact, legalEntity } from "../lib/site";
 
 /**
  * Hukuki metinler için ortak çerçeve.
@@ -30,28 +29,6 @@ export function LegalDoc({
         <h1 className="text-[clamp(1.875rem,4.4vw,2.75rem)]">{title}</h1>
         <p className="mt-4 text-base leading-relaxed text-muted-ink">{lede}</p>
         <p className="mt-3 text-sm text-muted-ink">Son güncelleme: {LEGAL_UPDATED}</p>
-
-        {/*
-          Künye tamamlanmadan bu metinler KVKK m.10 anlamında eksik: veri
-          sorumlusunun kimliği zorunlu bir unsur. Uyarıyı gizlemek yerine
-          görünür bırakıyoruz — böylece eksik hâliyle yayına çıkarsa fark
-          edilmemesi mümkün olmuyor.
-        */}
-        {!legalEntityReady && (
-          <div className="mt-8 rounded-lg border border-warning/50 bg-warning/10 p-4">
-            <p className="flex items-start gap-2.5 text-sm leading-relaxed text-ink">
-              <AlertTriangle className="mt-0.5 size-4 shrink-0" />
-              <span>
-                <strong>Bu metin henüz tamamlanmadı.</strong> Veri sorumlusunun ticaret unvanı, açık
-                adresi ve sicil bilgisi eklenmeden metin hukuken eksiktir. Sorularınız için{" "}
-                <a href="mailto:info@ositend.com" className="underline">
-                  info@ositend.com
-                </a>
-                .
-              </span>
-            </p>
-          </div>
-        )}
 
         <div className="legal-prose mt-10">{children}</div>
       </div>
@@ -84,23 +61,51 @@ export function LI({ children }: { children: ReactNode }) {
   );
 }
 
-/** Veri sorumlusu künyesi — dört metinde de aynı blok. */
+/**
+ * Veri sorumlusu künyesi — dört metinde de aynı blok.
+ *
+ * GERÇEK KİŞİ künyesi: ortada bir tüzel kişilik yok, hizmet serbest
+ * çalışan olarak veriliyor. Daha önce burada ticaret unvanı ve MERSİS
+ * numarası için yer tutucular vardı; olmayan bir şirketin künyesini
+ * doldurmayı beklemek yerine gerçek durum yazıldı.
+ *
+ * Adres yalnızca src/lib/site.ts'te doldurulmuşsa görünüyor.
+ */
 export function DataControllerBlock() {
   return (
     <div className="mt-4 rounded-xl border border-line-soft bg-surface p-5">
       <dl className="grid gap-x-6 gap-y-2 text-[0.9375rem] sm:grid-cols-[10rem_1fr]">
         <dt className="text-muted-ink">Veri sorumlusu</dt>
-        <dd className="text-ink">{legalEntity.title}</dd>
-        <dt className="text-muted-ink">Adres</dt>
-        <dd className="text-ink">{legalEntity.address}</dd>
-        <dt className="text-muted-ink">Sicil / VKN</dt>
-        <dd className="tnum text-ink">{legalEntity.registryNo}</dd>
+        <dd className="text-ink">{legalEntity.name}</dd>
+        <dt className="text-muted-ink">Statü</dt>
+        <dd className="text-ink">{legalEntity.status}</dd>
+        {legalEntity.address && (
+          <>
+            <dt className="text-muted-ink">Adres</dt>
+            <dd className="text-ink">{legalEntity.address}</dd>
+          </>
+        )}
+        <dt className="text-muted-ink">Faturalama</dt>
+        <dd className="text-ink">
+          {billing.what},{" "}
+          <a
+            href={billing.url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-brand underline"
+          >
+            {billing.name}
+          </a>{" "}
+          üzerinden
+        </dd>
         <dt className="text-muted-ink">E-posta</dt>
         <dd>
-          <a href="mailto:info@ositend.com" className="text-brand underline">
-            info@ositend.com
+          <a href={`mailto:${contact.email}`} className="text-brand underline">
+            {contact.email}
           </a>
         </dd>
+        <dt className="text-muted-ink">Telefon</dt>
+        <dd className="tnum text-ink">{contact.phone}</dd>
       </dl>
     </div>
   );

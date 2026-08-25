@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AlertTriangle, Check, Loader2, Mail, Phone } from "lucide-react";
 import { Eyebrow, PageHero, Reveal, Section } from "../components/bits";
 import { useSeo } from "../lib/seo";
-import { contact, extraClientPrice, pilot, tl } from "../lib/site";
+import { ANNUAL_DISCOUNT, billing, contact, extraClientPrice, pilot, tl, yearlyTotal } from "../lib/site";
 
 const channels = [
   {
@@ -36,6 +36,14 @@ const faqs = [
   {
     q: "Taahhüt var mı?",
     a: `Kurucu pilotta asgari ${pilot.commitmentMonths} aylık ücretli kullanım var — ürünü gerçek bir portföyde oturtmak için gereken süre bu. Sonrasında aylık devam eder, istediğiniz ay bırakırsınız. Kurucu fiyatınız ${pilot.priceLockMonths} ay boyunca artmaz.`,
+  },
+  {
+    q: "Yıllık ödeme avantajı var mı?",
+    a: `Var: yıllık peşin ödemede %${ANNUAL_DISCOUNT} indirim uygulanıyor. Pilot aboneliğinde aylık ${tl(pilot.monthly)} yerine aylık karşılığı ${tl(Math.round(yearlyTotal(pilot.monthly) / 12))}, yıllık toplam ${tl(yearlyTotal(pilot.monthly))} oluyor. Kurulum ücreti her iki durumda da aynı.`,
+  },
+  {
+    q: "Fatura nasıl kesiliyor?",
+    a: `Hizmeti şu anda serbest çalışan olarak veriyoruz; sözleşme, fatura ve tahsilat ${billing.name} platformu üzerinden yürüyor. Kart bilgileriniz bize ulaşmıyor. Türkiye'de birkaç müşteriden sonra şirketleşme planımız var; o geçiş mevcut sözleşmeleri etkilemeyecek.`,
   },
   {
     q: "Aylık ücreti neye ödüyorum?",

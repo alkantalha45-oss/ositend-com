@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { DataControllerBlock, H2, LI, LegalDoc, P, TableWrap, UL } from "../components/LegalDoc";
 import { useSeo } from "../lib/seo";
-import { contact } from "../lib/site";
+import { billing, contact } from "../lib/site";
 
 /*
  * KVKK m.10 aydınlatma metni.
@@ -21,6 +21,11 @@ import { contact } from "../lib/site";
  */
 
 const transfers = [
+  {
+    who: `${billing.name} (${billing.url.replace("https://", "")})`,
+    what: billing.what,
+    where: billing.where,
+  },
   {
     who: "Cloudflare, Inc.",
     what: "Site barındırma, alan adı ve güvenlik",
@@ -69,6 +74,11 @@ export function Kvkk() {
           <strong>Demo/iletişim formunu doldurduğunuzda:</strong> ad soyad, ajans adı, e-posta
           adresi, yönettiğiniz müşteri sayısı aralığı, formda yazdığınız mesaj; ayrıca talebin
           gönderildiği IP adresi, tarayıcı bilgisi ve gönderim zamanı.
+        </LI>
+        <LI>
+          <strong>Hizmeti satın aldığınızda:</strong> sözleşme ve fatura için gereken ad/unvan,
+          adres, vergi bilgisi ve ödeme kayıtları. Bu süreç {billing.name} üzerinden yürütülür ve
+          ödeme kartı bilgileriniz bize hiçbir aşamada ulaşmaz.
         </LI>
         <LI>
           <strong>Panel kullanıcısı olduğunuzda:</strong> hesap e-posta adresi, rol bilgisi, oturum
@@ -153,6 +163,16 @@ export function Kvkk() {
           </tbody>
         </table>
       </TableWrap>
+      <P>
+        Faturalama ve tahsilat, serbest çalışan olarak hizmet verdiğimiz için {billing.name}{" "}
+        platformu üzerinden yapılır; sözleşme ve fatura süreçlerinde paylaştığınız bilgiler bu
+        platformda da işlenir. {billing.name}&apos;un tabi olduğu tüzel kişilik ve veri işleme
+        koşulları{" "}
+        <a href={billing.url} target="_blank" rel="noreferrer" className="text-brand underline">
+          {billing.url.replace("https://", "")}
+        </a>{" "}
+        üzerindeki kendi sözleşmelerinde yer alır.
+      </P>
       <P>
         Ayrıca yetkili kamu kurum ve kuruluşlarına, yalnızca mevzuatın zorunlu kıldığı hâllerde ve
         talep edilen kapsamla sınırlı olarak aktarım yapılabilir.

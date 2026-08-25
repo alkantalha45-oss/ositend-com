@@ -1,7 +1,18 @@
+import { useId, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import { Eyebrow, Reveal, Section } from "./bits";
-import { annualDiscount, extraClientPrice, pilot, plannedPlans, tl } from "../lib/site";
+import {
+  ANNUAL_DISCOUNT,
+  billing,
+  extraClientPrice,
+  monthlyFor,
+  pilot,
+  plannedPlans,
+  tl,
+  yearlyTotal,
+  type BillingCycle,
+} from "../lib/site";
 
 /*
  * TEK SEFERLİK ÜCRET MODELİ KALDIRILDI.
@@ -21,9 +32,7 @@ import { annualDiscount, extraClientPrice, pilot, plannedPlans, tl } from "../li
  *
  * DİL: "aylık bakım ücreti" DEĞİL, "platform aboneliği ve işletim desteği".
  * Müşteri hata düzeltmesi için para ödemiyor; sunucu, izleme, yedekleme,
- * API güncellemeleri ve destek için ödüyor. "Bakım" kelimesi ödediği şeyi
- * yanlış tarif ediyor ve haklı olarak "neden bozuk şeyin parasını
- * ödüyorum" sorusunu doğuruyor.
+ * API güncellemeleri ve destek için ödüyor.
  */
 
 const includes = [
@@ -51,11 +60,91 @@ const subscriptionCovers = [
 const outOfScope =
   "Yeni bir platform entegrasyonu, müşteriye özel KPI tanımı, ek rapor tasarımı veya yol haritasında olmayan bir özellik talebi ayrıca fiyatlanır.";
 
-function PilotOffer() {
+/**
+ * Aylık / yıllık anahtarı.
+ *
+ * radiogroup olarak işaretlendi, iki buton olarak DEĞİL: ekran okuyucuya
+ * "iki seçenekten biri" diye duyurulması gerekiyor, "iki ayrı düğme" diye
+ * değil. Ok tuşlarıyla gezinme de bu sayede beklendiği gibi çalışıyor.
+ */
+function CycleToggle({
+  cycle,
+  onChange,
+}: {
+  cycle: BillingCycle;
+  onChange: (c: BillingCycle) => void;
+}) {
+  const options: { value: BillingCycle; label: string }[] = [
+    { value: "monthly", label: "Aylık" },
+    { value: "yearly", label: "Yıllık" },
+  ];
+
+  return (
+    <div className="mt-8 flex flex-col items-center gap-2.5">
+      <div
+        role="radiogroup"
+        aria-label="Ödeme dönemi"
+        className="inline-flex rounded-full border border-line bg-white p-1"
+      >
+        {options.map((o) => {
+          const active = cycle === o.value;
+          return (
+            <button
+              key={o.value}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              onClick={() => onChange(o.value)}
+              className={`rounded-full px-5 py-2 text-sm font-medium transition-colors duration-200 ${
+                active ? "bg-brand text-white" : "text-muted-ink hover:text-ink"
+              }`}
+            >
+              {o.label}
+            </button>
+          );
+        })}
+      </div>
+      <p className="text-[0.8125rem] text-muted-ink">
+        Yıllık peşin ödemede{" "}
+        <span className="font-medium text-brand">%{ANNUAL_DISCOUNT} indirim</span>
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Fiyat gösterimi.
+ *
+ * Yıllık seçildiğinde de ekrandaki büyük sayı AYLIK KARŞILIK olarak
+ * kalıyor, yıllık toplam altına yazılıyor. Bir paketi aylık, diğerini
+ * yıllık toplamla göstermek karşılaştırmayı imkânsız kılan klasik hata —
+ * ziyaretçi 4.900 ile 47.040'ı yan yana görüp kafası karışıyor.
+ */
+function Price({ monthly, cycle }: { monthly: number; cycle: BillingCycle }) {
+  const shown = monthlyFor(monthly, cycle);
+  const yearly = cycle === "yearly";
+
+  return (
+    <>
+      <p className="tnum mt-1.5 font-display text-4xl font-semibold">
+        {tl(shown)}
+        <span className="text-base font-medium text-muted-ink"> /ay</span>
+      </p>
+      {yearly && (
+        <p className="mt-1.5 text-sm text-muted-ink">
+          <span className="tnum line-through">{tl(monthly)}</span> yerine · yıllık{" "}
+          <span className="tnum font-medium text-ink">{tl(yearlyTotal(monthly))}</span> peşin
+        </p>
+      )}
+    </>
+  );
+}
+
+function PilotOffer({ cycle }: { cycle: BillingCycle }) {
   return (
     <Reveal delay={0.08}>
-      <article className="relative mx-auto mt-12 max-w-3xl rounded-2xl border-2 border-brand bg-white shadow-[0_18px_50px_-24px_oklch(0.48_0.15_257.3/0.55)]">
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3.5 py-1 text-xs font-medium text-white">
+      <article className="relative mx-auto mt-10 max-w-3xl rounded-2xl border-2 border-brand bg-white shadow-[0_18px_50px_-24px_oklch(0.48_0.15_257.3/0.55)]">
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand px-3.5 py-1 text-xs font-medium whitespace-nowrap text-white">
           Kurucu pilot · {pilot.clients} ajans kontenjanı
         </span>
 
@@ -66,6 +155,7 @@ function PilotOffer() {
                 Tek seferlik kurulum
               </p>
               <p className="tnum mt-1.5 font-display text-4xl font-semibold">{tl(pilot.setup)}</p>
+              {/* Kurulum ücreti dönemden bağımsız: yapılan iş bir kez yapılıyor. */}
               <p className="mt-2 text-sm text-muted-ink">
                 Hesap bağlama, marka tanımı, şablon hazırlığı
               </p>
@@ -74,18 +164,25 @@ function PilotOffer() {
               <p className="text-xs font-medium tracking-wide text-muted-ink uppercase">
                 Platform aboneliği
               </p>
-              <p className="tnum mt-1.5 font-display text-4xl font-semibold">
-                {tl(pilot.monthly)}
-                <span className="text-base font-medium text-muted-ink"> /ay</span>
-              </p>
+              <Price monthly={pilot.monthly} cycle={cycle} />
               <p className="mt-2 text-sm text-muted-ink">İşletim ve destek dahil</p>
             </div>
           </div>
 
           <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-muted-ink">
-            Asgari {pilot.commitmentMonths} aylık ücretli pilot. Bu süre dolduktan sonra aylık devam
-            eder, istediğiniz ay bırakırsınız. Kurucu fiyatınız {pilot.priceLockMonths} ay boyunca
-            sabit kalır — kontenjan dolup liste fiyatına geçilse bile.
+            {cycle === "yearly" ? (
+              <>
+                Yıllık peşin ödemede %{ANNUAL_DISCOUNT} indirim uygulanır ve dönem 12 ay olarak
+                işler. Kurucu fiyatınız {pilot.priceLockMonths} ay boyunca sabit kalır — kontenjan
+                dolup liste fiyatına geçilse bile.
+              </>
+            ) : (
+              <>
+                Asgari {pilot.commitmentMonths} aylık ücretli pilot. Bu süre dolduktan sonra aylık
+                devam eder, istediğiniz ay bırakırsınız. Kurucu fiyatınız {pilot.priceLockMonths} ay
+                boyunca sabit kalır — kontenjan dolup liste fiyatına geçilse bile.
+              </>
+            )}
           </p>
 
           <Link
@@ -142,9 +239,9 @@ function PilotOffer() {
  * yapmıyoruz. Satılmayan bir paketi satılıyormuş gibi göstermek,
  * siteden temizlediğimiz sahte sosyal kanıtın fiyat tarafındaki hali
  * olurdu. Yine de gösteriyoruz, çünkü ajans "pilot bitince fiyat nereye
- * gidiyor" sorusunun cevabını görmeden üç aylık taahhüde girmez.
+ * gidiyor" sorusunun cevabını görmeden taahhüde girmez.
  */
-function PlannedPlans() {
+function PlannedPlans({ cycle }: { cycle: BillingCycle }) {
   return (
     <Reveal delay={0.16}>
       <div className="mx-auto mt-16 max-w-3xl">
@@ -164,8 +261,16 @@ function PlannedPlans() {
             <div key={p.name} className="bg-white px-6 py-7 text-center">
               <dt className="text-sm font-medium text-ink">{p.name}</dt>
               <dd className="mt-3">
-                <span className="tnum font-display text-3xl font-semibold">{tl(p.monthly)}</span>
+                <span className="tnum font-display text-3xl font-semibold">
+                  {tl(monthlyFor(p.monthly, cycle))}
+                </span>
                 <span className="text-sm text-muted-ink"> /ay</span>
+                {cycle === "yearly" && (
+                  <p className="tnum mt-1 text-xs text-muted-ink">
+                    <span className="line-through">{tl(p.monthly)}</span> · yıllık{" "}
+                    {tl(yearlyTotal(p.monthly))}
+                  </p>
+                )}
                 <p className="mt-2 text-sm text-muted-ink">{p.clients} aktif müşteriye kadar</p>
               </dd>
             </div>
@@ -177,10 +282,10 @@ function PlannedPlans() {
             Paket limitini aşan her müşteri için {tl(extraClientPrice.min)}–
             {tl(extraClientPrice.max)} aylık ek ücret.
           </li>
+          <li>Yıllık peşin ödemede %{ANNUAL_DISCOUNT} indirim.</li>
           <li>
-            Yıllık peşin ödemede %{annualDiscount.min}–{annualDiscount.max} indirim.
+            Tüm fiyatlar KDV hariçtir. Sözleşme ve fatura {billing.name} üzerinden düzenlenir.
           </li>
-          <li>Tüm fiyatlar KDV hariçtir.</li>
         </ul>
       </div>
     </Reveal>
@@ -188,22 +293,29 @@ function PlannedPlans() {
 }
 
 export function Pricing() {
+  const [cycle, setCycle] = useState<BillingCycle>("monthly");
+  const headingId = useId();
+
   return (
     <Section className="pb-20 sm:pb-28">
       <Reveal className="text-center">
         <Eyebrow>Fiyatlandırma</Eyebrow>
-        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+        <h2 id={headingId} className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
           Kurulum bir kez, platform aylık.
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-ink">
-          Kurulumu biz yapıyoruz ve bir kez ödüyorsunuz. Aylık ücret, sistemin her ay çalışmaya devam
-          etmesinin karşılığı: sunucular, reklam platformu API güncellemeleri, rapor üretimi ve
-          destek. Fiyatlar KDV hariçtir.
+          Kurulumu biz yapıyoruz ve bir kez ödüyorsunuz. Aylık ücret, sistemin her ay çalışmaya
+          devam etmesinin karşılığı: sunucular, reklam platformu API güncellemeleri, rapor üretimi
+          ve destek. Fiyatlar KDV hariçtir.
         </p>
       </Reveal>
 
-      <PilotOffer />
-      <PlannedPlans />
+      <Reveal delay={0.04}>
+        <CycleToggle cycle={cycle} onChange={setCycle} />
+      </Reveal>
+
+      <PilotOffer cycle={cycle} />
+      <PlannedPlans cycle={cycle} />
     </Section>
   );
 }
