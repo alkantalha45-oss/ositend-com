@@ -22,10 +22,13 @@
       REKLAM DEPOLAMA KAPALI: Bize yalnızca trafik/oturum verisi lazım; yeniden
       pazarlama veya kişiselleştirilmiş reklam yapmıyoruz. İhtiyacımız olmayan
       veriyi toplamamak hem KVKK/GDPR yükünü azaltıyor hem de zaten doğru olan.
-      analytics_storage açık — asıl ölçmek istediğimiz şey bu.
+      Bu üç alan izinden BAĞIMSIZ olarak kapalı kalır; ziyaretçi kabul etse bile.
 
-      NOT: Sitede henüz çerez izni bandı YOK. AB ziyaretçileri için analytics
-      çerezi de izne tabi; bant eklenene kadar bu bir açık.
+      analytics_storage varsayılan olarak KAPALI: AB ziyaretçileri için analytics
+      çerezi de izne tabi. Karar CookieConsent.tsx'teki banttan geliyor; gtag
+      wait_for_update ile bekletiliyor, böylece izin gelmeden çerez yazılmıyor.
+      Önceki ziyarette karar verilmişse aşağıda hemen uygulanıyor — dönen
+      ziyaretçiye bant tekrar gösterilmiyor.
     -->
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -36,8 +39,16 @@
         ad_storage: "denied",
         ad_user_data: "denied",
         ad_personalization: "denied",
-        analytics_storage: "granted",
+        analytics_storage: "denied",
+        wait_for_update: 500,
       });
+
+      try {
+        // Gizli sekmede localStorage erişimi istisna atabilir; izin yok sayılır.
+        if ((localStorage.getItem("ositend-cerez-izni") || "").indexOf("kabul") === 0) {
+          gtag("consent", "update", { analytics_storage: "granted" });
+        }
+      } catch (e) {}
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-DR52TZ1BXH"></script>
     <script>

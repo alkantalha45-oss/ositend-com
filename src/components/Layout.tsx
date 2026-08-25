@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { CloudField } from "./CloudField";
+import { CookieConsent, cerezTercihleriniAc } from "./CookieConsent";
 
 const nav = [
   { to: "/", label: "Ana Sayfa" },
@@ -243,7 +244,16 @@ function Footer() {
 
         <div className="flex flex-col gap-2 border-t border-line-soft py-6 text-[0.8125rem] text-muted-ink sm:flex-row sm:items-center sm:justify-between">
           <p className="tnum">© 2026 Ositend. Tüm hakları saklıdır.</p>
-          <p>İstanbul'da geliştirildi.</p>
+          <div className="flex items-center gap-4">
+            {/* İzin, verildiği kadar kolay geri alınabilmeli — bandı buradan yeniden açıyoruz. */}
+            <button
+              onClick={cerezTercihleriniAc}
+              className="transition-colors hover:text-ink"
+            >
+              Çerez tercihleri
+            </button>
+            <p>İstanbul'da geliştirildi.</p>
+          </div>
         </div>
       </div>
     </footer>
@@ -266,6 +276,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <CookieConsent />
     </div>
   );
 }
