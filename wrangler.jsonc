@@ -6,11 +6,17 @@
   // Yayın adresi: https://ositend.pages.dev
   "name": "ositend",
   "compatibility_date": "2026-08-20",
+  // İletişim formu uç noktası (/api/iletisim) burada. Diğer tüm istekler
+  // ASSETS binding'ine devrediliyor, yani statik yayın davranışı değişmiyor.
+  "main": "src/worker.ts",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "not_found_handling": "single-page-application"
+    "not_found_handling": "single-page-application",
+    // Worker eklendiği için binding şart: worker.ts statik varlıklara
+    // env.ASSETS üzerinden ulaşıyor.
+    "binding": "ASSETS"
   },
   // workers.dev adresi AÇIK kalmalı: `routes` tanımlandığı anda Cloudflare
   // bunu varsayılan olarak kapatıyor ve özel alan adı henüz bağlanmamışsa

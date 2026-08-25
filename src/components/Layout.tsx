@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { CloudField } from "./CloudField";
 import { CookieConsent, cerezTercihleriniAc } from "./CookieConsent";
+import { contact, panelUrl } from "../lib/site";
 
 const nav = [
   { to: "/", label: "Ana Sayfa" },
@@ -11,17 +12,7 @@ const nav = [
   { to: "/iletisim", label: "İletişim" },
 ];
 
-/**
- * Panelin herkese açık adresi. Panel henüz deploy edilmediği için
- * varsayılan olarak BOŞ — bu durumda "Panele giriş" bağlantısı hiç
- * render edilmez.
- *
- * Daha önce buraya "http://localhost:8080" sabitlenmişti; site yayına
- * çıkınca bu bağlantı ziyaretçinin KENDİ bilgisayarına gitmeye çalışıyor
- * ve kırık görünüyordu. Panel yayına alındığında .env içine
- * VITE_PANEL_URL=https://panel.ositend.com yazmak yeterli.
- */
-const PANEL_URL: string = import.meta.env["VITE_PANEL_URL"] ?? "";
+
 
 /** Ositend işareti — iki üst üste binen daireden (XOR) doğan yaprak/göz formu, kasıtlı olarak bulanıklaştırılmış. */
 function LogoMark({ className = "" }: { className?: string }) {
@@ -70,10 +61,16 @@ function Header() {
 
   return (
     <>
+      {/*
+        Önceki metin "Ağustos raporlama döngüsü başladı — ilk raporunuzu bu
+        hafta kurun" idi: sabit yazılmış bir ay adı, yani eylülde yanlış
+        olacak uydurma bir aciliyet. Yerine gerçekten doğru olan ve gerçekten
+        acil olan şey yazıldı: kontenjanlı bir pilot program.
+      */}
       <div className="bg-ink px-4 py-2.5 text-center text-[0.8125rem] text-white/85">
-        Ağustos raporlama döngüsü başladı —{" "}
+        Kurucu pilot programı açık —{" "}
         <Link to="/iletisim" className="font-medium text-white underline underline-offset-4">
-          ilk raporunuzu bu hafta kurun
+          ilk beş ajans arasına katılın
         </Link>
       </div>
 
@@ -99,9 +96,9 @@ function Header() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
-            {PANEL_URL && (
+            {panelUrl && (
               <a
-                href={PANEL_URL}
+                href={panelUrl}
                 className="rounded-lg px-3.5 py-2 text-sm text-muted-ink transition-colors hover:text-ink"
               >
                 Panele giriş
@@ -153,9 +150,9 @@ function Header() {
               Demo alın
               <ArrowRight className="size-4" />
             </Link>
-            {PANEL_URL && (
+            {panelUrl && (
               <a
-                href={PANEL_URL}
+                href={panelUrl}
                 className="flex items-center justify-center rounded-lg border border-line py-3.5 text-[0.9375rem] font-medium text-ink"
               >
                 Panele giriş
@@ -182,8 +179,17 @@ const footerCols = [
     title: "Şirket",
     links: [
       { label: "Hakkımızda", to: "/hakkimizda" },
+      { label: "Güvenlik", to: "/guvenlik" },
       { label: "İletişim", to: "/iletisim" },
-      { label: "Demo talebi", to: "/iletisim" },
+    ],
+  },
+  {
+    title: "Yasal",
+    links: [
+      { label: "Gizlilik Politikası", to: "/gizlilik" },
+      { label: "KVKK Aydınlatma Metni", to: "/kvkk-aydinlatma" },
+      { label: "Kullanım Koşulları", to: "/kosullar" },
+      { label: "Veri İşleme Sözleşmesi", to: "/veri-isleme-sozlesmesi" },
     ],
   },
 ];
@@ -192,7 +198,7 @@ function Footer() {
   return (
     <footer className="border-t border-line-soft bg-surface">
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8">
-        <div className="grid gap-10 py-14 md:grid-cols-[1.6fr_1fr_1fr_1.2fr] md:gap-8 md:py-16">
+        <div className="grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr_1.2fr_1fr] md:gap-8 md:py-16">
           <div>
             <Wordmark />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-ink">
@@ -224,18 +230,18 @@ function Footer() {
             <ul className="mt-2 text-sm text-muted-ink">
               <li>
                 <a
-                  href="mailto:info@ositend.com"
+                  href={`mailto:${contact.email}`}
                   className="inline-block py-2.5 transition-colors hover:text-ink"
                 >
-                  info@ositend.com
+                  {contact.email}
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+905522500545"
+                  href={contact.phoneHref}
                   className="tnum inline-block py-2.5 transition-colors hover:text-ink"
                 >
-                  +90 552 250 05 45
+                  {contact.phone}
                 </a>
               </li>
             </ul>

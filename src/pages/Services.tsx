@@ -1,5 +1,7 @@
 import { Bell, Check, FileText, LayoutDashboard, Mail } from "lucide-react";
 import { Button, ClosingCta, Eyebrow, PageHero, Reveal, Section, Shot } from "../components/bits";
+import { useSeo } from "../lib/seo";
+import { pilot } from "../lib/site";
 
 const services = [
   {
@@ -18,11 +20,26 @@ const services = [
     icon: LayoutDashboard,
     title: "Canlı müşteri portalı",
     lede: "Müşteriniz ay sonunu beklemesin — paylaşılabilir link her zaman güncel veriyi gösterir.",
+    /*
+     * İKİ İDDİA DÜZELTİLDİ:
+     *
+     * 1) "Tek linkle paylaşım, giriş şifresi gerekmez" bir ÖZELLİK gibi
+     *    yazılmıştı; oysa tahmin edilemez ama süresiz ve iptal edilemez bir
+     *    link, güvenlik tarafında bir eksik. Kurumsal bir ajansın satın alma
+     *    sürecinde ilk sorulacak şeylerden biri. Olduğu gibi anlatılıyor.
+     *
+     * 2) "İsterseniz kendi alan adınız altında yayınlanır" doğru değildi:
+     *    panelde alan adı alanı ve bir "doğrula" düğmesi var ama düğme
+     *    hiçbir DNS kontrolü yapmadan kaydı doğrulanmış işaretliyor, trafiği
+     *    yönlendiren bir şey yok. "Yakında" olarak işaretlendi.
+     */
     points: [
-      "Tek linkle paylaşım, giriş şifresi gerekmez",
+      "Tek linkle paylaşım — müşterinizin hesap açmasına gerek yok",
       "Mobilde de okunabilir, sunuma hazır düzen",
       "Müşteri sadece kendi verisini görür",
-      "İsterseniz kendi alan adınız altında yayınlanır",
+      "Linki istediğiniz an yenileyip eskisini geçersiz kılarsınız",
+      "Yakında: link için son kullanma tarihi, isteğe bağlı parola ve erişim kaydı",
+      "Yakında: raporların kendi alan adınız altında yayınlanması",
     ],
     shot: "/shots/panel-musteriler.png",
   },
@@ -49,11 +66,18 @@ const extras = [
   {
     icon: LayoutDashboard,
     title: "Ekip ve rol yönetimi",
-    body: "Ekibinize sınırsız kullanıcı ekleyin. Salt-okunur viewer rolüyle müşterilerinizi de panele davet edebilirsiniz.",
+    body: `Ekibinize sınırsız kullanıcı ekleyin — paket limiti müşteri sayısında, ekipte değil. Salt-okunur rolle müşterilerinizi de panele davet edebilirsiniz.`,
   },
 ];
 
 export function Services() {
+  useSeo({
+    title: "Hizmetler — Otomatik rapor, canlı portal, anomali uyarıları | Ositend",
+    description:
+      "Ositend ajansınızın müşteri raporlamasını uçtan uca otomatikleştirir: markalı aylık PDF, paylaşılabilir canlı müşteri portalı ve aynı gün anomali uyarıları.",
+    path: "/hizmetler",
+  });
+
   return (
     <>
       <PageHero
@@ -70,6 +94,9 @@ export function Services() {
             Demo planlayın
           </Button>
         </div>
+        <p className="mt-4 text-center text-[0.8125rem] text-muted-ink">
+          Kurucu pilot paketi {pilot.clients} aktif müşteri ve {pilot.sources} veri kaynağına kadar
+        </p>
       </PageHero>
 
       <Section className="pb-20 sm:pb-28">

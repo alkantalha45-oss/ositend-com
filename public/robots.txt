@@ -1,0 +1,13 @@
+# ositend.com
+#
+# Bu dosya daha önce YOKTU. Site bir SPA olduğu ve Cloudflare
+# "not_found_handling: single-page-application" ile yayınlandığı için
+# /robots.txt isteği index.html'e düşüyordu: tarayıcılar robots.txt yerine
+# içinde HTML olan bir yanıt alıyordu. Aynı sebeple /sitemap.xml de HTML
+# döndürüyordu. Gerçek dosyalar public/ altına konunca varlık katmanı
+# bunları SPA yedeğinden önce sunuyor.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://ositend.com/sitemap.xml

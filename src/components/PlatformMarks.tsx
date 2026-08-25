@@ -4,6 +4,8 @@
  * biçim dilinden esinlenen, elle çizilmiş temsillerdir.
  */
 
+import type { ReactElement } from "react";
+
 type MarkProps = { className?: string };
 
 export function GoogleAdsMark({ className = "" }: MarkProps) {
@@ -83,11 +85,30 @@ export function TikTokMark({ className = "" }: MarkProps) {
   );
 }
 
-export const platforms = [
-  { name: "Google Ads", Mark: GoogleAdsMark },
-  { name: "Meta Ads", Mark: MetaMark },
-  { name: "GA4", Mark: Ga4Mark },
-  { name: "Search Console", Mark: SearchConsoleMark },
-  { name: "LinkedIn Ads", Mark: LinkedInMark },
-  { name: "TikTok Ads", Mark: TikTokMark },
-] as const;
+/**
+ * Entegrasyon durumu.
+ *
+ * "live" = panelde çalışan bir veri sürücüsü var.
+ * "soon" = tasarımı yapıldı, sürücüsü henüz yazılmadı.
+ *
+ * Bu ayrım siteye TAŞINIYOR: altı platformu da ayrımsız listelemek,
+ * ziyaretçiye bugün LinkedIn Ads raporu alabileceğini söylemek olurdu.
+ * Satış görüşmesinde ortaya çıkan böyle bir boşluk, en baştan "yakında"
+ * demenin maliyetinden çok daha pahalıya mal olur.
+ */
+export type PlatformStatus = "live" | "soon";
+
+export type Platform = {
+  name: string;
+  Mark: (props: MarkProps) => ReactElement;
+  status: PlatformStatus;
+};
+
+export const platforms: Platform[] = [
+  { name: "Google Ads", Mark: GoogleAdsMark, status: "live" },
+  { name: "Meta Ads", Mark: MetaMark, status: "live" },
+  { name: "GA4", Mark: Ga4Mark, status: "live" },
+  { name: "Search Console", Mark: SearchConsoleMark, status: "soon" },
+  { name: "LinkedIn Ads", Mark: LinkedInMark, status: "soon" },
+  { name: "TikTok Ads", Mark: TikTokMark, status: "soon" },
+];

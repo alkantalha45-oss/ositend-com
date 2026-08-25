@@ -1,13 +1,6 @@
 import { Building2, Lock, Sparkles, Target } from "lucide-react";
-import {
-  ClosingCta,
-  CountUp,
-  Eyebrow,
-  PageHero,
-  Reveal,
-  Section,
-  Shot,
-} from "../components/bits";
+import { ClosingCta, Eyebrow, PageHero, Reveal, Section, Shot } from "../components/bits";
+import { useSeo } from "../lib/seo";
 
 const principles = [
   {
@@ -32,29 +25,38 @@ const principles = [
   },
 ];
 
-const timeline = [
+/*
+ * UYDURMA GEÇMİŞ KALDIRILDI.
+ *
+ * Burada "ilk ay 900'den fazla rapor otomatik üretildi" ve "120 ajansı
+ * geçtik" yazıyordu; ikisi de doğru değildi. Bölümün başlığı zaten
+ * "Yol haritası" — o yüzden gerçekten yol haritası yapıldı: neyin bugün
+ * çalıştığı, neyin sırada olduğu. Bu liste doğrulanabilir ve satış
+ * görüşmesinde savunulabilir.
+ */
+const roadmap = [
   {
-    year: "2024",
-    body: "Kurucular kendi dijital ajanslarında her ay 40+ saati rapor hazırlamaya harcadıklarını fark etti.",
+    phase: "Hazır",
+    body: "Google Ads, Meta Ads ve GA4 bağlantısı; markalı PDF raporu; paylaşılabilir canlı müşteri portalı; anomali uyarıları; haftalık portföy özeti; ekip ve rol yönetimi.",
   },
   {
-    year: "2025",
-    body: "İlk sürüm beş pilot ajansla sahaya çıktı; ilk ay 900'den fazla rapor otomatik üretildi.",
+    phase: "Sırada",
+    body: "Google Ads API üzerinden tam otomatik veri çekimi (Basic Access başvurumuz Google'da değerlendirmede), Search Console entegrasyonu ve rapor şablonu düzenleyicisi.",
   },
   {
-    year: "2026",
-    body: "Anomali tespiti, canlı müşteri portalı ve haftalık özet devreye alındı; 120 ajansı geçtik.",
+    phase: "Sonra",
+    body: "LinkedIn Ads ve TikTok Ads kaynakları, müşteriye özel KPI tanımları, portal linkleri için son kullanma tarihi ve isteğe bağlı parola.",
   },
-];
-
-const numbers = [
-  { to: 120, suffix: "+", label: "Aktif ajans" },
-  { to: 4800, suffix: "", label: "Aylık otomatik rapor" },
-  { to: 11, suffix: "", label: "Kişilik ekip" },
-  { to: 99.9, suffix: "%", decimals: 1, label: "Rapor teslim başarısı" },
 ];
 
 export function About() {
+  useSeo({
+    title: "Hakkımızda — Ositend",
+    description:
+      "Ositend'i kendi ajansımızda her ay rapor hazırlarken kaybettiğimiz zamanı geri almak için yazdık. Nasıl çalıştığımız, ilkelerimiz ve ürün yol haritası.",
+    path: "/hakkimizda",
+  });
+
   return (
     <>
       <PageHero
@@ -133,30 +135,15 @@ export function About() {
           <Eyebrow>Yol haritası</Eyebrow>
         </Reveal>
         <ol className="mx-auto mt-12 max-w-3xl">
-          {timeline.map((t, i) => (
-            <Reveal key={t.year} delay={i * 0.08}>
+          {roadmap.map((r, i) => (
+            <Reveal key={r.phase} delay={i * 0.08}>
               <li className="grid gap-2 border-t border-line-soft py-7 sm:grid-cols-[8rem_1fr] sm:gap-8">
-                <span className="tnum font-display text-2xl font-semibold text-brand">{t.year}</span>
-                <p className="text-base leading-relaxed text-muted-ink">{t.body}</p>
+                <span className="font-display text-2xl font-semibold text-brand">{r.phase}</span>
+                <p className="text-base leading-relaxed text-muted-ink">{r.body}</p>
               </li>
             </Reveal>
           ))}
         </ol>
-      </Section>
-
-      <Section className="pb-20 sm:pb-28">
-        <Reveal>
-          <dl className="grid gap-px overflow-hidden rounded-2xl border border-line-soft bg-line-soft sm:grid-cols-2 lg:grid-cols-4">
-            {numbers.map((n) => (
-              <div key={n.label} className="bg-white px-6 py-9 text-center">
-                <dd className="font-display text-4xl leading-none font-semibold sm:text-[2.75rem]">
-                  <CountUp to={n.to} suffix={n.suffix} decimals={n.decimals ?? 0} />
-                </dd>
-                <dt className="mt-3 text-sm text-muted-ink">{n.label}</dt>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
       </Section>
 
       <ClosingCta />

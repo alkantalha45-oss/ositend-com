@@ -8,6 +8,100 @@
       name="description"
       content="Google Ads, Meta Ads ve GA4 verinizi her ay elle toplamayı bırakın. Ositend hesaplarınızı bir kez bağlar; markalı PDF raporu ve canlı müşteri linkini otomatik üretir."
     />
+    <link rel="canonical" href="https://ositend.com/" />
+
+    <!--
+      SOSYAL PAYLAŞIM VE ARAMA ETİKETLERİ.
+
+      Bunlar VARSAYILAN değerler. Rota değiştikçe src/lib/seo.ts içindeki
+      useSeo hook'u başlık/açıklama/canonical alanlarını günceller.
+
+      Neden burada da duruyorlar: LinkedIn, WhatsApp ve X gibi kart
+      üreticileri JavaScript ÇALIŞTIRMAZ. Yalnızca hook'a bırakılsaydı
+      paylaşılan her bağlantı başlıksız, açıklamasız ve görselsiz bir kart
+      olarak görünürdü. Bu etiketlerle en azından ana sayfa kartı doğru
+      çıkıyor; rota başına doğru kart için prerender gerekiyor.
+    -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ositend" />
+    <meta property="og:locale" content="tr_TR" />
+    <meta property="og:url" content="https://ositend.com/" />
+    <meta property="og:title" content="Ositend — Ajanslar için otomatik müşteri raporlaması" />
+    <meta
+      property="og:description"
+      content="Google Ads, Meta Ads ve GA4 hesaplarınızı bir kez bağlayın. Markalı PDF raporu ve canlı müşteri linki her ay kendiliğinden üretilsin."
+    />
+    <meta property="og:image" content="https://ositend.com/shots/panel-dashboard.png" />
+    <meta property="og:image:width" content="2880" />
+    <meta property="og:image:height" content="1800" />
+    <meta
+      property="og:image:alt"
+      content="Ositend panelinde ajans portföyünün özet ekranı"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ositend — Ajanslar için otomatik müşteri raporlaması" />
+    <meta
+      name="twitter:description"
+      content="Google Ads, Meta Ads ve GA4 hesaplarınızı bir kez bağlayın. Markalı PDF raporu ve canlı müşteri linki her ay kendiliğinden üretilsin."
+    />
+    <meta name="twitter:image" content="https://ositend.com/shots/panel-dashboard.png" />
+
+    <!--
+      JSON-LD. Kasıtlı olarak SADE: aggregateRating, reviewCount gibi
+      alanlar YOK. Henüz gerçek bir müşteri değerlendirmemiz olmadığı için
+      bunları yazmak, siteden temizlediğimiz uydurma sosyal kanıtın yapısal
+      veri hâli olurdu — üstelik Google'ın yapısal veri politikalarını da
+      ihlal ederdi.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://ositend.com/#organization",
+            "name": "Ositend",
+            "url": "https://ositend.com/",
+            "logo": "https://ositend.com/favicon.svg",
+            "email": "info@ositend.com",
+            "telephone": "+90-552-250-05-45",
+            "areaServed": "TR",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "sales",
+              "email": "info@ositend.com",
+              "telephone": "+90-552-250-05-45",
+              "availableLanguage": ["Turkish"]
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://ositend.com/#website",
+            "url": "https://ositend.com/",
+            "name": "Ositend",
+            "inLanguage": "tr-TR",
+            "publisher": { "@id": "https://ositend.com/#organization" }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "name": "Ositend",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "url": "https://ositend.com/",
+            "publisher": { "@id": "https://ositend.com/#organization" },
+            "description": "Dijital pazarlama ajansları için otomatik müşteri raporlaması. Google Ads, Meta Ads ve GA4 verisini markalı PDF raporuna ve canlı müşteri portalına dönüştürür.",
+            "offers": {
+              "@type": "Offer",
+              "priceCurrency": "TRY",
+              "price": "4900",
+              "description": "Kurucu pilot: aylık platform aboneliği (KDV hariç), ayrıca 9.900 TL tek seferlik kurulum.",
+              "availability": "https://schema.org/LimitedAvailability"
+            }
+          }
+        ]
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

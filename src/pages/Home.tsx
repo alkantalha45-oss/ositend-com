@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Bell, CalendarPlus, FileText, LineChart, Video } from "lucide-react";
+import { ArrowUpRight, Bell, CalendarCheck, FileText, LineChart, Mail, Phone } from "lucide-react";
 import {
   AtmosphereBand,
   Button,
@@ -14,23 +14,22 @@ import {
 import { ConnectDoodle, BrandDoodle, ScheduleDoodle } from "../components/Doodles";
 import { Pricing } from "../components/Pricing";
 import { platforms } from "../components/PlatformMarks";
+import { bookingUrl, contact, pilot } from "../lib/site";
+import { useSeo } from "../lib/seo";
 
-const logos = [
-  "Formet Dijital",
-  "Marla Kozmetik",
-  "Nordica Mobilya",
-  "Vestra Klinik",
-  "Kaptan Turizm",
-  "Delmain",
-  "Softline",
-  "Clickslice",
-];
-
-const stats = [
-  { to: 38, suffix: " saat", label: "Ajans başına her ay kazanılan süre" },
-  { to: 4, suffix: " dk", label: "Hesap bağlamadan ilk rapora geçen süre" },
-  { to: 4800, suffix: "", label: "Platformda her ay otomatik üretilen rapor" },
-];
+/*
+ * SAHTE SOSYAL KANIT KALDIRILDI.
+ *
+ * Bu sayfada daha önce sekiz uydurma müşteri logosu, "Türkiye'de 120'den
+ * fazla ajans" cümlesi, ayda 4.800 rapor üretildiği iddiası ve isimli bir
+ * müşteri yorumu (Selin Aydın / Formet Dijital) vardı. Hiçbiri gerçek değildi.
+ *
+ * İlk müşterisini arayan bir ürünün kendini yerleşik bir SaaS gibi
+ * göstermesi, karşı taraf bunu fark ettiği anda -- ki referans istendiğinde
+ * ilk görüşmede fark edilir -- yalnızca o iddiayı değil, ürünle ilgili
+ * söylenen her şeyi şüpheli hale getirir. Yerine geçen anlatım kurucu pilot
+ * programı: doğrulanabilir, ve erken alıcı için gerçekten cazip.
+ */
 
 const features = [
   {
@@ -86,8 +85,8 @@ function FloatingPlatforms() {
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-      {platforms.map(({ name, Mark }, i) => {
-        const s = spots[i];
+      {platforms.map(({ name, Mark, status }, i) => {
+        const s = spots[i]!;
         return (
           <div
             key={name}
@@ -100,8 +99,15 @@ function FloatingPlatforms() {
             }}
           >
             <div className="glass-chip flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5">
-              <Mark className="size-6" />
+              {/* Hazır olmayan entegrasyonun simgesi soluk: rozet metnini
+                  okumadan da "bu henüz farklı" ayrımı görünsün. */}
+              <Mark className={`size-6 ${status === "soon" ? "opacity-45" : ""}`} />
               <span className="text-[0.8125rem] font-medium whitespace-nowrap text-ink">{name}</span>
+              {status === "soon" && (
+                <span className="rounded-full bg-ink/8 px-1.5 py-0.5 text-[0.625rem] font-medium tracking-wide text-muted-ink uppercase">
+                  yakında
+                </span>
+              )}
             </div>
           </div>
         );
@@ -114,58 +120,104 @@ function Hero() {
   return (
     <AtmosphereBand>
       <Section className="pt-14 pb-16 text-center sm:pt-20 sm:pb-24">
-      <Reveal>
-        <Eyebrow>Ajanslar için raporlama otomasyonu</Eyebrow>
-      </Reveal>
+        <Reveal>
+          <Eyebrow>Ajanslar için raporlama otomasyonu</Eyebrow>
+        </Reveal>
 
-      <Reveal delay={0.08}>
-        <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(2.25rem,5.2vw,3.75rem)]">
-          Rapor hazırlamayı bırakın,{" "}
-          <span className="text-brand">büyümeye odaklanın.</span>
-        </h1>
-      </Reveal>
+        <Reveal delay={0.08}>
+          <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(2.25rem,5.2vw,3.75rem)]">
+            Rapor hazırlamayı bırakın, <span className="text-brand">büyümeye odaklanın.</span>
+          </h1>
+        </Reveal>
 
-      <Reveal delay={0.16}>
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-ink sm:text-lg">
-          Google Ads, Meta Ads ve GA4 hesaplarınızı bir kez bağlayın. Ositend her ay markalı PDF
-          raporunu ve paylaşılabilir canlı linki sizin yerinize üretsin.
-        </p>
-      </Reveal>
+        <Reveal delay={0.16}>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-ink sm:text-lg">
+            Google Ads, Meta Ads ve GA4 hesaplarınızı bir kez bağlayın. Ositend her ay markalı PDF
+            raporunu ve paylaşılabilir canlı linki sizin yerinize üretsin.
+          </p>
+        </Reveal>
 
-      <Reveal delay={0.24}>
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <Button to="/iletisim" size="lg">
-            Ücretsiz demo alın
-          </Button>
-          <Button to="/hizmetler" variant="secondary" size="lg">
-            Nasıl çalışıyor
-          </Button>
-        </div>
-        <p className="mt-4 text-[0.8125rem] text-muted-ink">
-          14 gün ücretsiz · Kredi kartı gerekmez · Kurulum 4 dakika
-        </p>
-      </Reveal>
+        <Reveal delay={0.24}>
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+            <Button to="/iletisim" size="lg">
+              Pilot programa başvurun
+            </Button>
+            <Button to="/hizmetler" variant="secondary" size="lg">
+              Nasıl çalışıyor
+            </Button>
+          </div>
+          {/*
+            Önceki alt satır "14 gün ücretsiz · Kredi kartı gerekmez · Kurulum
+            4 dakika" idi. Üçü de doğru değildi: ücretsiz deneme altyapısı yok,
+            ödeme sayfası yok, kurulumu biz yapıyoruz ve dört dakika sürmüyor.
+          */}
+          <p className="mt-4 text-[0.8125rem] text-muted-ink">
+            Kurucu pilot programı · {pilot.clients} ajans kontenjanı · Kurulumu birlikte yapıyoruz
+          </p>
+        </Reveal>
 
-      <Reveal delay={0.32} className="relative mt-14 sm:mt-20">
-        <FloatingPlatforms />
-        <div className="lg:mx-24 xl:mx-28">
-          <Shot
-            src="/shots/panel-dashboard.png"
-            alt="Ositend panelinde portföy görünümü: hazır rapor sayısı, kazanılan süre, yönetilen bütçe ve harcama trendi"
-            zoom
-          />
-        </div>
-      </Reveal>
+        <Reveal delay={0.32} className="relative mt-14 sm:mt-20">
+          <FloatingPlatforms />
+          <div className="lg:mx-24 xl:mx-28">
+            <Shot
+              src="/shots/panel-dashboard.png"
+              alt="Ositend panelinde portföy görünümü: hazır rapor sayısı, kazanılan süre, yönetilen bütçe ve harcama trendi"
+              zoom
+            />
+          </div>
+        </Reveal>
       </Section>
     </AtmosphereBand>
   );
 }
 
-function ScheduleMeeting() {
-  const gcalUrl =
-    "https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ositend+Demo+Görüşmesi&details=Ositend+paneli+üzerinden+30+dakikalık+demo+görüşmesi.&location=Google+Meet";
-  const zoomUrl = "https://zoom.us/meeting/schedule";
+/**
+ * Uydurma müşteri logolarının yerini alan şerit.
+ *
+ * Aynı görsel boşluğu dolduruyor ama doğrulanabilir bir şey gösteriyor:
+ * bugün hangi veri kaynağından okuyabildiğimizi. Hazır olmayanlar açıkça
+ * "yakında" etiketli.
+ */
+function Integrations() {
+  return (
+    <div className="border-y border-line-soft bg-surface py-10">
+      <Section>
+        <p className="text-center text-[0.8125rem] text-muted-ink">
+          Bugün bağlanabilen veri kaynakları
+        </p>
+        <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:gap-x-12">
+          {platforms.map(({ name, Mark, status }) => (
+            <li key={name} className="flex items-center gap-2.5">
+              <Mark className={`size-6 ${status === "soon" ? "opacity-40" : ""}`} />
+              <span
+                className={`text-sm font-medium ${status === "soon" ? "text-muted-ink/70" : "text-ink"}`}
+              >
+                {name}
+              </span>
+              {status === "soon" && (
+                <span className="rounded-full border border-line px-2 py-0.5 text-[0.6875rem] text-muted-ink">
+                  yakında
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </div>
+  );
+}
 
+/**
+ * Randevu bölümü.
+ *
+ * Gerçek bir rezervasyon adresi (VITE_BOOKING_URL) tanımlıysa tek ve net bir
+ * buton çıkıyor. Tanımlı değilse buton HİÇ çıkmıyor; yerine gerçekten çalışan
+ * iki kanal veriliyor. Eski hali iki buton gösteriyordu ama ikisi de bize
+ * davet göndermiyordu: "Google Takvim'de oluştur" ziyaretçinin kendi
+ * takviminde bir etkinlik açıyor, "Zoom'da planla" Zoom'un genel toplantı
+ * kurma sayfasına gidiyordu. Ziyaretçi randevu aldığını sanıp bekliyordu.
+ */
+function ScheduleMeeting() {
   return (
     <Section className="pt-2 pb-4 sm:pt-4 sm:pb-6">
       <Reveal>
@@ -180,50 +232,37 @@ function ScheduleMeeting() {
           />
           <Eyebrow>Görüşme planlayın</Eyebrow>
           <h2 className="mx-auto mt-6 max-w-xl text-[clamp(1.75rem,4vw,2.5rem)]">
-            Formu beklemeyin — takviminizi açın, saati siz seçin.
+            30 dakika ayırın, ilk raporu birlikte üretelim.
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-[0.9375rem] leading-relaxed text-muted-ink">
-            Google Takvim veya Zoom'da 30 dakikalık demo için uygun bir saat seçin, biz o saatte
-            hazır olalım — kendi hesaplarınızla ilk raporu birlikte üretelim.
+            Görüşmede kendi reklam hesaplarınızı bağlıyoruz ve ekranda gerçek verinizle bir rapor
+            çıkarıyoruz. Sunum yok, slayt yok.
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button href={gcalUrl} size="lg">
-              <CalendarPlus className="size-4" />
-              Google Takvim'de oluştur
-            </Button>
-            <Button href={zoomUrl} variant="secondary" size="lg">
-              <Video className="size-4" />
-              Zoom'da planla
-            </Button>
-          </div>
+
+          {bookingUrl ? (
+            <div className="mt-8">
+              <Button href={bookingUrl} size="lg">
+                <CalendarCheck className="size-4" />
+                Uygun saati seçin
+              </Button>
+              <p className="mt-3 text-[0.8125rem] text-muted-ink">
+                Takvimimizdeki boş saatleri görürsünüz; seçtiğiniz an davet e-postası gelir.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <Button to="/iletisim" size="lg">
+                Formu doldurun
+              </Button>
+              <Button href={contact.phoneHref} variant="secondary" size="lg">
+                <Phone className="size-4" />
+                {contact.phone}
+              </Button>
+            </div>
+          )}
         </div>
       </Reveal>
     </Section>
-  );
-}
-
-function LogoRow() {
-  const row = [...logos, ...logos];
-  return (
-    <div className="border-y border-line-soft bg-surface py-8">
-      <Section>
-        <p className="text-center text-[0.8125rem] text-muted-ink">
-          Türkiye'de 120'den fazla ajans raporlamasını Ositend'e bıraktı
-        </p>
-      </Section>
-      <div className="mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]">
-        <div className="marquee-track flex w-max items-center gap-12">
-          {row.map((name, i) => (
-            <span
-              key={i}
-              className="shrink-0 font-display text-lg font-medium whitespace-nowrap text-muted-ink/60"
-            >
-              {name}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -238,18 +277,54 @@ function Statement() {
   );
 }
 
-function Stats() {
+/**
+ * Uydurma kullanım istatistiklerinin yerini alan şerit.
+ *
+ * Aynı sayısal vurguyu koruyor ama gösterdiği üç sayı da bizim taahhüdümüz —
+ * yani doğruluğu bize bağlı, ölçüme değil.
+ */
+function PilotTerms() {
+  const terms = [
+    {
+      to: pilot.clients,
+      suffix: " ajans",
+      label: "Kurucu pilot kontenjanı — dolduğunda liste fiyatına geçilir",
+    },
+    {
+      to: pilot.priceLockMonths,
+      suffix: " ay",
+      label: "Kurucu fiyatının sabit kalacağı süre",
+    },
+    {
+      to: pilot.commitmentMonths,
+      suffix: " ay",
+      label: "Asgari pilot süresi — sonrasında aylık, istediğiniz ay bırakırsınız",
+    },
+  ];
+
   return (
     <Section className="pb-20 sm:pb-28">
-      <Reveal>
-        <dl className="grid gap-px overflow-hidden rounded-2xl border border-line-soft bg-line-soft sm:grid-cols-3">
-          {stats.map((s) => (
-            <div key={s.label} className="bg-white px-6 py-9 text-center sm:px-8 sm:py-11">
+      <Reveal className="text-center">
+        <Eyebrow>Kurucu pilot programı</Eyebrow>
+        <h2 className="mx-auto mt-6 max-w-2xl text-[clamp(1.875rem,4.4vw,2.875rem)]">
+          Ürünü ilk beş ajansla birlikte kuruyoruz.
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-ink">
+          Sitede müşteri logosu ya da müşteri yorumu görmüyorsunuz, çünkü henüz yok. Ositend çalışan
+          bir ürün ama vitrine koyacağımız referansları pilot ajanslarla birlikte yazacağız — bu
+          yüzden erken girene kalıcı bir fiyat avantajı ve yol haritasında söz hakkı veriyoruz.
+        </p>
+      </Reveal>
+
+      <Reveal delay={0.08}>
+        <dl className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line-soft bg-line-soft sm:grid-cols-3">
+          {terms.map((t) => (
+            <div key={t.label} className="bg-white px-6 py-9 text-center sm:px-8 sm:py-11">
               <dd className="font-display text-[2.75rem] leading-none font-semibold text-ink sm:text-5xl">
-                <CountUp to={s.to} suffix={s.suffix} />
+                <CountUp to={t.to} suffix={t.suffix} />
               </dd>
-              <dt className="mx-auto mt-3 max-w-[16rem] text-sm leading-relaxed text-muted-ink">
-                {s.label}
+              <dt className="mx-auto mt-3 max-w-[18rem] text-sm leading-relaxed text-muted-ink">
+                {t.label}
               </dt>
             </div>
           ))}
@@ -271,11 +346,7 @@ function Features() {
 
       <div className="mt-12 grid gap-5 md:grid-cols-2">
         {features.map((f, i) => (
-          <Reveal
-            key={f.title}
-            delay={i * 0.06}
-            className={f.wide ? "md:col-span-2" : undefined}
-          >
+          <Reveal key={f.title} delay={i * 0.06} className={f.wide ? "md:col-span-2" : undefined}>
             <article className="card group h-full overflow-hidden">
               <div className="shot-frame m-2 overflow-hidden rounded-xl border-0 p-0 sm:m-3">
                 <img
@@ -283,7 +354,9 @@ function Features() {
                   alt=""
                   loading="lazy"
                   className={`w-full border-b border-line-soft bg-white transition-transform duration-700 ease-[var(--ease-brand)] group-hover:scale-[1.02] ${
-                    f.wide ? "max-h-[420px] object-cover object-top" : "max-h-[260px] object-cover object-top"
+                    f.wide
+                      ? "max-h-[420px] object-cover object-top"
+                      : "max-h-[260px] object-cover object-top"
                   }`}
                 />
               </div>
@@ -338,37 +411,73 @@ function Steps() {
   );
 }
 
-function Testimonial() {
+/**
+ * Uydurma müşteri yorumunun yerini alan kurucu notu.
+ *
+ * Bir müşteri ağzından cümle kuramayız; kendi taahhüdümüzü kurabiliriz.
+ * Referans bölümü, gerçek bir pilot ajans izin verdiğinde geri gelecek.
+ */
+function FounderNote() {
   return (
     <Section className="py-20 sm:py-28">
       <Reveal>
-        <figure className="mx-auto max-w-3xl text-center">
-          <blockquote className="font-display text-[clamp(1.375rem,3.2vw,2rem)] leading-[1.35] font-medium tracking-[-0.02em]">
-            “Beş müşteri için ayda iki tam gün rapor hazırlıyorduk. Şimdi o iki günü yeni iş
-            görüşmelerine ayırıyoruz.”
-          </blockquote>
-          <figcaption className="mt-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm">
-            <span className="font-medium text-ink">Selin Aydın</span>
-            <span className="size-1 rounded-full bg-line" />
-            <span className="text-muted-ink">Kurucu Ortak, Formet Dijital</span>
-          </figcaption>
-        </figure>
+        <div className="mx-auto max-w-3xl rounded-2xl border border-line-soft bg-surface p-8 sm:p-12">
+          <Eyebrow>Kurucudan</Eyebrow>
+          <p className="mt-6 font-display text-[clamp(1.25rem,2.6vw,1.625rem)] leading-[1.4] font-medium tracking-[-0.02em]">
+            Buraya bir müşteri yorumu koyabilirdik. Henüz gerçek bir müşterimiz olmadığı için
+            koymadık.
+          </p>
+          <div className="mt-6 space-y-4 text-[0.9375rem] leading-relaxed text-muted-ink">
+            <p>
+              Ositend&apos;i, kendi ajansımızda her ay rapor hazırlarken kaybettiğimiz zamanı geri
+              almak için yazdık. Ürün çalışıyor: hesap bağlanıyor, veri çekiliyor, markalı PDF
+              çıkıyor, müşteri linki açılıyor. Eksik olan, bunu bizden başka birinin de aylarca
+              kullanmış olması.
+            </p>
+            <p>
+              Pilot programın anlamı bu. Beş ajansla doğrudan çalışıp ürünü onların gerçek portföyü
+              üzerinde oturtacağız. Karşılığında kurucu fiyatını {pilot.priceLockMonths} ay
+              sabitliyor, geliştirme sırasını sizin ihtiyacınıza göre değiştiriyoruz.
+            </p>
+            <p className="text-ink">
+              Sorunuz varsa telefonu gerçekten biz açıyoruz —{" "}
+              <a href={contact.phoneHref} className="tnum font-medium text-brand">
+                {contact.phone}
+              </a>
+              .
+            </p>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button to="/iletisim">Pilot programa başvurun</Button>
+            <Button href={`mailto:${contact.email}`} variant="secondary">
+              <Mail className="size-4" />
+              {contact.email}
+            </Button>
+          </div>
+        </div>
       </Reveal>
     </Section>
   );
 }
 
 export function Home() {
+  useSeo({
+    title: "Ositend — Ajanslar için otomatik müşteri raporlaması",
+    description:
+      "Google Ads, Meta Ads ve GA4 verinizi her ay elle toplamayı bırakın. Ositend hesaplarınızı bir kez bağlar; markalı PDF raporu ve canlı müşteri linkini otomatik üretir.",
+    path: "/",
+  });
+
   return (
     <>
       <Hero />
-      <LogoRow />
+      <Integrations />
       <ScheduleMeeting />
       <Statement />
-      <Stats />
+      <PilotTerms />
       <Features />
       <Steps />
-      <Testimonial />
+      <FounderNote />
       <Pricing />
       <ClosingCta />
     </>
