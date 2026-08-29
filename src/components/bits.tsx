@@ -3,13 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion, useInView, useScroll, useTransform, useReducedMotion } from "motion/react";
 
-export function Section({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function Section({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
     <div className={`mx-auto w-full max-w-[1200px] px-5 sm:px-8 ${className}`}>{children}</div>
   );
@@ -129,11 +123,7 @@ function Word({
   progress: ReturnType<typeof useScroll>["scrollYProgress"];
   range: [number, number];
 }) {
-  const color = useTransform(
-    progress,
-    range,
-    ["oklch(0.78 0.006 264)", "oklch(0.21 0.006 285.9)"],
-  );
+  const color = useTransform(progress, range, ["oklch(0.78 0.006 264)", "oklch(0.21 0.006 285.9)"]);
   return <motion.span style={{ color }}>{children}</motion.span>;
 }
 
@@ -359,7 +349,7 @@ export function ClosingCta() {
                 to="/iletisim"
                 className="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-[0.9375rem] font-medium text-night transition-transform duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5"
               >
-                Pilot programa başvurun
+                Hadi konuşalım
                 <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </Link>
               <Link

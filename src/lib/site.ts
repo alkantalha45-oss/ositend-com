@@ -138,4 +138,11 @@ export function yearlyTotal(monthly: number): number {
   return monthlyFor(monthly, "yearly") * 12;
 }
 
-export const tl = (n: number) => `₺${n.toLocaleString("tr-TR")}`;
+/*
+ * Fiyat biçimi: "4.900 TL" — sembol DEĞİL.
+ *
+ * ₺ işareti sitenin başlık fontunda İtalyan lirası (₤) gibi okunuyordu ve
+ * Türk ajansına Türk lirası fiyatı gösteren bir sayfada bu, okuyanın
+ * durakladığı tek yer olmamalı. Açık "TL" hiçbir yorum gerektirmiyor.
+ */
+export const tl = (n: number) => `${n.toLocaleString("tr-TR")} TL`;

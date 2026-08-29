@@ -5,10 +5,8 @@ import { Eyebrow, Reveal, Section } from "./bits";
 import {
   ANNUAL_DISCOUNT,
   billing,
-  extraClientPrice,
   monthlyFor,
   pilot,
-  plannedPlans,
   tl,
   yearlyTotal,
   type BillingCycle,
@@ -35,30 +33,33 @@ import {
  * API güncellemeleri ve destek için ödüyor.
  */
 
+/*
+ * ALTI MADDE, ON DEĞİL.
+ *
+ * Önceki liste on maddeydi ve "sınırsız ekip kullanıcısı" ile "kurulum
+ * bizden" gibi kalemler ayrı satırlardı. Fiyat kartında uzun liste okunmuyor;
+ * gözü yoruyor ve kararı kolaylaştırmak yerine zorlaştırıyor. Yakın kalemler
+ * birleştirildi, kararı değiştirmeyenler düşürüldü.
+ */
 const includes = [
   `${pilot.clients} aktif müşteri, ${pilot.sources} veri kaynağına kadar`,
-  "Google Ads, Meta Ads ve GA4 hesaplarının bağlanması",
-  "Otomatik aylık PDF raporu",
-  `${pilot.templates} adet ajans markalı rapor şablonu`,
+  "Google Ads, Meta Ads ve GA4 bağlantısı",
+  "Otomatik aylık PDF raporu + canlı müşteri linki",
   "Tam beyaz etiket — kendi logonuz ve renkleriniz",
-  "Canlı müşteri portalı ve paylaşılabilir link",
-  "Anomali uyarıları + aksiyon önerileri",
-  "Haftalık portföy özeti e-postası",
-  "Sınırsız ekip kullanıcısı",
-  "Kurulum, marka tanımı ve şablon hazırlığı bizden",
+  "Anomali uyarıları ve aksiyon önerileri",
+  "Kurulum ve şablon hazırlığı bizden, sınırsız ekip kullanıcısı",
 ];
 
-const subscriptionCovers = [
-  "Sunucu, izleme ve yedekleme",
-  "Reklam platformu API güncellemeleri",
-  "Bağlantı kopmalarının giderilmesi",
-  "PDF üretimi ve e-posta gönderimi",
-  "Standart teknik destek",
-];
-
-/** Abonelik dışında kalan, ayrı fiyatlanan işler — sınırsız destek taahhüdü vermemek için. */
-const outOfScope =
-  "Yeni bir platform entegrasyonu, müşteriye özel KPI tanımı, ek rapor tasarımı veya yol haritasında olmayan bir özellik talebi ayrıca fiyatlanır.";
+/*
+ * Aboneliğin kapsamı ve kapsam DIŞI — tek cümlede.
+ *
+ * Bu bilgi önceden iki ayrı kutuydu (beş maddelik "neyi kapsıyor" listesi +
+ * kapsam dışı paragrafı) ve fiyat kartının yarısını kaplıyordu. Kapsam dışını
+ * yazmaktan vazgeçmiyoruz — sınırsız destek taahhüdü vermemek için gerekli —
+ * ama bir cümle yetiyor.
+ */
+const scopeNote =
+  "Aylık ücret sunucu, reklam platformu API güncellemeleri, rapor üretimi ve teknik desteği kapsar. Yeni bir platform entegrasyonu ya da müşteriye özel rapor tasarımı ayrıca fiyatlanır.";
 
 /**
  * Aylık / yıllık anahtarı.
@@ -120,23 +121,77 @@ function CycleToggle({
  * yıllık toplamla göstermek karşılaştırmayı imkânsız kılan klasik hata —
  * ziyaretçi 4.900 ile 47.040'ı yan yana görüp kafası karışıyor.
  */
+/*
+ * tnum (tabular-nums) FİYAT SAYILARINDAN KALDIRILDI.
+ *
+ * Schibsted Grotesk'in tablo rakamlarında binlik ayracı tam bir rakam
+ * genişliği kaplıyor; "9.900 TL" ekranda "9 . 900 TL" gibi, ayracın iki
+ * yanı boşluklu çıkıyordu ve 4xl puntoda bu bozuk duruyordu. Saygın bir
+ * fiyat sayfasında okuyanın durakladığı yer fiyatın kendisi olmamalı.
+ *
+ * tnum, gerçekten hizalama gereken yerlerde DURUYOR: telefon numarası,
+ * telif satırı ve CountUp sayacı (sayacın her karede genişlik değiştirmemesi
+ * için orada zorunlu).
+ */
 function Price({ monthly, cycle }: { monthly: number; cycle: BillingCycle }) {
   const shown = monthlyFor(monthly, cycle);
   const yearly = cycle === "yearly";
 
   return (
     <>
-      <p className="tnum mt-1.5 font-display text-4xl font-semibold">
+      <p className="mt-1.5 font-display text-4xl font-semibold">
         {tl(shown)}
         <span className="text-base font-medium text-muted-ink"> /ay</span>
       </p>
       {yearly && (
         <p className="mt-1.5 text-sm text-muted-ink">
-          <span className="tnum line-through">{tl(monthly)}</span> yerine · yıllık{" "}
-          <span className="tnum font-medium text-ink">{tl(yearlyTotal(monthly))}</span> peşin
+          <span className="line-through">{tl(monthly)}</span> yerine · yıllık{" "}
+          <span className="font-medium text-ink">{tl(yearlyTotal(monthly))}</span> peşin
         </p>
       )}
     </>
+  );
+}
+
+/**
+ * İlk ödeme ile sonraki ödemelerin AÇIK matematiği.
+ *
+ * NEDEN VAR: kart iki kutuda "9.900 TL kurulum" ve "4.900 TL /ay" yazıyordu
+ * ama ikisinin nasıl toplandığını hiçbir yerde söylemiyordu. Okuyan
+ * "şimdi ben ne ödeyeceğim" sorusunu kafasında hesaplamak zorunda kalıyordu
+ * — fiyat sayfasında cevaplanmamış tek soru bu olmamalı. Şimdi ilk ödeme ve
+ * sonraki ödeme ayrı ayrı, toplamı alınmış halde yazıyor.
+ */
+function PriceMath({ cycle }: { cycle: BillingCycle }) {
+  const yearly = cycle === "yearly";
+  const recurring = yearly ? yearlyTotal(pilot.monthly) : pilot.monthly;
+  const first = pilot.setup + recurring;
+  const period = yearly ? "yıl" : "ay";
+
+  return (
+    <div className="mx-auto mt-5 max-w-lg rounded-xl bg-brand-tint/60 px-6 py-5 text-left">
+      <dl className="space-y-2 text-sm">
+        <div className="flex items-baseline justify-between gap-4">
+          <dt className="text-muted-ink">
+            İlk ödeme <span className="text-ink">(kurulum + ilk {period})</span>
+          </dt>
+          <dd className="font-display text-base font-semibold whitespace-nowrap">{tl(first)}</dd>
+        </div>
+        <div className="flex items-baseline justify-between gap-4 border-t border-brand/15 pt-2">
+          <dt className="text-muted-ink">Sonraki her {period}</dt>
+          <dd className="font-display text-base font-semibold whitespace-nowrap">
+            {tl(recurring)}
+          </dd>
+        </div>
+      </dl>
+      <p className="mt-3 text-[0.8125rem] leading-relaxed text-muted-ink">
+        Kurulum ücreti bir kez alınır, tekrar etmez.{" "}
+        {yearly
+          ? `Yıllık peşin ödemede %${ANNUAL_DISCOUNT} indirim uygulanır.`
+          : `Asgari ${pilot.commitmentMonths} aylık pilot; sonrasında istediğiniz ay bırakırsınız.`}{" "}
+        Kurucu fiyatınız {pilot.priceLockMonths} ay sabit kalır.
+      </p>
+    </div>
   );
 }
 
@@ -154,7 +209,7 @@ function PilotOffer({ cycle }: { cycle: BillingCycle }) {
               <p className="text-xs font-medium tracking-wide text-muted-ink uppercase">
                 Tek seferlik kurulum
               </p>
-              <p className="tnum mt-1.5 font-display text-4xl font-semibold">{tl(pilot.setup)}</p>
+              <p className="mt-1.5 font-display text-3xl font-semibold">{tl(pilot.setup)}</p>
               {/* Kurulum ücreti dönemden bağımsız: yapılan iş bir kez yapılıyor. */}
               <p className="mt-2 text-sm text-muted-ink">
                 Hesap bağlama, marka tanımı, şablon hazırlığı
@@ -165,37 +220,29 @@ function PilotOffer({ cycle }: { cycle: BillingCycle }) {
                 Platform aboneliği
               </p>
               <Price monthly={pilot.monthly} cycle={cycle} />
-              <p className="mt-2 text-sm text-muted-ink">İşletim ve destek dahil</p>
+              <p className="mt-2 text-sm text-muted-ink">İşletim, bakım ve destek dahil</p>
             </div>
           </div>
 
-          <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-muted-ink">
-            {cycle === "yearly" ? (
-              <>
-                Yıllık peşin ödemede %{ANNUAL_DISCOUNT} indirim uygulanır ve dönem 12 ay olarak
-                işler. Kurucu fiyatınız {pilot.priceLockMonths} ay boyunca sabit kalır — kontenjan
-                dolup liste fiyatına geçilse bile.
-              </>
-            ) : (
-              <>
-                Asgari {pilot.commitmentMonths} aylık ücretli pilot. Bu süre dolduktan sonra aylık
-                devam eder, istediğiniz ay bırakırsınız. Kurucu fiyatınız {pilot.priceLockMonths} ay
-                boyunca sabit kalır — kontenjan dolup liste fiyatına geçilse bile.
-              </>
-            )}
-          </p>
+          <PriceMath cycle={cycle} />
 
           <Link
             to="/iletisim"
             className="group mt-7 inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_10px_26px_-12px_oklch(0.55_0.212_258/0.65)] transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-brand-deep active:translate-y-px"
           >
-            Pilot programa başvurun
+            Hadi konuşalım
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
         </div>
 
+        {/*
+          KART ALTI KISALTILDI. Önceden burada on maddelik "Pakete dahil"
+          listesi, beş maddelik "aylık abonelik neyi kapsıyor" kutusu ve bir de
+          "pilot ajanstan beklediğimiz" kutusu vardı — kartın üçte ikisi
+          fiyattan sonra geliyordu. Şimdi altı madde ve tek cümlelik kapsam notu.
+        */}
         <div className="p-8 sm:p-10">
-          <p className="text-sm font-medium">Pakete dahil:</p>
+          <p className="text-sm font-medium">Pakete dahil</p>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {includes.map((f) => (
               <li key={f} className="flex items-start gap-3 text-sm">
@@ -204,93 +251,30 @@ function PilotOffer({ cycle }: { cycle: BillingCycle }) {
               </li>
             ))}
           </ul>
-
-          <div className="mt-8 rounded-xl bg-surface p-6">
-            <p className="text-sm font-medium">Aylık abonelik neyi kapsıyor?</p>
-            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-              {subscriptionCovers.map((c) => (
-                <li key={c} className="flex items-center gap-2 text-sm text-muted-ink">
-                  <span aria-hidden className="size-1 rounded-full bg-brand" />
-                  {c}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-sm leading-relaxed text-muted-ink">{outOfScope}</p>
-          </div>
-
-          <div className="mt-6 rounded-xl border border-line-soft p-6">
-            <p className="text-sm font-medium">Pilot ajanstan beklediğimiz</p>
-            <p className="mt-2 text-sm leading-relaxed text-muted-ink">
-              İndirimli fiyatın karşılığı düzenli geri bildirim: ayda bir kısa görüşme ve ürünü
-              gerçek portföyünüzde kullanmanız. İşe yararsa referans olmanızı ve bir vaka çalışması
-              yayınlamamızı rica ediyoruz — ikisi de sizin onayınıza bağlı, zorunlu değil.
-            </p>
-          </div>
+          <p className="mt-6 text-[0.8125rem] leading-relaxed text-muted-ink">{scopeNote}</p>
+          <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted-ink">
+            Tüm fiyatlar KDV hariçtir. Sözleşme ve fatura {billing.name} üzerinden düzenlenir.
+          </p>
         </div>
       </article>
     </Reveal>
   );
 }
 
-/**
- * Pilot sonrası planlanan paketler.
+/*
+ * PLANLANAN PAKETLER BÖLÜMÜ KALDIRILDI (2026-08-30).
  *
- * "Planlanan" etiketi kozmetik değil: bu paketlerle bugün satış
- * yapmıyoruz. Satılmayan bir paketi satılıyormuş gibi göstermek,
- * siteden temizlediğimiz sahte sosyal kanıtın fiyat tarafındaki hali
- * olurdu. Yine de gösteriyoruz, çünkü ajans "pilot bitince fiyat nereye
- * gidiyor" sorusunun cevabını görmeden taahhüde girmez.
+ * "Pilot sonrası planlanan paketler" üç fiyat kartı gösteriyordu ve
+ * "henüz satışta değil" etiketi taşıyordu. Satış sayfasında BUGÜN
+ * satılmayan bir şey göstermek, ziyaretretin karar vermesi gereken tek
+ * teklifin üzerine üç rakam daha koyuyordu; üstelik hepsi pilot fiyatından
+ * yüksek olduğu için teklifi güçlendirmiyor, kararı ağırlaştırıyordu.
+ *
+ * "Pilot bitince fiyat nereye gidiyor" sorusu cevapsız kalmıyor: fiyat
+ * kartı kurucu fiyatın {priceLockMonths} ay sabit kaldığını söylüyor.
+ * plannedPlans ve extraClientPrice site.ts'te DURUYOR — geri getirilmek
+ * istenirse veri hazır.
  */
-function PlannedPlans({ cycle }: { cycle: BillingCycle }) {
-  return (
-    <Reveal delay={0.16}>
-      <div className="mx-auto mt-16 max-w-3xl">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h3 className="font-display text-lg font-medium">Pilot sonrası planlanan paketler</h3>
-          <span className="rounded-full border border-line px-2.5 py-0.5 text-xs text-muted-ink">
-            henüz satışta değil
-          </span>
-        </div>
-        <p className="mt-2 text-sm leading-relaxed text-muted-ink">
-          Ürün birkaç ajansla doğrulandıktan sonra geçmeyi planladığımız liste fiyatları. Pilot
-          ajanslar bu geçişten {pilot.priceLockMonths} ay boyunca etkilenmez.
-        </p>
-
-        <dl className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-line-soft bg-line-soft sm:grid-cols-3">
-          {plannedPlans.map((p) => (
-            <div key={p.name} className="bg-white px-6 py-7 text-center">
-              <dt className="text-sm font-medium text-ink">{p.name}</dt>
-              <dd className="mt-3">
-                <span className="tnum font-display text-3xl font-semibold">
-                  {tl(monthlyFor(p.monthly, cycle))}
-                </span>
-                <span className="text-sm text-muted-ink"> /ay</span>
-                {cycle === "yearly" && (
-                  <p className="tnum mt-1 text-xs text-muted-ink">
-                    <span className="line-through">{tl(p.monthly)}</span> · yıllık{" "}
-                    {tl(yearlyTotal(p.monthly))}
-                  </p>
-                )}
-                <p className="mt-2 text-sm text-muted-ink">{p.clients} aktif müşteriye kadar</p>
-              </dd>
-            </div>
-          ))}
-        </dl>
-
-        <ul className="mt-5 space-y-1.5 text-sm text-muted-ink">
-          <li>
-            Paket limitini aşan her müşteri için {tl(extraClientPrice.min)}–
-            {tl(extraClientPrice.max)} aylık ek ücret.
-          </li>
-          <li>Yıllık peşin ödemede %{ANNUAL_DISCOUNT} indirim.</li>
-          <li>
-            Tüm fiyatlar KDV hariçtir. Sözleşme ve fatura {billing.name} üzerinden düzenlenir.
-          </li>
-        </ul>
-      </div>
-    </Reveal>
-  );
-}
 
 export function Pricing() {
   const [cycle, setCycle] = useState<BillingCycle>("monthly");
@@ -315,7 +299,6 @@ export function Pricing() {
       </Reveal>
 
       <PilotOffer cycle={cycle} />
-      <PlannedPlans cycle={cycle} />
     </Section>
   );
 }
