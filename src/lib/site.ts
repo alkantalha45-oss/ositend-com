@@ -75,10 +75,14 @@ export const siteUrl = "https://ositend.com";
 export const bookingUrl: string = import.meta.env["VITE_BOOKING_URL"] ?? "";
 
 /**
- * Panelin herkese açık adresi. Panel deploy edilene kadar boş; boşken
- * "Panele giriş" bağlantısı hiç render edilmiyor.
+ * Panelin herkese açık adresi. Panel 2026-09-01'de Vercel'de canlıya alındı
+ * (bkz. ositend-panel/docs/deploy-vercel.md) — adres burada sabit varsayılan
+ * olarak duruyor çünkü bir sır değil, herkese açık bir URL. `VITE_PANEL_URL`
+ * yalnızca özel alan adına (ör. panel.ositend.com) geçildiğinde build zamanı
+ * override için kalıyor.
  */
-export const panelUrl: string = import.meta.env["VITE_PANEL_URL"] ?? "";
+export const panelUrl: string =
+  import.meta.env["VITE_PANEL_URL"] || "https://client-report-automator.vercel.app";
 
 /* ------------------------------------------------------------------ *
  * FİYATLANDIRMA
