@@ -9,10 +9,9 @@ import {
   FileText,
   Layers,
   LineChart,
-  Link2,
   Lock,
+  Map,
   Minus,
-  Palette,
   Phone,
   PieChart,
   Plug,
@@ -20,7 +19,6 @@ import {
   Rocket,
   ShieldCheck,
   ShoppingCart,
-  Sparkles,
   TrendingUp,
   Users,
   X,
@@ -32,7 +30,6 @@ import {
   CountUp,
   Eyebrow,
   Reveal,
-  ScrollFillText,
   Section,
 } from "../components/bits";
 import { Pricing } from "../components/Pricing";
@@ -323,34 +320,6 @@ function SourceMarquee() {
   );
 }
 
-/* ── Sayı bandı ────────────────────────────────────────────────────────── */
-
-const ribbon = [
-  { v: "3", l: "bugün canlı bağlanan veri kaynağı: Google Ads, Meta Ads, GA4" },
-  { v: `${pilot.clients}`, l: "kurucu pilot programındaki ajans kontenjanı" },
-  { v: `${pilot.priceLockMonths} ay`, l: "kurucu fiyatının sabit kalacağı süre" },
-  { v: "%100", l: "müşteriye giden raporda yalnızca sizin markanız" },
-];
-
-function Ribbon() {
-  return (
-    <div className="border-b border-line-soft bg-surface py-10">
-      <Section>
-        <dl className="grid grid-cols-2 gap-8 md:grid-cols-4">
-          {ribbon.map((r) => (
-            <div key={r.l} className="text-center md:text-left">
-              <dd className="tnum font-display text-[2.125rem] leading-none font-semibold text-brand lg:text-[2.5rem]">
-                {r.v}
-              </dd>
-              <dt className="mt-2.5 text-[0.75rem] leading-relaxed text-muted-ink">{r.l}</dt>
-            </div>
-          ))}
-        </dl>
-      </Section>
-    </div>
-  );
-}
-
 /* ── Problem ───────────────────────────────────────────────────────────── */
 
 /*
@@ -405,49 +374,46 @@ function Problem() {
   );
 }
 
-function Statement() {
-  return (
-    <Section className="pb-20 sm:pb-28">
-      <ScrollFillText
-        text="Ajansınız analiz sattığını söylüyor ama zamanının çoğu kopyala-yapıştıra gidiyor. Ositend mekanik kısmı devralır, analiz kısmı size kalır."
-        className="mx-auto max-w-4xl text-center font-display text-[clamp(1.375rem,3.4vw,2.25rem)] leading-[1.32] font-medium tracking-[-0.02em]"
-      />
-    </Section>
-  );
-}
-
 /* ── Modüller ──────────────────────────────────────────────────────────── */
 
+/*
+ * İçerik Panora'nın "Altı yetenek, tek tuvalde çalışıyor." bölümünden
+ * (kicker: NE YAPAR) birebir alındı — iki madde hariç neredeyse kelimesi
+ * kelimesine. İki istisna dürüstlük için değişti: (1) "Meta, Google Ads,
+ * TikTok ve GA4" → "Google Ads, Meta Ads ve GA4" (TikTok bağlı değil),
+ * (2) "Slack'e haber gelsin" → "e-postanıza haber gelir" (Slack
+ * entegrasyonumuz yok, uyarılar e-posta ile gidiyor).
+ */
 const modules = [
   {
-    icon: FileText,
-    title: "Rapor kendi kendine üretilir",
-    body: "Google Ads, Meta Ads ve GA4 verisi her ayın başında toplanır, sizin logonuz ve renklerinizle PDF'e dönüşür.",
-  },
-  {
-    icon: Palette,
-    title: "Beyaz etiket, varsayılan",
-    body: "Logo, renk ve kapak metni bir kez girilir. Müşteriye giden PDF'te ve canlı linkte Ositend adı hiç geçmez.",
-  },
-  {
-    icon: Link2,
-    title: "Paylaşılabilir canlı link",
-    body: "Her rapor aynı anda bir bağlantı olarak da açılır; müşteri veriyi kendi zamanında, kendi ekranında inceler.",
-  },
-  {
-    icon: Bell,
-    title: "Sorunu müşteriden önce görün",
-    body: "Harcama sıçraması ya da dönüşüm düşüşü aynı gün uyarıya dönüşür — her uyarıda somut aksiyon önerisiyle.",
+    icon: Layers,
+    title: "Tüm kanallar, tek tuval",
+    body: "Google Ads, Meta Ads ve GA4 tek bir blended görünümde toplanır. Platformlar arasında gezinmenize gerek kalmaz — harcama ve sonuç yan yana.",
   },
   {
     icon: LineChart,
-    title: "Tüm portföy tek ekranda",
-    body: "Hangi müşteri hedefin üstünde, hangisi geride — ay sonunu beklemeden, tek bakışta görürsünüz.",
+    title: "Blended ROAS, doğru hesaplanmış",
+    body: "Kanal başına ve hesap genelinde ROAS, CPA ve dönüşüm — atfetme penceresi ve para birimi tek yerde normalize edilmiş.",
+  },
+  {
+    icon: Users,
+    title: "Müşteri çalışma alanları",
+    body: "Her müşteri kendi çalışma alanında, kendi hedefleriyle durur. Portföyünüzü tek ekrandan tarar, hangi hesabın dikkat istediğini görürsünüz.",
+  },
+  {
+    icon: FileText,
+    title: "Markalı raporlar, otomatik",
+    body: "Müşteriye giden rapor logonuz ve renklerinizle hazırlanır; PDF ya da canlı link olarak aylık otomatik gönderilir.",
+  },
+  {
+    icon: Bell,
+    title: "Eşik uyarıları",
+    body: "ROAS düştüğünde, CPA fırladığında ya da bütçe tükendiğinde — müşteri sormadan önce e-postanıza haber gelir.",
   },
   {
     icon: ShieldCheck,
-    title: "Salt-okunur bağlantı",
-    body: "OAuth ile tek seferlik, yalnızca okuma yetkisi. Kampanyaya ve bütçeye teknik olarak dokunamıyoruz.",
+    title: "5 dakikada canlı",
+    body: "Salt-okunur OAuth bağlantısı, sıfır SQL, veri ambarı yok. Hesapları bağlarsınız, panel kendini doldurur.",
   },
 ];
 
@@ -871,33 +837,19 @@ function Personas() {
  * değil, soyut ikon kartları kullanıyor; aynı yola geçtik.
  * ----------------------------------------------------------------------- */
 
+/*
+ * Panora'nın "Bir Panora raporunda ne var?" bölümünden (kicker: RAPORUN
+ * İÇİNDE) birebir alındı. Bu altı madde kanala ya da entegrasyon
+ * durumuna dair bir iddia içermiyor — hepsi raporun İÇİNDEKİ ekran
+ * türlerini anlatıyor, o yüzden bizim için de olduğu gibi doğru.
+ */
 const widgets = [
-  {
-    ic: FileText,
-    t: "Rapor kendi kendine üretilir",
-    b: "Google Ads, Meta Ads ve GA4 verisi her ayın başında toplanır, logonuz ve renklerinizle PDF'e dönüşür.",
-  },
-  {
-    ic: Bell,
-    t: "Sorunu müşteriden önce görün",
-    b: "Harcama sıçraması ya da dönüşüm düşüşü aynı gün uyarıya dönüşür.",
-  },
-  {
-    ic: LineChart,
-    t: "Tüm portföy tek ekranda",
-    b: "Hangi müşteri hedefin üstünde, hangisi geride — tek bakışta görürsünüz.",
-  },
-  {
-    ic: PieChart,
-    t: "Kanal dağılımı",
-    b: "Hangi kanal bütçenin ne kadarını aldı, karşılığında ne getirdi.",
-  },
-  {
-    ic: BarChart3,
-    t: "Dönüşüm hunisi",
-    b: "Gösterimden dönüşüme adım adım oran ve kayıp noktaları.",
-  },
-  { ic: Layers, t: "Kampanya tablosu", b: "Sıralanabilir kampanya kırılımı; en iyiler ve dipler." },
+  { ic: LineChart, t: "Harcama akışı", b: "Bu ay vs geçen ay, çok serili alan grafiği." },
+  { ic: PieChart, t: "Kanal dağılımı", b: "Donut + legend, kanal başına ROAS." },
+  { ic: BarChart3, t: "Dönüşüm hunisi", b: "Gösterim → dönüşüm, adım adım oran." },
+  { ic: Layers, t: "Kampanya tablosu", b: "Sıralanabilir, ROAS'a göre en iyiler." },
+  { ic: Clock, t: "Bütçe pacing", b: "Plan vs gerçek, ay sonu projeksiyonu." },
+  { ic: Map, t: "Coğrafya & cihaz", b: "Ülke ve cihaz bazında dönüşüm kırılımı." },
 ];
 
 function ReportAnatomy() {
@@ -906,9 +858,9 @@ function ReportAnatomy() {
       <Reveal>
         <SectionHead
           kicker="Raporun içinde"
-          lead="Müşteriye giden raporda"
+          lead="Bir Ositend raporunda"
           accent="ne var?"
-          body="Panelde gördüğünüz her kırılım rapora da giriyor — kendi ekranınızı hero'daki önizlemede zaten gördünüz."
+          body="Her kart tıklanabilir, her kırılım canlı. İşte müşteriye giden raporun anatomisi."
         />
       </Reveal>
 
@@ -1155,8 +1107,8 @@ function Workflow() {
           <SectionHead
             kicker="Akışınız"
             icon={Clock}
-            lead="Ay başı,"
-            accent="yeniden kurgulandı."
+            lead="Pazartesi sabahı,"
+            accent="yeniden tasarlandı."
             body="Eski akış: üç sekme, bir Excel, iki düzeltme. Yeni akış: tek panel, tek kontrol, tek gönderim. Adım adım neyin değiştiğine bakın."
           />
         </Reveal>
@@ -1199,60 +1151,47 @@ function Workflow() {
             </div>
           </Reveal>
         </div>
-      </Section>
-    </div>
-  );
-}
 
-/* ── Kurucu pilot programı ─────────────────────────────────────────────── */
-
-function PilotTerms() {
-  const terms = [
-    {
-      to: pilot.clients,
-      suffix: " ajans",
-      label: "Kurucu pilot kontenjanı — dolduğunda liste fiyatına geçilir",
-    },
-    {
-      to: pilot.priceLockMonths,
-      suffix: " ay",
-      label: "Kurucu fiyatının sabit kalacağı süre",
-    },
-    {
-      to: pilot.commitmentMonths,
-      suffix: " ay",
-      label: "Asgari pilot süresi — sonrasında aylık, istediğiniz ay bırakırsınız",
-    },
-  ];
-
-  return (
-    <Section className="py-20 sm:py-28">
-      <Reveal>
-        <SectionHead
-          kicker="Kurucu pilot programı"
-          icon={Sparkles}
-          lead="Ürünü ilk beş ajansla"
-          accent="birlikte kuruyoruz."
-          body="Sitede müşteri logosu ya da müşteri yorumu görmüyorsunuz, çünkü henüz yok. Ositend çalışan bir ürün ama vitrine koyacağımız referansları pilot ajanslarla birlikte yazacağız — bu yüzden erken girene kalıcı bir fiyat avantajı ve yol haritasında söz hakkı veriyoruz."
-          center
-        />
-      </Reveal>
-
-      <Reveal delay={0.08}>
-        <dl className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-line-soft bg-line-soft sm:grid-cols-3">
-          {terms.map((t) => (
-            <div key={t.label} className="bg-white px-6 py-9 text-center sm:px-8 sm:py-11">
-              <dd className="font-display text-[2.75rem] leading-none font-semibold text-ink sm:text-5xl">
-                <CountUp to={t.to} suffix={t.suffix} />
+        {/*
+          Panora'nın akış bölümünün kendi kuyruğundaki üç istatistik
+          ("9 sa / 5 dk / %18") — kelimesi kelimesine, kullanıcının açık
+          isteği üzerine. NOT: bunlar Panora'nın kendi kullanım
+          telemetrisi; bizim sıfır müşteriyle ölçülmüş bir "%18 ROAS
+          artışı" ya da "haftada 9 saat" yok. Daha önce bu sayfadan
+          bilerek çıkarılmıştı (bkz. dosya başındaki not); kullanıcı bu
+          sayıları birebir isteyerek iki kez tekrar etti, o yüzden
+          kararı ona bırakıp buraya kondu.
+        */}
+        <Reveal delay={0.16}>
+          <dl className="mt-3 grid gap-px overflow-hidden rounded-2xl border border-line-soft bg-line-soft sm:grid-cols-3">
+            <div className="bg-white px-6 py-8 text-center">
+              <dd className="font-display text-[2.25rem] leading-none font-semibold text-brand">
+                <CountUp to={9} suffix=" sa" />
               </dd>
-              <dt className="mx-auto mt-3 max-w-[18rem] text-sm leading-relaxed text-muted-ink">
-                {t.label}
+              <dt className="mx-auto mt-2.5 max-w-[16rem] text-sm leading-relaxed text-muted-ink">
+                Haftalık geri kazanılan zaman — manuel raporlama ortadan kalkıyor
               </dt>
             </div>
-          ))}
-        </dl>
-      </Reveal>
-    </Section>
+            <div className="bg-white px-6 py-8 text-center">
+              <dd className="font-display text-[2.25rem] leading-none font-semibold text-brand">
+                <CountUp to={5} suffix=" dk" />
+              </dd>
+              <dt className="mx-auto mt-2.5 max-w-[16rem] text-sm leading-relaxed text-muted-ink">
+                İlk birleşik rapora — hesabı bağlayın, panel kendini doldursun
+              </dt>
+            </div>
+            <div className="bg-white px-6 py-8 text-center">
+              <dd className="font-display text-[2.25rem] leading-none font-semibold text-brand">
+                <CountUp to={18} prefix="%" />
+              </dd>
+              <dt className="mx-auto mt-2.5 max-w-[16rem] text-sm leading-relaxed text-muted-ink">
+                Ortalama ROAS artışı — eşik uyarıları açık müşterilerde
+              </dt>
+            </div>
+          </dl>
+        </Reveal>
+      </Section>
+    </div>
   );
 }
 
@@ -1516,9 +1455,7 @@ export function Home() {
     <>
       <Hero />
       <SourceMarquee />
-      <Ribbon />
       <Problem />
-      <Statement />
       <Modules />
       <Steps />
       <LiveDemo />
@@ -1528,12 +1465,11 @@ export function Home() {
       <TrustSecurity />
       <Comparison />
       <Workflow />
-      <PilotTerms />
       <DataPromise />
-      <ScheduleMeeting />
       <div id="fiyatlar">
         <Pricing />
       </div>
+      <ScheduleMeeting />
       <Faq />
       <TryLiveDemo />
       <ClosingCta />
