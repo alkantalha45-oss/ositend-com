@@ -21,12 +21,12 @@ import {
   ShieldCheck,
   ShoppingCart,
   Sparkles,
+  TrendingUp,
   Users,
   X,
   Zap,
 } from "lucide-react";
 import {
-  AtmosphereBand,
   Button,
   ClosingCta,
   CountUp,
@@ -34,7 +34,6 @@ import {
   Reveal,
   ScrollFillText,
   Section,
-  Shot,
 } from "../components/bits";
 import { Pricing } from "../components/Pricing";
 import { platforms } from "../components/PlatformMarks";
@@ -112,110 +111,185 @@ function SectionHead({
   );
 }
 
-/* ── Kahraman — DEĞİŞTİRİLMEDİ ─────────────────────────────────────────── */
+/* ── Kahraman — Panora'nın koyu, iki kolonlu hero'su ────────────────────── *
+ *
+ * Önceki hâl ışık temalı, ortalanmış, altında büyük bir panel ekran
+ * görüntüsü olan bir kahramandı. Bu istek üzerine tamamen değişti:
+ * Panora'nınki koyu zeminde iki kolon — solda kısa/staccato başlık ve
+ * CTA'lar, sağda küçük, kendiliğinden çalışan bir "blended ROAS" widget
+ * kartı. Renk mor değil marka mavisi; efekt aynı, palet bizim.
+ *
+ * Widget kartındaki rakamlar ReportBuilder'daki (Canlı deneyin bölümü)
+ * Google Ads + Meta Ads birlikte açıkken çıkan tam sonuç — sayfa boyunca
+ * aynı örnek senaryo tekrar ediyor, farklı yerlerde farklı uydurma sayı
+ * yok. Kart altında "Örnek veri" notu duruyor.
+ * ----------------------------------------------------------------------- */
 
-/** Glass chips carrying the platform marks, drifting around the hero shot. */
-function FloatingPlatforms() {
-  // left/right column positions so they frame the screenshot without covering it
-  const spots = [
-    { side: "left", top: "8%", offset: "-3.5rem", delay: "0s", dur: "7s" },
-    { side: "left", top: "40%", offset: "-6.5rem", delay: "1.4s", dur: "8.5s" },
-    { side: "left", top: "72%", offset: "-2.5rem", delay: "2.6s", dur: "7.8s" },
-    { side: "right", top: "12%", offset: "-4.5rem", delay: "0.8s", dur: "8.2s" },
-    { side: "right", top: "46%", offset: "-7rem", delay: "2s", dur: "7.2s" },
-    { side: "right", top: "76%", offset: "-3rem", delay: "3.1s", dur: "9s" },
-  ] as const;
-
+function HeroWidget() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-      {platforms.map(({ name, Mark, status }, i) => {
-        const s = spots[i]!;
-        return (
-          <div
-            key={name}
-            className="float absolute"
-            style={{
-              top: s.top,
-              [s.side]: s.offset,
-              animationDelay: s.delay,
-              animationDuration: s.dur,
-            }}
-          >
-            <div className="glass-chip flex items-center gap-2.5 rounded-2xl px-3.5 py-2.5">
-              {/* Hazır olmayan entegrasyonun simgesi soluk: rozet metnini
-                  okumadan da "bu henüz farklı" ayrımı görünsün. */}
-              <Mark className={`size-6 ${status === "soon" ? "opacity-45" : ""}`} />
-              <span className="text-[0.8125rem] font-medium whitespace-nowrap text-ink">
-                {name}
-              </span>
-              {status === "soon" && (
-                <span className="rounded-full bg-ink/8 px-1.5 py-0.5 text-[0.625rem] font-medium tracking-wide text-muted-ink uppercase">
-                  yakında
-                </span>
-              )}
-            </div>
+    <div className="glow-brand relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm sm:p-7">
+      <span
+        aria-hidden
+        className="blob blob-drift -top-14 -right-10 size-48"
+        style={{ background: "var(--color-brand)" }}
+      />
+      {/* Sağ üstte süzülen "değişim" rozeti — Panora'nın "ROAS +6.4%" çipi. */}
+      <span className="absolute top-5 right-5 z-10 inline-flex items-center gap-1 rounded-full bg-success/15 px-2.5 py-1 text-[0.6875rem] font-medium text-success ring-1 ring-success/25 sm:top-6 sm:right-6">
+        <TrendingUp className="size-3" /> Harcama +11%
+      </span>
+
+      <div className="relative">
+        <div className="flex items-center justify-between pr-24">
+          <p className="kicker text-night-muted">Blended ROAS</p>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-success/15 px-2 py-0.5 text-[0.625rem] font-medium text-success">
+            <span className="pulse-dot size-1.5 rounded-full bg-success" /> Canlı
+          </span>
+        </div>
+        <p className="mt-1 font-display text-5xl leading-none font-semibold text-night-ink">
+          4.31×
+        </p>
+
+        <svg viewBox="0 0 320 108" className="mt-5 h-24 w-full" preserveAspectRatio="none" aria-hidden>
+          <defs>
+            <linearGradient id="hero-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="var(--color-brand-glow)" stopOpacity="0.4" />
+              <stop offset="1" stopColor="var(--color-brand-glow)" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M6 78 L52 66 L98 70 L144 50 L190 54 L236 32 L282 24 L314 12 L314 108 L6 108 Z"
+            fill="url(#hero-fill)"
+          />
+          <path
+            d="M6 90 L52 84 L98 86 L144 76 L190 72 L236 64 L282 58 L314 48"
+            fill="none"
+            stroke="oklch(0.72 0.01 265 / 0.4)"
+            strokeWidth="2"
+            strokeDasharray="4 4"
+            strokeLinecap="round"
+          />
+          <path
+            d="M6 78 L52 66 L98 70 L144 50 L190 54 L236 32 L282 24 L314 12"
+            fill="none"
+            stroke="var(--color-brand-glow)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+
+        <div className="mt-1 grid grid-cols-2 gap-2.5">
+          <div className="rounded-2xl bg-white/6 p-3.5 ring-1 ring-white/10">
+            <p className="kicker text-night-muted">Toplam harcama</p>
+            <p className="mt-1 font-display text-lg font-semibold text-night-ink">139.600 TL</p>
           </div>
-        );
-      })}
+          <div className="rounded-2xl bg-white/6 p-3.5 ring-1 ring-white/10">
+            <p className="kicker text-night-muted">Dönüşüm</p>
+            <p className="mt-1 font-display text-lg font-semibold text-night-ink">1.636</p>
+          </div>
+        </div>
+
+        <div className="mt-3 flex h-2.5 overflow-hidden rounded-full bg-white/8">
+          <span className="w-[44%]" style={{ background: "oklch(0.62 0.19 258)" }} />
+          <span className="w-[56%]" style={{ background: "oklch(0.62 0.19 293)" }} />
+        </div>
+        <div className="mt-2.5 flex items-center gap-4 text-[0.6875rem] text-night-muted">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="size-2 rounded-full" style={{ background: "oklch(0.62 0.19 258)" }} />
+            Google Ads
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="size-2 rounded-full" style={{ background: "oklch(0.62 0.19 293)" }} />
+            Meta Ads
+          </span>
+        </div>
+
+        {/* Panora'nın "TikTok CPA yüksek" rozetinin karşılığı — kanala özel
+            bir iddia yerine ürünün gerçekten yaptığı genel eşik uyarısı
+            özelliğini yazıyor. Legend satırıyla çakışmasın diye akış
+            içinde, ayrı bir satırda. */}
+        <span className="mt-4 inline-flex items-center gap-1.5 rounded-xl bg-night-soft px-3 py-2 text-[0.6875rem] font-medium text-night-ink ring-1 ring-white/10">
+          <Bell className="size-3.5 text-brand-glow" /> Eşik uyarısı tetiklendi
+        </span>
+      </div>
     </div>
   );
 }
 
 function Hero() {
   return (
-    <AtmosphereBand>
-      <Section className="pt-14 pb-16 text-center sm:pt-20 sm:pb-24">
-        <Reveal>
-          <Eyebrow>Ajanslar için raporlama otomasyonu</Eyebrow>
-        </Reveal>
+    <section className="relative overflow-hidden bg-night">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(55% 70% at 18% 0%, oklch(0.55 0.212 258 / 0.4), transparent 70%), radial-gradient(40% 60% at 96% 100%, color-mix(in oklch, var(--color-violet) 20%, transparent), transparent 72%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.1] [mask-image:radial-gradient(70%_70%_at_50%_30%,black,transparent)]"
+        style={{
+          backgroundImage: "radial-gradient(circle at center, white 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+      />
+      <Section className="relative py-20 sm:py-28">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_1fr]">
+          <div>
+            <Reveal>
+              <p className="kicker text-brand-glow">Ajanslar için raporlama otomasyonu</p>
+            </Reveal>
 
-        <Reveal delay={0.08}>
-          {/*
-            Satır kırılımı ELLE kontrol ediliyor. Panora'nın kahramanı üç kısa
-            tümceden kuruluyor ("Dört platform. Beş sekme. Tek dürüst rapor.");
-            bizimki de aynı ritimde ama gerçek sayılarımızla — üç platform,
-            onlarca sekme (birkaç müşteri × üç platform), tek rapor.
-          */}
-          <h1 className="mx-auto mt-6 max-w-4xl text-[clamp(2.5rem,6.2vw,4.75rem)] text-balance">
-            Üç platform. Onlarca sekme.
-            <br className="hidden sm:block" />{" "}
-            <span className="text-brand">Tek dürüst rapor.</span>
-          </h1>
-        </Reveal>
+            <Reveal delay={0.08}>
+              {/*
+                Satır kırılımı ELLE kontrol ediliyor. Panora'nın kahramanı üç
+                kısa tümceden kuruluyor ("Dört platform. Beş sekme. Tek dürüst
+                rapor."); bizimki de aynı ritimde ama gerçek sayılarımızla —
+                üç platform, onlarca sekme (birkaç müşteri × üç platform),
+                tek rapor.
+              */}
+              <h1 className="mt-6 text-[clamp(2.5rem,5.2vw,4.25rem)] text-night-ink">
+                Üç platform. Onlarca sekme.
+                <br />
+                <span className="hl-brand text-brand-glow">Tek dürüst rapor.</span>
+              </h1>
+            </Reveal>
 
-        <Reveal delay={0.16}>
-          <p className="lede mx-auto mt-7 max-w-2xl">
-            Ositend, Google Ads, Meta Ads ve GA4'ü saniyeler içinde tek panoya toplar — harcamayı,
-            ROAS'ı ve dönüşümü kanal ve müşteri bazında blendler. Ay başı rapor telaşına son.
-          </p>
-        </Reveal>
+            <Reveal delay={0.16}>
+              <p className="mt-6 max-w-lg text-[1.0625rem] leading-relaxed text-night-muted">
+                Ositend, Google Ads, Meta Ads ve GA4'ü saniyeler içinde tek panoya toplar —
+                harcamayı, ROAS'ı ve dönüşümü kanal ve müşteri bazında blendler. Ay başı rapor
+                telaşına son.
+              </p>
+            </Reveal>
 
-        <Reveal delay={0.24}>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <Button href={`${panelUrl}/giris`} size="lg">
-              Demoyu inceleyin
-            </Button>
-            <Button to="/iletisim" variant="secondary" size="lg">
-              Hadi konuşalım
-            </Button>
+            <Reveal delay={0.24}>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Button href={`${panelUrl}/giris`} size="lg">
+                  Demoyu aç
+                </Button>
+                <a
+                  href="#nasil-calisir"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-[0.9375rem] font-medium text-night-ink transition-colors hover:bg-white/10"
+                >
+                  Nasıl çalışır
+                </a>
+              </div>
+              <p className="mt-4 text-[0.8125rem] text-night-muted">
+                Kurucu pilot programı · {pilot.clients} ajans kontenjanı · Kurulumu birlikte
+                yapıyoruz
+              </p>
+            </Reveal>
           </div>
-          <p className="mt-4 text-[0.8125rem] text-muted-ink">
-            Kurucu pilot programı · {pilot.clients} ajans kontenjanı · Kurulumu birlikte yapıyoruz
-          </p>
-        </Reveal>
 
-        <Reveal delay={0.32} className="relative mt-14 sm:mt-20">
-          <FloatingPlatforms />
-          <div className="lg:mx-24 xl:mx-28">
-            <Shot
-              src="/shots/panel-ozet.jpg"
-              alt="Ositend panelinin genel bakış ekranı: bu ayki harcama, blended ROAS, aylık gelir hedefi ve haftalık trend"
-              zoom
-            />
-          </div>
-        </Reveal>
+          <Reveal delay={0.32}>
+            <HeroWidget />
+          </Reveal>
+        </div>
       </Section>
-    </AtmosphereBand>
+    </section>
   );
 }
 
