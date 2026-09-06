@@ -418,3 +418,125 @@
     scroll-behavior: auto;
   }
 }
+
+/* ==================================================================== *
+ * PANORA KATMANI
+ *
+ * Panora'nın açılış sayfasındaki "teknik/premium" dil, bizim mavi
+ * paletimize çevrilmiş hâliyle. Panora bunları mor (hue ~285) üstünde
+ * kuruyor; burada aynı efektler marka mavisi (hue ~258) üstünde çalışıyor,
+ * mor yalnızca gradyanların uzak ucunda derinlik için duruyor — sitenin
+ * geri kalanındaki aurora/CloudField kullanımıyla aynı oran.
+ *
+ * Buradaki hiçbir şey mevcut cam (glass*) katmanının yerini almıyor:
+ * cam hâlâ "chrome" yüzeyleri için, bunlar içerik bölümleri için.
+ * ==================================================================== */
+
+/*
+ * Bölüm etiketi. Panora'da mono/uppercase/geniş aralıklı küçük bir satır;
+ * hero'daki hap biçimli .eyebrow'dan bilinçli olarak farklı, çünkü sayfa
+ * boyunca 12 kez tekrar ediyor ve hap her seferinde ağır kaçıyor.
+ * Ayrı bir mono font indirmiyoruz — sistem mono yeterince "teknik" duruyor
+ * ve bir network isteği daha etmiyor.
+ */
+@utility kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
+  font-size: 0.65625rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+/* Başlıkta tek kelimenin altını dolduran vurgu — Panora'nın hl-primary'si. */
+@utility hl-brand {
+  background-image: linear-gradient(
+    transparent 58%,
+    color-mix(in oklch, var(--color-brand) 22%, transparent) 58%
+  );
+  background-repeat: no-repeat;
+}
+
+/*
+ * Kart gölgeleri. Sitenin mevcut .card'ı gölgesiz ve düz; Panora'nın
+ * ızgaraları gölgeyle yüzüyor ve hover'da yükseliyor. Gölge nötr tutuldu
+ * (mavi gölge ekran görüntülerinin altında renkli hâle bırakıyor).
+ */
+@utility shadow-soft {
+  box-shadow:
+    0 1px 1px oklch(0.2 0.01 265 / 0.04),
+    0 6px 20px -8px oklch(0.2 0.01 265 / 0.1);
+}
+
+@utility shadow-pop {
+  box-shadow:
+    0 2px 4px oklch(0.2 0.01 265 / 0.05),
+    0 18px 44px -18px oklch(0.2 0.01 265 / 0.22);
+}
+
+/* Marka rengiyle çevrelenmiş "seçili/öne çıkan" yüzey. */
+@utility glow-brand {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--color-brand) 24%, transparent),
+    0 16px 50px -20px color-mix(in oklch, var(--color-brand) 55%, transparent);
+}
+
+/* Marka gradyanı — mavi başlar, kenarda mora kırılır. */
+@utility grad-brand {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-brand-glow) 0%,
+    var(--color-brand) 52%,
+    var(--color-violet) 100%
+  );
+}
+
+/*
+ * Bulanık renk yumağı. Panora'nın .blob'u: konumlandırılmış, ağır blur'lu,
+ * yavaşça süzülen bir daire. Bizim .aurora'mızdan farkı tek bir nokta
+ * olması — bölüm içinde lokal bir ışık kaynağı gibi davranıyor.
+ */
+@utility blob {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(64px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@keyframes ositend-blob-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, -16px, 0);
+  }
+}
+@utility blob-drift {
+  animation: ositend-blob-drift 12s ease-in-out infinite;
+}
+
+/* Canlı rozetinin nabzı. */
+@keyframes ositend-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+@utility pulse-dot {
+  animation: ositend-pulse-dot 1.8s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob-drift,
+  .pulse-dot {
+    animation: none !important;
+  }
+}

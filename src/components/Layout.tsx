@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { CloudField } from "./CloudField";
 import { CookieConsent, cerezTercihleriniAc } from "./CookieConsent";
 import { contact, panelUrl } from "../lib/site";
 
+/*
+ * Panora'nın üst menüsü sayfa içi bağlantılardan kuruluyor (Özellikler,
+ * Canlı dene, Nasıl çalışır, Fiyatlar) çünkü tek sayfalık bir site. Bizim
+ * sitemiz çok sayfalı, o yüzden bu dört madde ana sayfadaki bölümlere
+ * `#çapa` ile gidiyor — Layout aşağıdaki hash-kaydırma efektiyle bunu
+ * her sayfadan çalıştırıyor. Hizmetler/Hakkımızda/İletişim üst menüden
+ * kalktı ama alt bilgide (Footer) ve CTA butonlarında duruyor.
+ */
 const nav = [
-  { to: "/", label: "Ana Sayfa" },
-  { to: "/hizmetler", label: "Hizmetler" },
-  { to: "/hakkimizda", label: "Hakkımızda" },
-  { to: "/iletisim", label: "İletişim" },
+  { to: "/#ozellikler", label: "Özellikler" },
+  { to: "/#canli-dene", label: "Canlı dene" },
+  { to: "/#nasil-calisir", label: "Nasıl çalışır" },
+  { to: "/#fiyatlar", label: "Fiyatlar" },
 ];
 
 
@@ -78,20 +86,20 @@ function Header() {
         <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-5 sm:px-8">
           <Wordmark />
 
+          {/*
+            Sayfa içi çapa bağlantıları — NavLink DEĞİL, düz Link. NavLink'in
+            "aktif" karşılaştırması pathname üzerinden çalışıyor ve dördü de
+            "/" sayfasına gittiği için hepsi aynı anda "aktif" görünürdü.
+          */}
           <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex">
             {nav.map((item) => (
-              <NavLink
+              <Link
                 key={item.to}
                 to={item.to}
-                end={item.to === "/"}
-                className={({ isActive }) =>
-                  `rounded-lg px-3.5 py-2 text-sm transition-colors duration-200 ${
-                    isActive ? "text-ink" : "text-muted-ink hover:text-ink"
-                  }`
-                }
+                className="rounded-lg px-3.5 py-2 text-sm text-muted-ink transition-colors duration-200 hover:text-ink"
               >
                 {item.label}
-              </NavLink>
+              </Link>
             ))}
           </nav>
 
@@ -128,18 +136,13 @@ function Header() {
         <div className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-white md:hidden">
           <nav className="flex-1 px-5 pt-2">
             {nav.map((item) => (
-              <NavLink
+              <Link
                 key={item.to}
                 to={item.to}
-                end={item.to === "/"}
-                className={({ isActive }) =>
-                  `block border-b border-line-soft py-4 text-lg ${
-                    isActive ? "font-medium text-ink" : "text-muted-ink"
-                  }`
-                }
+                className="block border-b border-line-soft py-4 text-lg text-muted-ink"
               >
                 {item.label}
-              </NavLink>
+              </Link>
             ))}
           </nav>
           <div className="space-y-3 border-t border-line-soft px-5 py-5">
@@ -267,10 +270,22 @@ function Footer() {
 }
 
 export function Layout() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  /*
+   * Üst menüdeki dört madde artık `/#ozellikler` gibi çapa bağlantıları
+   * (bkz. Layout.tsx nav dizisi). Bu efekt eskiden her sayfa geçişinde
+   * koşulsuz en üste kaydırıyordu — hash varken de öyle yapsaydı, tıklanan
+   * bağlantı hiç işe yaramazdı. Hash varsa o elemana kaydırıyoruz, yoksa
+   * eskisi gibi en üste.
+   */
   useEffect(() => {
+    if (hash) {
+      const el = document.getElementById(hash.slice(1));
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
 
   return (
     // NOT: burada bg-white YOK — zemin body'de. Sarmalayıcıya arka plan

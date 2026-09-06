@@ -285,7 +285,7 @@ export function Pricing() {
       <Reveal className="text-center">
         <Eyebrow>Fiyatlandırma</Eyebrow>
         <h2 id={headingId} className="mx-auto mt-6 max-w-2xl text-[clamp(2rem,4.8vw,3.25rem)]">
-          Kurulum bir kez, platform aylık.
+          Tek panel. <span className="text-brand">Dürüst fiyat.</span>
         </h2>
         <p className="lede mx-auto mt-6 max-w-2xl">
           Kurulumu biz yapıyoruz ve bir kez ödüyorsunuz. Aylık ücret, sistemin her ay çalışmaya

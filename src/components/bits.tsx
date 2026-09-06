@@ -3,9 +3,19 @@ import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion, useInView, useScroll, useTransform, useReducedMotion } from "motion/react";
 
-export function Section({ children, className = "" }: { children: ReactNode; className?: string }) {
+export function Section({
+  children,
+  className = "",
+  id,
+}: {
+  children: ReactNode;
+  className?: string;
+  id?: string;
+}) {
   return (
-    <div className={`mx-auto w-full max-w-[1200px] px-5 sm:px-8 ${className}`}>{children}</div>
+    <div id={id} className={`mx-auto w-full max-w-[1200px] px-5 sm:px-8 ${className}`}>
+      {children}
+    </div>
   );
 }
 
