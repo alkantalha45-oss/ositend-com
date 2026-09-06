@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import { Layout } from "./components/Layout";
-import { Home } from "./pages/Home";
+import { AstraHome as Home } from "./pages/AstraHome";
 import { Services } from "./pages/Services";
 import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";

@@ -54,11 +54,20 @@ function Wordmark({ className = "" }: { className?: string }) {
 
 function Header() {
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     setOpen(false);
-  }, [pathname]);
+  }, [pathname, hash]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -75,12 +84,12 @@ function Header() {
         olacak uydurma bir aciliyet. Yerine gerçekten doğru olan ve gerçekten
         acil olan şey yazıldı: kontenjanlı bir pilot program.
       */}
-      <div className="bg-ink px-4 py-2.5 text-center text-[0.8125rem] text-white/85">
+      {pathname !== "/" && <div className="bg-ink px-4 py-2.5 text-center text-[0.8125rem] text-white/85">
         Kurucu pilot programı açık —{" "}
         <Link to="/iletisim" className="font-medium text-white underline underline-offset-4">
           ilk beş ajans arasına katılın
         </Link>
-      </div>
+      </div>}
 
       <header className="sticky top-0 z-50 border-b border-white/50 bg-white/55 backdrop-blur-[28px] backdrop-saturate-200">
         <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-5 sm:px-8">
@@ -113,10 +122,10 @@ function Header() {
               </a>
             )}
             <Link
-              to="/iletisim"
+              to="/#canli-dene"
               className="group inline-flex items-center gap-1.5 rounded-full bg-brand px-4.5 py-2.5 text-sm font-medium text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_8px_20px_-10px_oklch(0.55_0.212_258/0.55)] transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-brand-deep active:translate-y-px"
             >
-              Demoyu aç
+              Paneli keşfedin
               <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
           </div>
@@ -133,12 +142,13 @@ function Header() {
       </header>
 
       {open && (
-        <div className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-white md:hidden">
+        <div className={`${pathname === "/" ? "astra-mobile-menu" : ""} fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-white md:hidden`}>
           <nav className="flex-1 px-5 pt-2">
             {nav.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
+                onClick={() => setOpen(false)}
                 className="block border-b border-line-soft py-4 text-lg text-muted-ink"
               >
                 {item.label}
@@ -147,10 +157,11 @@ function Header() {
           </nav>
           <div className="space-y-3 border-t border-line-soft px-5 py-5">
             <Link
-              to="/iletisim"
+              to="/#canli-dene"
+              onClick={() => setOpen(false)}
               className="flex items-center justify-center gap-2 rounded-full bg-brand py-3.5 text-[0.9375rem] font-medium text-white"
             >
-              Demoyu aç
+              Paneli keşfedin
               <ArrowRight className="size-4" />
             </Link>
             {panelUrl && (
@@ -281,7 +292,7 @@ export function Layout() {
   useEffect(() => {
     if (hash) {
       const el = document.getElementById(hash.slice(1));
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      el?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
       return;
     }
     window.scrollTo(0, 0);
@@ -290,10 +301,11 @@ export function Layout() {
   return (
     // NOT: burada bg-white YOK — zemin body'de. Sarmalayıcıya arka plan
     // verilirse -z-10 katmanındaki dokular tamamen görünmez oluyor.
-    <div className="min-h-screen">
-      <CloudField />
+    <div className={`min-h-screen ${pathname === "/" ? "astra-layout" : ""}`}>
+      {pathname !== "/" && <CloudField />}
+      <a className="a-skip-link" href="#main-content">İçeriğe geç</a>
       <Header />
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <Outlet />
       </main>
       <Footer />
