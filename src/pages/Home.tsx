@@ -273,6 +273,16 @@ function Hero() {
                 >
                   Nasıl çalışır
                 </a>
+                {bookingUrl ? (
+                  <a
+                    href={bookingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-2 text-sm font-medium text-night-muted transition-colors hover:text-night-ink"
+                  >
+                    Ücretsiz toplantı planla
+                  </a>
+                ) : null}
               </div>
               <p className="mt-4 text-[0.8125rem] text-night-muted">
                 Kurucu pilot programı · {pilot.clients} ajans kontenjanı · Kurulumu birlikte
