@@ -93,6 +93,15 @@ export function Privacy() {
           silinir.
         </LI>
       </UL>
+      <P>
+        <strong>Meta Ads için talep ettiğimiz izinler:</strong> Meta Ads hesabınızı bağladığınızda
+        yalnızca iki izin isteriz — <em>ads_read</em>, bağlı reklam hesabının günlük kampanya
+        harcaması, gösterim, tıklama ve dönüşüm verisini okumak için; <em>business_management</em>,
+        ajansınızın erişebildiği reklam hesaplarını listeleyip hangisi için rapor alacağınızı
+        seçebilmeniz için. Kampanya oluşturma, düzenleme veya duraklatma yetkisi veren
+        <em> ads_management</em> iznini hiç istemeyiz — Ositend bu izinlerle Meta hesabınızda
+        hiçbir değişiklik yapamaz.
+      </P>
 
       <H2>Müşteri portalı linkleri</H2>
       <P>
