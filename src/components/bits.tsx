@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion, useInView, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { bookingUrl } from "../lib/site";
 
 export function Section({
   children,
@@ -355,13 +356,25 @@ export function ClosingCta() {
               üretelim.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-              <Link
-                to="/iletisim"
-                className="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-[0.9375rem] font-medium text-night transition-transform duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5"
-              >
-                Hadi konuşalım
-                <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-              </Link>
+              {bookingUrl ? (
+                <a
+                  href={bookingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-[0.9375rem] font-medium text-night transition-transform duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5"
+                >
+                  Hadi konuşalım
+                  <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                </a>
+              ) : (
+                <Link
+                  to="/iletisim"
+                  className="group inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3.5 text-[0.9375rem] font-medium text-night transition-transform duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5"
+                >
+                  Hadi konuşalım
+                  <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                </Link>
+              )}
               <Link
                 to="/hizmetler"
                 className="group inline-flex items-center gap-2 rounded-xl border border-white/20 px-6 py-3.5 text-[0.9375rem] font-medium text-night-ink transition-colors hover:bg-white/10"
