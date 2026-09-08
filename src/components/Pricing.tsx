@@ -60,17 +60,6 @@ const support = [
   "7/24 WhatsApp iletişim",
 ];
 
-/*
- * Aboneliğin kapsamı ve kapsam DIŞI — tek cümlede.
- *
- * Bu bilgi önceden iki ayrı kutuydu (beş maddelik "neyi kapsıyor" listesi +
- * kapsam dışı paragrafı) ve fiyat kartının yarısını kaplıyordu. Kapsam dışını
- * yazmaktan vazgeçmiyoruz — sınırsız destek taahhüdü vermemek için gerekli —
- * ama bir cümle yetiyor.
- */
-const scopeNote =
-  "Yeni bir platform entegrasyonu ya da müşteriye özel rapor tasarımı ayrıca fiyatlanır.";
-
 /**
  * Aylık / yıllık anahtarı.
  *
@@ -246,13 +235,9 @@ function PilotCard({ cycle, onChange }: { cycle: BillingCycle; onChange: (c: Bil
         </p>
 
         <p className="mt-5 text-[0.8125rem] leading-relaxed text-muted-ink">
-          {yearly
-            ? `Yıllık peşin ödemede %${ANNUAL_DISCOUNT} indirim uygulanır.`
-            : `Asgari ${pilot.commitmentMonths} aylık pilot; sonrasında istediğiniz ay bırakırsınız.`}{" "}
-          Kurucu fiyatınız {pilot.priceLockMonths} ay sabit kalır. Tüm fiyatlar KDV hariçtir.
-          Sözleşme ve fatura {billing.name} üzerinden düzenlenir.
+          {yearly && `Yıllık peşin ödemede %${ANNUAL_DISCOUNT} indirim uygulanır. `}
+          Tüm fiyatlar KDV hariçtir. Sözleşme ve fatura {billing.name} üzerinden düzenlenir.
         </p>
-        <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted-ink">{scopeNote}</p>
 
         <div className="mt-6 border-t border-line-soft pt-6">
           <p className="text-sm font-medium">Destek kapsamı</p>
@@ -279,10 +264,11 @@ function PilotCard({ cycle, onChange }: { cycle: BillingCycle; onChange: (c: Bil
  * teklifin üzerine üç rakam daha koyuyordu; üstelik hepsi pilot fiyatından
  * yüksek olduğu için teklifi güçlendirmiyor, kararı ağırlaştırıyordu.
  *
- * "Pilot bitince fiyat nereye gidiyor" sorusu cevapsız kalmıyor: fiyat
- * kartı kurucu fiyatın {priceLockMonths} ay sabit kaldığını söylüyor.
- * plannedPlans ve extraClientPrice site.ts'te DURUYOR — geri getirilmek
- * istenirse veri hazır.
+ * "Pilot bitince fiyat nereye gidiyor" sorusunun cevabı artık kartta değil,
+ * Contact.tsx SSS'inde ("Taahhüt var mı?") — kart 2026-09-08'de taahhüt/
+ * fiyat kilidi cümlesinden ve kapsam dışı notundan arındırıldı, kullanıcı
+ * isteğiyle. plannedPlans ve extraClientPrice site.ts'te DURUYOR — geri
+ * getirilmek istenirse veri hazır.
  */
 
 /*

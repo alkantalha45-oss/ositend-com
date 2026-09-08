@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Bell,
   BarChart3,
@@ -267,22 +268,23 @@ function Hero() {
                 <Button href={`${panelUrl}/giris`} size="lg">
                   Demoyu aç
                 </Button>
-                <a
-                  href="#nasil-calisir"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-[0.9375rem] font-medium text-night-ink transition-colors hover:bg-white/10"
-                >
-                  Nasıl çalışır
-                </a>
                 {bookingUrl ? (
                   <a
                     href={bookingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-2 text-sm font-medium text-night-muted transition-colors hover:text-night-ink"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-[0.9375rem] font-medium text-night-ink transition-colors hover:bg-white/10"
                   >
-                    Ücretsiz toplantı planla
+                    Görüşme planlayın
                   </a>
-                ) : null}
+                ) : (
+                  <Link
+                    to="/iletisim"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-3.5 text-[0.9375rem] font-medium text-night-ink transition-colors hover:bg-white/10"
+                  >
+                    Görüşme planlayın
+                  </Link>
+                )}
               </div>
               <p className="mt-4 text-[0.8125rem] text-night-muted">
                 Kurucu pilot programı · {pilot.clients} ajans kontenjanı · Kurulumu birlikte
