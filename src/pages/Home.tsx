@@ -34,7 +34,7 @@ import {
   Section,
 } from "../components/bits";
 import { Pricing } from "../components/Pricing";
-import { platforms } from "../components/PlatformMarks";
+import { platforms, GoogleAdsMark, MetaMark, Ga4Mark } from "../components/PlatformMarks";
 import { bookingUrl, contact, panelUrl, pilot, tl } from "../lib/site";
 import { useSeo } from "../lib/seo";
 
@@ -122,6 +122,41 @@ function SectionHead({
  * aynı örnek senaryo tekrar ediyor, farklı yerlerde farklı uydurma sayı
  * yok. Kart altında "Örnek veri" notu duruyor.
  * ----------------------------------------------------------------------- */
+
+/*
+ * Widget'ın etrafında süzülen entegrasyon rozetleri.
+ *
+ * `float` ve negatif `animationDelay` sitenin index.css'inde zaten
+ * duruyordu (yorumu birebir "rozetler ve bulutlar için" diyordu) ama
+ * hiçbir yerde kullanılmıyordu — burada ilk kez devreye giriyor.
+ * Negatif gecikme her rozeti döngünün farklı bir noktasından başlatıyor,
+ * üçü aynı anda değil bağımsız süzülüyor. Ekran okuyucudan gizli:
+ * "Google Ads / Meta Ads" zaten widget'ın kendi lejantında, GA4 de
+ * sayfanın metninde geçiyor — bu sadece görsel bir tekrar.
+ */
+const heroBadges = [
+  { name: "Google Ads", Mark: GoogleAdsMark, pos: "-top-5 left-10 sm:-left-7", delay: "0s" },
+  { name: "Meta Ads", Mark: MetaMark, pos: "top-1/3 -right-4 sm:-right-9", delay: "-3s" },
+  { name: "GA4", Mark: Ga4Mark, pos: "-bottom-5 left-16 sm:left-20", delay: "-6s" },
+];
+
+function IntegrationBadges() {
+  return (
+    <>
+      {heroBadges.map((b) => (
+        <span
+          key={b.name}
+          aria-hidden
+          className={`float pointer-events-none absolute z-20 hidden items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-medium text-night-ink shadow-[0_10px_28px_-12px_oklch(0.15_0_0/0.55)] backdrop-blur-md sm:inline-flex ${b.pos}`}
+          style={{ animationDelay: b.delay }}
+        >
+          <b.Mark className="size-4" />
+          {b.name}
+        </span>
+      ))}
+    </>
+  );
+}
 
 function HeroWidget() {
   return (
@@ -294,7 +329,10 @@ function Hero() {
           </div>
 
           <Reveal delay={0.32}>
-            <HeroWidget />
+            <div className="relative">
+              <HeroWidget />
+              <IntegrationBadges />
+            </div>
           </Reveal>
         </div>
       </Section>
