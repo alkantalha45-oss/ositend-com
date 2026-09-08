@@ -5,6 +5,7 @@ import { Eyebrow, Reveal, Section } from "./bits";
 import {
   ANNUAL_DISCOUNT,
   billing,
+  bookingUrl,
   monthlyFor,
   pilot,
   tl,
@@ -214,13 +215,25 @@ function PilotCard({ cycle, onChange }: { cycle: BillingCycle; onChange: (c: Bil
         <Price monthly={pilot.monthly} cycle={cycle} />
         <PriceMath cycle={cycle} />
 
-        <Link
-          to="/iletisim"
-          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_10px_26px_-12px_oklch(0.55_0.212_258/0.65)] transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-brand-deep active:translate-y-px"
-        >
-          Hadi konuşalım
-          <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-        </Link>
+        {bookingUrl ? (
+          <a
+            href={bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_10px_26px_-12px_oklch(0.55_0.212_258/0.65)] transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-brand-deep active:translate-y-px"
+          >
+            Hadi konuşalım
+            <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </a>
+        ) : (
+          <Link
+            to="/iletisim"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand px-6 py-3.5 text-[0.9375rem] font-medium text-white shadow-[0_1px_2px_oklch(0.2_0.01_265/0.12),0_10px_26px_-12px_oklch(0.55_0.212_258/0.65)] transition-[background-color,transform] duration-200 ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:bg-brand-deep active:translate-y-px"
+          >
+            Hadi konuşalım
+            <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </Link>
+        )}
 
         <p className="mt-5 text-[0.8125rem] leading-relaxed text-muted-ink">
           {yearly
@@ -295,13 +308,25 @@ export function Pricing() {
               </li>
             ))}
           </ul>
-          <Link
-            to="/iletisim"
-            className="group mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-brand"
-          >
-            Ajansınıza uygun mu? Birlikte bakalım
-            <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
+          {bookingUrl ? (
+            <a
+              href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-brand"
+            >
+              Ajansınıza uygun mu? Birlikte bakalım
+              <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          ) : (
+            <Link
+              to="/iletisim"
+              className="group mt-7 inline-flex items-center gap-1.5 text-sm font-medium text-brand"
+            >
+              Ajansınıza uygun mu? Birlikte bakalım
+              <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
+          )}
         </Reveal>
 
         <PilotCard cycle={cycle} onChange={setCycle} />
