@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, ShieldCheck } from "lucide-react";
 import { Eyebrow, Reveal, Section } from "./bits";
 import {
   ANNUAL_DISCOUNT,
@@ -210,6 +210,10 @@ function PilotCard({ cycle, onChange }: { cycle: BillingCycle; onChange: (c: Bil
             {pilot.clients} ajans kontenjanı
           </span>
         </div>
+        <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted-ink">
+          İlk {pilot.clients} ajans ürünün yol haritasını birlikte belirliyor — istediğiniz
+          entegrasyon ve rapor tasarımı öncelikli işlenir.
+        </p>
 
         <CycleToggle cycle={cycle} onChange={onChange} />
         <Price monthly={pilot.monthly} cycle={cycle} />
@@ -234,6 +238,12 @@ function PilotCard({ cycle, onChange }: { cycle: BillingCycle; onChange: (c: Bil
             <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
         )}
+
+        <p className="mt-4 flex items-start gap-2 text-[0.8125rem] leading-relaxed font-medium text-ink">
+          <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand" />
+          İlk 30 gün risk bizde: kurduğumuz rapor işinize yaramazsa {tl(pilot.setup)} kurulum
+          ücretini iade ederiz.
+        </p>
 
         <p className="mt-5 text-[0.8125rem] leading-relaxed text-muted-ink">
           {yearly

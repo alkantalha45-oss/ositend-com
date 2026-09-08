@@ -38,6 +38,10 @@ const faqs = [
     a: `Kurucu pilotta asgari ${pilot.commitmentMonths} aylık ücretli kullanım var — ürünü gerçek bir portföyde oturtmak için gereken süre bu. Sonrasında aylık devam eder, istediğiniz ay bırakırsınız. Kurucu fiyatınız ${pilot.priceLockMonths} ay boyunca artmaz.`,
   },
   {
+    q: "Kurulum işime yaramazsa ne olur?",
+    a: `İlk 30 gün risk bizde: kurduğumuz rapor işinize yaramazsa ${tl(pilot.setup)} kurulum ücretini iade ederiz. Aylık abonelik ayrıca dilediğiniz an durur.`,
+  },
+  {
     q: "Yıllık ödeme avantajı var mı?",
     a: `Var: yıllık peşin ödemede %${ANNUAL_DISCOUNT} indirim uygulanıyor. Pilot aboneliğinde aylık ${tl(pilot.monthly)} yerine aylık karşılığı ${tl(Math.round(yearlyTotal(pilot.monthly) / 12))}, yıllık toplam ${tl(yearlyTotal(pilot.monthly))} oluyor. Kurulum ücreti her iki durumda da aynı.`,
   },
@@ -59,7 +63,7 @@ const faqs = [
   },
   {
     q: "Kaç ajans alıyorsunuz?",
-    a: `Kurucu pilot kontenjanı ${pilot.clients} ajans. Bunun sebebi her pilot ajansla doğrudan çalışmak istememiz — kurulumu biz yapıyoruz ve ayda bir görüşüyoruz. Kontenjan dolduğunda liste fiyatlarına geçilir.`,
+    a: `Kurucu pilot kontenjanı ${pilot.clients} ajans. Bunun sebebi her pilot ajansla doğrudan çalışmak istememiz — kurulumu biz yapıyoruz ve ayda bir görüşüyoruz. İlk ${pilot.clients} ajans ürünün yol haritasını da birlikte belirliyor: hangi entegrasyon ve hangi rapor tasarımı öncelikli, o ajanslarla kararlaştırılıyor. Kontenjan dolduğunda liste fiyatlarına geçilir.`,
   },
 ];
 
