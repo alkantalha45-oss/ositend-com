@@ -42,9 +42,9 @@ const transfers = [
     where: "ABD",
   },
   {
-    who: "Google LLC / Meta Platforms",
+    who: "Google LLC / Meta Platforms / TikTok Pte. Ltd.",
     what: "Yalnızca reklam hesabınızı bağladığınızda, raporlanacak verinin okunması",
-    where: "AB / ABD",
+    where: "AB / ABD / Singapur",
   },
 ];
 

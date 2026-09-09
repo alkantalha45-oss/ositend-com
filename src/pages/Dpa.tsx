@@ -26,6 +26,7 @@ const subprocessors = [
     where: "AB / ABD",
   },
   { who: "Meta Platforms Ireland Ltd.", what: "Meta Ads API'sinden veri okuma", where: "AB / ABD" },
+  { who: "TikTok Pte. Ltd.", what: "TikTok Ads API'sinden veri okuma", where: "Singapur" },
 ];
 
 export function Dpa() {
