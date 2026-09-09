@@ -75,8 +75,9 @@ export function Privacy() {
 
       <H2>Reklam hesabı erişimi</H2>
       <P>
-        Google Ads, Meta Ads veya Google Analytics hesabınızı bağladığınızda ilgili platformun kendi
-        yetkilendirme ekranına yönlendirilirsiniz. Şifrenizi biz görmeyiz, saklamayız ve isteyemeyiz.
+        Google Ads, Meta Ads, TikTok Ads veya Google Analytics hesabınızı bağladığınızda ilgili
+        platformun kendi yetkilendirme ekranına yönlendirilirsiniz. Şifrenizi biz görmeyiz, saklamayız
+        ve isteyemeyiz.
       </P>
       <UL>
         <LI>
@@ -101,6 +102,13 @@ export function Privacy() {
         seçebilmeniz için. Kampanya oluşturma, düzenleme veya duraklatma yetkisi veren
         <em> ads_management</em> iznini hiç istemeyiz — Ositend bu izinlerle Meta hesabınızda
         hiçbir değişiklik yapamaz.
+      </P>
+      <P>
+        <strong>TikTok Ads için talep ettiğimiz izinler:</strong> TikTok Ads hesabınızı
+        bağladığınızda yalnızca kampanya raporlama verisine (günlük harcama, gösterim, tıklama,
+        dönüşüm) salt okunur erişim isteriz. Kampanya oluşturma, düzenleme, duraklatma veya
+        reklam hesabı ayarlarını değiştirme yetkisi istemeyiz — Ositend bu izinlerle TikTok
+        hesabınızda hiçbir değişiklik yapamaz.
       </P>
 
       <H2>Müşteri portalı linkleri</H2>
