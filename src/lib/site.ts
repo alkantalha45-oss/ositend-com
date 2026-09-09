@@ -64,15 +64,20 @@ export const siteUrl = "https://ositend.com";
  * ------------------------------------------------------------------ */
 
 /**
- * Gerçek rezervasyon sayfası (Cal.com / Calendly / Google Randevu Takvimi).
+ * Gerçek rezervasyon sayfası (Cal.com).
  *
- * Buraya bir şey yazılana kadar site randevu BUTONU GÖSTERMEZ. Önceki hali
- * Google Takvim'in "etkinlik oluştur" şablonuna ve zoom.us/meeting/schedule
- * adresine gidiyordu: ikisi de ziyaretçinin kendi takviminde bir kayıt
- * açıyordu, bize hiçbir davet gelmiyordu. Çalışmayan bir randevu butonu,
- * hiç buton olmamasından daha çok güven kaybettirir.
+ * Sabit varsayılan olarak burada duruyor çünkü bir sır değil, herkese açık
+ * bir URL — `panelUrl` ile aynı desen. Önceden `.env.production`'daki
+ * `VITE_BOOKING_URL`'e ZORUNLU bağımlıydı; o dosya gitignore'lu olduğu için
+ * tek bir çalışma dizininde diskte duruyordu ve worktree/CI gibi başka bir
+ * ortamdan build+deploy yapıldığında sessizce kayboluyordu (build hata
+ * vermeden `""` inline ediyordu, buton da `bookingUrl ? <a>… : null`
+ * olduğu için render'dan hiç düşmüyordu — bkz. 2026-09-08 ve 2026-09-09
+ * tekrarlayan "buton gitti" hataları). `VITE_BOOKING_URL` yalnızca farklı
+ * bir rezervasyon linkine geçişte build-zamanı override için kalıyor.
  */
-export const bookingUrl: string = import.meta.env["VITE_BOOKING_URL"] ?? "";
+export const bookingUrl: string =
+  import.meta.env["VITE_BOOKING_URL"] || "https://cal.com/talha-alkan/ucretsiz-tanisma";
 
 /**
  * Panelin herkese açık adresi. Panel 2026-09-01'de Vercel'de canlıya alındı
