@@ -951,6 +951,7 @@ const sourceNotes: Record<string, string> = {
   "Search Console": "Organik arama",
   "LinkedIn Ads": "B2B kampanya",
   "TikTok Ads": "Video kampanya",
+  Shopify: "Sipariş ve ciro",
 };
 
 function Integrations() {

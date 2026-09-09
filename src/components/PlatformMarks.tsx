@@ -85,6 +85,23 @@ export function TikTokMark({ className = "" }: MarkProps) {
   );
 }
 
+export function ShopifyMark({ className = "" }: MarkProps) {
+  return (
+    <svg viewBox="0 0 32 32" className={className} aria-hidden focusable="false">
+      <path d="M7 11c0-2.8 2.3-5 5-5h8c2.7 0 5 2.2 5 5v14a3 3 0 0 1-3 3H10a3 3 0 0 1-3-3V11Z" fill="#95BF47" />
+      <path
+        d="M12 11a4 4 0 0 1 8 0"
+        fill="none"
+        stroke="#5E8E3E"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="16" cy="19" r="4" fill="#fff" />
+      <path d="M14.3 19h3.4M16 17.3v3.4" stroke="#5E8E3E" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /**
  * Entegrasyon durumu.
  *
@@ -111,4 +128,5 @@ export const platforms: Platform[] = [
   { name: "Search Console", Mark: SearchConsoleMark, status: "soon" },
   { name: "LinkedIn Ads", Mark: LinkedInMark, status: "soon" },
   { name: "TikTok Ads", Mark: TikTokMark, status: "soon" },
+  { name: "Shopify", Mark: ShopifyMark, status: "soon" },
 ];

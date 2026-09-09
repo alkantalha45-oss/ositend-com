@@ -45,7 +45,7 @@ const roadmap = [
   },
   {
     phase: "Sonra",
-    body: "LinkedIn Ads ve TikTok Ads kaynakları, müşteriye özel KPI tanımları, portal linkleri için son kullanma tarihi ve isteğe bağlı parola.",
+    body: "LinkedIn Ads ve TikTok Ads kaynakları, Shopify sipariş/ciro entegrasyonu, müşteriye özel KPI tanımları, portal linkleri için son kullanma tarihi ve isteğe bağlı parola.",
   },
 ];
 
