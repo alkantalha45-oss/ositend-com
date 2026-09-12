@@ -106,7 +106,7 @@ function Header() {
           <div className="hidden items-center gap-2 md:flex">
             {panelUrl && (
               <a
-                href={panelUrl}
+                href={`${panelUrl}/giris`}
                 className="rounded-lg px-3.5 py-2 text-sm text-muted-ink transition-colors hover:text-ink"
               >
                 Panele giriş
@@ -155,7 +155,7 @@ function Header() {
             </Link>
             {panelUrl && (
               <a
-                href={panelUrl}
+                href={`${panelUrl}/giris`}
                 className="flex items-center justify-center rounded-full border border-line py-3.5 text-[0.9375rem] font-medium text-ink"
               >
                 Panele giriş
