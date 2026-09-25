@@ -158,7 +158,7 @@ export default {
       return handleContact(request, env);
     }
     // Diğer her şey statik varlık katmanına gider; bulunamayan yollar
-    // wrangler.jsonc'taki single-page-application kuralıyla index.html'e düşer.
+    // wrangler.jsonc'taki 404-page kuralıyla 404.html'i 404 koduyla alır.
     return env.ASSETS.fetch(request);
   },
 };

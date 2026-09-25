@@ -13,7 +13,11 @@
     "enabled": true
   },
   "assets": {
-    "not_found_handling": "single-page-application",
+    // Önceden "single-page-application"dı: var olmayan HER yol index.html
+    // ve 200 dönüyordu (/.well-known/security.txt dahil). Artık her rota
+    // build'de prerender ediliyor (scripts/prerender.mjs), dolayısıyla SPA
+    // yedeğine gerek yok; bilinmeyen yol 404.html'i gerçek 404 koduyla alır.
+    "not_found_handling": "404-page",
     // Worker eklendiği için binding şart: worker.ts statik varlıklara
     // env.ASSETS üzerinden ulaşıyor.
     "binding": "ASSETS"

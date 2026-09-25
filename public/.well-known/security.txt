@@ -1,0 +1,7 @@
+# ositend.com güvenlik iletişimi (RFC 9116)
+# Bir güvenlik açığı bulduysanız lütfen bu adrese yazın; 2 iş günü içinde yanıt veriyoruz.
+Contact: mailto:info@ositend.com
+Expires: 2027-09-25T00:00:00.000Z
+Preferred-Languages: tr, en
+Canonical: https://ositend.com/.well-known/security.txt
+Policy: https://ositend.com/guvenlik

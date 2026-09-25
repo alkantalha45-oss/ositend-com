@@ -16,6 +16,10 @@ import { siteUrl } from "./site";
  * Yani her URL için doğru arama sonucu, ana sayfa kartıyla paylaşım.
  * Rota başına doğru paylaşım kartı istendiğinde çözüm prerender/SSR;
  * o iş bu turun kapsamı dışında bırakıldı.
+ *
+ * GÜNCELLEME: prerender eklendi (scripts/prerender.mjs). Aşağıdaki
+ * yakalama sayesinde her sayfanın statik HTML'i artık kendi etiketleriyle
+ * geliyor; bu hook tarayıcıda gezinirken etiketleri güncellemeye devam ediyor.
  */
 
 type Seo = {
@@ -38,7 +42,25 @@ function setMeta(attr: "name" | "property", key: string, content: string) {
   el.setAttribute("content", content);
 }
 
-export function useSeo({ title, description, path, noindex = false }: Seo) {
+/*
+ * Build-zamanı prerender için yakalama. Sunucuda effect çalışmadığı için
+ * useSeo render sırasında değerleri buraya yazıyor; scripts/prerender.mjs de
+ * bunları her sayfanın statik <head>'ine işliyor. Böylece JS çalıştırmayan
+ * okuyucular (sosyal kartlar, güvenlik tarayıcıları) da rota başına doğru
+ * başlık/açıklama/canonical görüyor. Tarayıcıda bu değişken hiç kullanılmaz.
+ */
+let captured: Seo | null = null;
+export function beginSeoCapture() {
+  captured = null;
+}
+export function takeSeoCapture(): Seo | null {
+  return captured;
+}
+
+export function useSeo(seo: Seo) {
+  const { title, description, path, noindex = false } = seo;
+  if (typeof document === "undefined") captured = { ...seo, noindex };
+
   useEffect(() => {
     const url = `${siteUrl}${path}`;
 
