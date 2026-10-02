@@ -104,11 +104,14 @@ export function Privacy() {
         hiçbir değişiklik yapamaz.
       </P>
       <P>
-        <strong>TikTok Ads için talep ettiğimiz izinler:</strong> TikTok Ads hesabınızı
-        bağladığınızda yalnızca kampanya raporlama verisine (günlük harcama, gösterim, tıklama,
-        dönüşüm) salt okunur erişim isteriz. Kampanya oluşturma, düzenleme, duraklatma veya
-        reklam hesabı ayarlarını değiştirme yetkisi istemeyiz — Ositend bu izinlerle TikTok
-        hesabınızda hiçbir değişiklik yapamaz.
+        <strong>TikTok Ads için talep ettiğimiz izinler:</strong> TikTok Ads hesabınızı TikTok
+        for Business'ın resmi bağlantı sunucusu (TikTok for Business MCP Server) üzerinden
+        bağlarsınız; yetkilendirme ekranını TikTok gösterir ve verdiğiniz yetki 30 günde bir
+        yenilenir. Ositend bu bağlantıyla yalnızca üç okuma işlemi yapar: yetki verdiğiniz reklam
+        hesaplarını listelemek, seçtiğiniz hesabın adını ve para birimini okumak ve günlük
+        kampanya raporunu (harcama, gösterim, tıklama, dönüşüm) çekmek. Kampanya oluşturan,
+        düzenleyen, duraklatan ya da hesap ayarlarını değiştiren hiçbir işlemi çağırmayız —
+        Ositend TikTok hesabınızda hiçbir değişiklik yapmaz.
       </P>
 
       <H2>Müşteri portalı linkleri</H2>

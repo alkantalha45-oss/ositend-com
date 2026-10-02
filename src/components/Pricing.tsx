@@ -44,7 +44,7 @@ import {
  */
 const includes = [
   `${pilot.clients} aktif müşteri, ${pilot.sources} veri kaynağına kadar`,
-  "Google Ads, Meta Ads ve GA4 bağlantısı",
+  "Google Ads, Meta Ads, TikTok Ads ve GA4 bağlantısı",
   "Otomatik aylık PDF raporu + canlı müşteri linki",
   "Tam beyaz etiket — kendi logonuz ve renkleriniz",
   "Anomali uyarıları ve aksiyon önerileri",

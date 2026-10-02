@@ -9,7 +9,7 @@ const services = [
     title: "Otomatik aylık rapor",
     lede: "Reklam hesaplarınızı bir kez bağlayın; her ayın başında markalı PDF hazır olsun.",
     points: [
-      "Google Ads, Meta Ads ve GA4 tek raporda birleşir",
+      "Google Ads, Meta Ads, TikTok Ads ve GA4 tek raporda birleşir",
       "Kendi logonuz, renkleriniz ve kapak sayfanız",
       "Kampanya kırılımı, ROAS, CPL ve dönüşüm trendi",
       "Rapor takvimini müşteri bazında siz belirlersiniz",

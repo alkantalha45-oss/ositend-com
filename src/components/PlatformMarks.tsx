@@ -127,6 +127,6 @@ export const platforms: Platform[] = [
   { name: "GA4", Mark: Ga4Mark, status: "live" },
   { name: "Search Console", Mark: SearchConsoleMark, status: "soon" },
   { name: "LinkedIn Ads", Mark: LinkedInMark, status: "soon" },
-  { name: "TikTok Ads", Mark: TikTokMark, status: "soon" },
+  { name: "TikTok Ads", Mark: TikTokMark, status: "live" },
   { name: "Shopify", Mark: ShopifyMark, status: "soon" },
 ];

@@ -37,15 +37,15 @@ const principles = [
 const roadmap = [
   {
     phase: "Hazır",
-    body: "Google Ads, Meta Ads ve GA4 bağlantısı; markalı PDF raporu; paylaşılabilir canlı müşteri portalı; anomali uyarıları; haftalık portföy özeti; ekip ve rol yönetimi.",
+    body: "Google Ads (API üzerinden, kampanya kırılımıyla), Meta Ads, TikTok Ads ve GA4 bağlantısı; markalı PDF raporu; paylaşılabilir canlı müşteri portalı; anomali uyarıları; haftalık portföy özeti; ekip ve rol yönetimi.",
   },
   {
     phase: "Sırada",
-    body: "Google Ads API üzerinden tam otomatik veri çekimi (Basic Access başvurumuz Google'da değerlendirmede), Search Console entegrasyonu ve rapor şablonu düzenleyicisi.",
+    body: "Search Console entegrasyonu ve rapor şablonu düzenleyicisi.",
   },
   {
     phase: "Sonra",
-    body: "LinkedIn Ads ve TikTok Ads kaynakları, Shopify sipariş/ciro entegrasyonu, müşteriye özel KPI tanımları, portal linkleri için son kullanma tarihi ve isteğe bağlı parola.",
+    body: "LinkedIn Ads kaynağı, Shopify sipariş/ciro entegrasyonu, müşteriye özel KPI tanımları, portal linkleri için son kullanma tarihi ve isteğe bağlı parola.",
   },
 ];
 

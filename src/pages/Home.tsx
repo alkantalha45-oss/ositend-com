@@ -47,7 +47,7 @@ import { useSeo } from "../lib/seo";
  * rapor anatomisi → entegrasyonlar → güven & güvenlik → karşılaştırma →
  * önce/sonra → pilot → veri sözü (sessiz söz) → randevu → fiyat → SSS →
  * dene 60 saniye → kapanış. Kahraman da artık Panora'nın kısa/staccato
- * kalıbında ("Üç platform. Onlarca sekme. Tek dürüst rapor.").
+ * kalıbında ("Dört platform. Onlarca sekme. Tek dürüst rapor.").
  *
  * İki şey kasten kopyalanmadı — Panora'nın metni birebir alınsa bile
  * ÜÇÜNCÜ bir kural her ikisini de eziyor: uydurma sayı ya da uydurma kişi
@@ -66,9 +66,10 @@ import { useSeo } from "../lib/seo";
  *    bağlı olan taahhütler var (bkz. Ribbon, Problem, Workflow).
  *
  * Kanal aç-kapat demosu ("Canlı deneyin") Panora'da Meta/Google/TikTok
- * üzerinden çalışıyor; bizde de üçü listelenir ama TikTok henüz bağlı
- * olmadığı için devre dışı ve "yakında" etiketli — olmayan bir bağlantıyı
- * çalışıyormuş gibi göstermiyoruz (bkz. ReportBuilder).
+ * üzerinden çalışıyor; bizde de üçü listelenir ve üçü de anahtarlanabilir.
+ * TikTok Ads Ekim 2026'dan beri canlı (TikTok for Business'ın resmi MCP
+ * sunucusu üzerinden). "Yakında" dalı ReportBuilder'da duruyor; henüz
+ * bağlanamayan bir kanal eklenirse yine onu kullanır.
  */
 
 /* ── Bölüm başlığı — Panora'nın mono etiketi + iki tonlu başlık ────────── */
@@ -280,11 +281,11 @@ function Hero() {
                 Satır kırılımı ELLE kontrol ediliyor. Panora'nın kahramanı üç
                 kısa tümceden kuruluyor ("Dört platform. Beş sekme. Tek dürüst
                 rapor."); bizimki de aynı ritimde ama gerçek sayılarımızla —
-                üç platform, onlarca sekme (birkaç müşteri × üç platform),
-                tek rapor.
+                dört platform (Google Ads, Meta Ads, TikTok Ads, GA4),
+                onlarca sekme (birkaç müşteri × dört platform), tek rapor.
               */}
               <h1 className="mt-6 text-[clamp(2.5rem,5.2vw,4.25rem)] text-night-ink">
-                Üç platform. Onlarca sekme.
+                Dört platform. Onlarca sekme.
                 <br />
                 <span className="hl-brand text-brand-glow">Tek dürüst rapor.</span>
               </h1>
@@ -292,7 +293,7 @@ function Hero() {
 
             <Reveal delay={0.16}>
               <p className="mt-6 max-w-lg text-[1.0625rem] leading-relaxed text-night-muted">
-                Ositend, Google Ads, Meta Ads ve GA4'ü saniyeler içinde tek panoya toplar —
+                Ositend, Google Ads, Meta Ads, TikTok Ads ve GA4'ü saniyeler içinde tek panoya toplar —
                 harcamayı, ROAS'ı ve dönüşümü kanal ve müşteri bazında blendler. Ay başı rapor
                 telaşına son.
               </p>
@@ -374,11 +375,11 @@ function SourceMarquee() {
 
 /*
  * Buradaki dört sayı bir ÖLÇÜM değil, elle raporlamanın aritmetiği:
- * üç platform gerçekten üç sekme, aylık rapor gerçekten yılda on iki kez
+ * dört platform gerçekten dört sekme, aylık rapor gerçekten yılda on iki kez
  * tekrar ediyor. Telemetri iddiası içeren bir sayı bu listeye girmemeli.
  */
 const problemStats = [
-  { n: "3", l: "her müşteri için ayrı ayrı girilen platform" },
+  { n: "4", l: "her müşteri için ayrı ayrı girilen platform" },
   { n: "×12", l: "aynı raporu yıl içinde tekrar hazırlama sayısı" },
   { n: "1 gün", l: "her ay yalnızca veri derlemeye giden zaman" },
   { n: "0", l: "hepsinin buluştuğu tek doğru kaynak" },
@@ -397,7 +398,7 @@ function Problem() {
             Rapor günü hep <span className="text-brand">aynı yere çıkıyor.</span>
           </h2>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted-ink">
-            Üç platformda üç ayrı sekme. Birbirini tutmayan tanımlar. Excel'e kopyala-yapıştır,
+            Dört platformda dört ayrı sekme. Birbirini tutmayan tanımlar. Excel'e kopyala-yapıştır,
             formülü düzelt, PDF'e bas, gönder, bir hata bul, yeniden gönder. Ositend bu zincirin
             mekanik kısmını devralıyor — sizde kalan tek adım, rapordaki yorumu yazmak.
           </p>
@@ -429,16 +430,16 @@ function Problem() {
 /*
  * İçerik Panora'nın "Altı yetenek, tek tuvalde çalışıyor." bölümünden
  * (kicker: NE YAPAR) birebir alındı — iki madde hariç neredeyse kelimesi
- * kelimesine. İki istisna dürüstlük için değişti: (1) "Meta, Google Ads,
- * TikTok ve GA4" → "Google Ads, Meta Ads ve GA4" (TikTok bağlı değil),
- * (2) "Slack'e haber gelsin" → "e-postanıza haber gelir" (Slack
+ * kelimesine. İki istisna dürüstlük için değişti: (1) kanal listesi
+ * yalnızca gerçekten bağlanabilen kaynakları sayar (TikTok Ads Ekim
+ * 2026'da canlıya geçince listeye girdi), (2) "Slack'e haber gelsin" → "e-postanıza haber gelir" (Slack
  * entegrasyonumuz yok, uyarılar e-posta ile gidiyor).
  */
 const modules = [
   {
     icon: Layers,
     title: "Tüm kanallar, tek tuval",
-    body: "Google Ads, Meta Ads ve GA4 tek bir blended görünümde toplanır. Platformlar arasında gezinmenize gerek kalmaz — harcama ve sonuç yan yana.",
+    body: "Google Ads, Meta Ads, TikTok Ads ve GA4 tek bir blended görünümde toplanır. Platformlar arasında gezinmenize gerek kalmaz — harcama ve sonuç yan yana.",
   },
   {
     icon: LineChart,
@@ -503,7 +504,7 @@ function Modules() {
 const steps = [
   {
     title: "Kanalları bağlayın",
-    body: "Google Ads, Meta Ads ve GA4'ü salt-okunur OAuth ile dakikalar içinde bağlarsınız.",
+    body: "Google Ads, Meta Ads, TikTok Ads ve GA4'ü salt-okunur OAuth ile dakikalar içinde bağlarsınız.",
   },
   {
     title: "Müşterileri eşleyin",
@@ -549,10 +550,11 @@ function Steps() {
  *
  * Panora'nın sayfa ortasındaki en güçlü hamlesi: ziyaretçi KANALLARI açıp
  * kapatıyor, blended ROAS/harcama/dönüşüm anında yeniden hesaplanıyor.
- * Burası artık aynı mekanikle, KANAL üzerinden çalışıyor. Google Ads ve
- * Meta Ads bugün canlı, o yüzden anahtarlanabilir; TikTok Ads henüz
- * bağlanamıyor, o yüzden listede duruyor ama devre dışı ve "yakında"
- * etiketli — olmayan bir bağlantıyı çalışıyormuş gibi göstermiyoruz.
+ * Burası artık aynı mekanikle, KANAL üzerinden çalışıyor. Google Ads,
+ * Meta Ads ve TikTok Ads canlı, o yüzden üçü de anahtarlanabilir.
+ * `soon: true` dalı kodda kalıyor: henüz bağlanamayan bir kanal eklenirse
+ * listede devre dışı ve "yakında" etiketli durur — olmayan bir bağlantıyı
+ * çalışıyormuş gibi göstermiyoruz.
  *
  * Sayılar örnek; kartın altında da açıkça öyle yazıyor.
  * ----------------------------------------------------------------------- */
@@ -590,17 +592,22 @@ const DEMO_CHANNELS: DemoChannel[] = [
   {
     key: "tiktok",
     name: "TikTok Ads",
-    spend: 0,
-    revenue: 0,
-    conv: 0,
-    hue: 205,
-    series: [0, 0, 0, 0, 0, 0, 0, 0],
-    soon: true,
+    spend: 34600,
+    revenue: 94500,
+    conv: 380,
+    // Camgöbeği (eski 205) tasarım sisteminde yok; nokta TikTok logosundaki
+    // kırmızı-pembeye (#FE2C55) yakın tutuldu, logo zaten sayfada.
+    hue: 18,
+    series: [8, 11, 13, 15, 18, 20, 23, 26],
   },
 ];
 
 function ReportBuilder() {
-  const [on, setOn] = useState<Record<string, boolean>>({ google: true, meta: true });
+  const [on, setOn] = useState<Record<string, boolean>>({
+    google: true,
+    meta: true,
+    tiktok: true,
+  });
   const active = DEMO_CHANNELS.filter((c) => on[c.key] && !c.soon);
   const spend = active.reduce((s, c) => s + c.spend, 0);
   const revenue = active.reduce((s, c) => s + c.revenue, 0);
@@ -830,7 +837,7 @@ const personas = [
     icon: Building2,
     tag: "Çok müşterili",
     t: "Dijital ajanslar",
-    b: "Beş müşteri, üç kanal, tek markalı rapor. Ay sonu telaşı yok; her hesabın durumu tek bakışta.",
+    b: "Beş müşteri, dört kanal, tek markalı rapor. Ay sonu telaşı yok; her hesabın durumu tek bakışta.",
   },
   {
     icon: ShoppingCart,
@@ -1133,7 +1140,7 @@ function Comparison() {
 
 const wfSteps = [
   {
-    before: "Üç platformda üç sekme aç, her birine ayrı gir.",
+    before: "Dört platformda dört sekme aç, her birine ayrı gir.",
     after: "Hesaplar bir kez bağlı; veri kendiliğinden gelir.",
   },
   {
@@ -1498,7 +1505,7 @@ export function Home() {
   useSeo({
     title: "Ositend — Ajanslar için otomatik müşteri raporlaması",
     description:
-      "Google Ads, Meta Ads ve GA4 verinizi her ay elle toplamayı bırakın. Ositend hesaplarınızı bir kez bağlar; markalı PDF raporu ve canlı müşteri linkini otomatik üretir.",
+      "Google Ads, Meta Ads, TikTok Ads ve GA4 verinizi her ay elle toplamayı bırakın. Ositend hesaplarınızı bir kez bağlar; markalı PDF raporu ve canlı müşteri linkini otomatik üretir.",
     path: "/",
   });
 
