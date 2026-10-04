@@ -90,6 +90,32 @@ export function Dpa() {
         <LI>Talep hâlinde uyumluluğu göstermek için gerekli bilgileri sunmak</LI>
         <LI>Sözleşme sonunda verileri silmek veya Ajans&apos;a iade etmek</LI>
       </UL>
+      <P>
+        <strong>Ajans&apos;ın kendi Meta anahtarıyla bağlanan hesaplar:</strong> Ajans, Meta Ads
+        hesaplarını kendi Business Manager&apos;ında oluşturduğu bir System User anahtarıyla
+        bağladığında Ositend, bu anahtar ve onunla okunan Meta Platform Verisi bakımından Meta
+        Platform Koşulları&apos;ndaki tanımıyla Ajans&apos;ın <strong>hizmet sağlayıcısıdır</strong>.
+        Bu kapsamda Ositend:
+      </P>
+      <UL>
+        <LI>
+          Platform Verisini yalnızca Ajans adına ve talimatıyla, Ajans&apos;ın istediği raporlamayı
+          yapmak için işler; başka bir amaçla kullanmaz, satmaz ve başka bir müşterinin verisiyle
+          birleştirmez
+        </LI>
+        <LI>
+          Anahtarı şifreli saklar, onunla yalnızca okuma çağrıları yapar ve anahtarı hiçbir üçüncü
+          kişiyle paylaşmaz
+        </LI>
+        <LI>
+          Ajans bağlantıyı kaldırdığında anahtarı derhal, sözleşme sona erdiğinde Meta&apos;dan okunan
+          veriyi en geç 30 gün içinde siler
+        </LI>
+      </UL>
+      <P>
+        Panelde anahtar girilirken verilen hizmet sağlayıcı onayı, bu maddenin Ajans tarafından yazılı
+        olarak kabulüdür.
+      </P>
 
       <H2>4. Teknik ve idari tedbirler</H2>
       <UL>

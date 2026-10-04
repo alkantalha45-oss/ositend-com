@@ -104,6 +104,19 @@ export function Privacy() {
         hiçbir değişiklik yapamaz.
       </P>
       <P>
+        <strong>Kendi Meta anahtarınızla bağlanırsanız:</strong> Meta Ads&apos;i Ositend&apos;in
+        uygulaması yerine, kendi Business Manager&apos;ınızda oluşturduğunuz bir System User
+        anahtarıyla da bağlayabilirsiniz. Anahtarı panele siz girersiniz; şifrelenerek saklanır ve
+        hiçbir ekranda geri gösterilmez. Ositend bu anahtarla yalnızca okuma yapar: anahtara atanmış
+        reklam hesaplarını listeler, hesabın para birimini okur ve günlük kampanya raporunu çeker. Bu
+        durumda Ositend sizin adınıza çalışan hizmet sağlayıcınızdır (ayrıntı:{" "}
+        <Link to="/veri-isleme-sozlesmesi" className="text-brand underline">
+          Veri İşleme Sözleşmesi
+        </Link>
+        ). Bağlantıyı kaldırdığınızda anahtar silinir; anahtarı Business Manager&apos;dan iptal etmek
+        de her zaman sizin elinizdedir.
+      </P>
+      <P>
         <strong>TikTok Ads için talep ettiğimiz izinler:</strong> TikTok Ads hesabınızı TikTok
         for Business'ın resmi bağlantı sunucusu (TikTok for Business MCP Server) üzerinden
         bağlarsınız; yetkilendirme ekranını TikTok gösterir ve verdiğiniz yetki 30 günde bir

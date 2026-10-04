@@ -12,7 +12,7 @@ import { billing, contact, legalEntity } from "../lib/site";
  */
 
 /** Metinlerin yürürlük tarihi. Esaslı bir değişiklikte elle güncellenmeli. */
-export const LEGAL_UPDATED = "2 Ekim 2026";
+export const LEGAL_UPDATED = "4 Ekim 2026";
 
 export function LegalDoc({
   title,
